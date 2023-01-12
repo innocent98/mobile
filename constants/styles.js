@@ -1,0 +1,652 @@
+import {Dimensions, StyleSheet} from 'react-native';
+import {COLORS, SHADOWS, SIZES} from './theme';
+
+export const styles = StyleSheet.create({
+  subContainer: {
+    backgroundColor: COLORS.background,
+    maxWidth: Dimensions.get('window').width * 0.9,
+    borderRadius: SIZES.font,
+    padding: 10,
+    marginTop: 10,
+    ...SHADOWS.dark,
+    maxHeight: Dimensions.get('window').height * 0.77,
+  },
+
+  // login
+  loginMainContainer: {
+    position: 'relative',
+    alignItems: 'center',
+    height: '100%',
+    justifyContent: 'center',
+  },
+  bkImage: {
+    position: 'absolute',
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height,
+  },
+  loginContainer: {
+    backgroundColor: COLORS.white,
+    height: Dimensions.get('window').height * 0.6,
+    width: Dimensions.get('window').width / 1.2,
+    ...SHADOWS.dark,
+    borderRadius: SIZES.extraLarge,
+    padding: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  loginInput: {
+    borderColor: COLORS.gray,
+    marginTop: 20,
+    borderRadius: SIZES.font,
+    color: COLORS.gray,
+    width: Dimensions.get('window').width / 1.4,
+    backgroundColor: 'white',
+  },
+  loginButton: {
+    backgroundColor: COLORS.secondary,
+    padding: 12,
+    borderRadius: SIZES.font,
+    marginTop: 20,
+    width: Dimensions.get('window').width / 1.4,
+  },
+  loginText: {
+    textAlign: 'center',
+    color: COLORS.white,
+    fontFamily: 'RobotoSlab-Regular',
+    fontSize: 17,
+  },
+  iaec: {
+    color: COLORS.primary,
+    textAlign: 'center',
+    fontFamily: 'RobotoSlab-Regular',
+    marginTop: 12,
+  },
+  lost: {
+    color: COLORS.gray,
+    textAlign: 'center',
+    fontFamily: 'RobotoSlab-Regular',
+    marginTop: 10,
+  },
+
+  // home
+  container: {alignItems: 'center', justifyContent: 'center'},
+  safeArea: {flex: 1, backgroundColor: COLORS.secondary},
+  logoContainer: {
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height * 0.14,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  logo: {width: '100%', height: '70%'},
+  containerBody: {
+    width: Dimensions.get('window').width,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  welcomeContainer: {
+    width: Dimensions.get('window').width * 0.9,
+    backgroundColor: COLORS.background,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: SIZES.font,
+    marginTop: 20,
+    paddingVertical: 40,
+    ...SHADOWS.dark,
+  },
+  welcomeText: {
+    color: '#000',
+    fontFamily: 'RobotoSlab-Bold',
+    fontSize: SIZES.extraLarge,
+    textAlign: 'center',
+  },
+  quoteText: {
+    color: '#000',
+    fontFamily: 'RobotoSlab-Bold',
+    fontSize: SIZES.medium,
+    textAlign: 'center',
+  },
+  text: {
+    color: '#000',
+    fontfamily: 'RobotoSlab-Regular',
+    fontSize: SIZES.medium,
+    textAlign: 'center',
+    marginTop: 10,
+    marginBottom: 20,
+    padding: 5,
+  },
+  createdContainer: {
+    backgroundColor: COLORS.white,
+    position: 'absolute',
+    top: 0,
+    zIndex: 10,
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height * 0.09,
+    padding: 20,
+    alignItems: 'center',
+  },
+  createdText: {color: COLORS.secondary, fontFamily: 'RobotoSlab-Regular'},
+
+  // course registration
+  title: {
+    color: '#000',
+    marginBottom: 10,
+    fontFamily: 'RobotoSlab-Medium',
+    fontSize: SIZES.medium,
+    textAlign: 'center',
+  },
+  buttonContainer: {
+    alignItems: 'center',
+    marginTop: 5,
+  },
+  button: {
+    backgroundColor: COLORS.secondary,
+    padding: 10,
+    paddingHorizontal: 20,
+    borderRadius: 2,
+  },
+  buttonText: {
+    fontFamily: 'RobotoSlab-Regular',
+    fontSize: SIZES.font,
+    color: COLORS.white,
+    textAlign: 'center',
+  },
+
+  // e-library
+  assetCardContainer: {flexDirection: 'row', flexWrap: 'wrap', marginTop: 10},
+  assetCard: {
+    backgroundColor: COLORS.secondary,
+    width: '45%',
+    padding: 10,
+    alignItems: 'center',
+    borderRadius: SIZES.base,
+    margin: 5,
+  },
+  assetCardTitle: {color: COLORS.white, textAlign: 'center'},
+  assetCardAuthor: {color: COLORS.white, textAlign: 'center'},
+  assetCardDate: {color: COLORS.white, textAlign: 'center'},
+
+  // my course
+  courseTitle: {
+    fontSize: 22,
+    color: '#000',
+    fontFamily: 'RobotoSlab-Bold',
+    marginBottom: 20,
+  },
+  courseButton: {flexDirection: 'row'},
+  courseButtonLeft: {
+    backgroundColor: COLORS.secondary,
+    padding: 10,
+    paddingHorizontal: 20,
+    marginRight: 10,
+  },
+  courseButtonRight: {
+    backgroundColor: COLORS.primary,
+    padding: 10,
+    paddingHorizontal: 20,
+  },
+  courseButtonText: {
+    color: COLORS.white,
+    fontFamily: 'RobotoSlab-Regular',
+  },
+
+  // my fees
+  feesButton: {flexDirection: 'row'},
+  feesButtonLeft: {
+    backgroundColor: COLORS.secondary,
+    padding: 10,
+    paddingHorizontal: 20,
+    marginRight: 10,
+  },
+  feesButtonRight: {
+    backgroundColor: COLORS.primary,
+    padding: 10,
+    paddingHorizontal: 20,
+  },
+
+  // my result
+  resultHead: {
+    flexDirection: 'row',
+    backgroundColor: COLORS.secondary,
+    marginTop: 15,
+    paddingVertical: 15,
+    paddingHorizontal: 10,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  headText: {
+    color: COLORS.white,
+    fontFamily: 'RobotoSlab-Medium',
+    fontSize: SIZES.medium,
+  },
+  address: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+    marginTop: 10,
+  },
+  resultLogo: {width: 100, height: 70, flex: 1},
+  resultTextContainer: {flex: 2, marginLeft: 20},
+  resultText: {
+    color: '#000',
+    fontFamily: 'RobotoSlab-Medium',
+    fontSize: SIZES.base,
+  },
+  resultDetailsContainer: {
+    borderWidth: 1,
+    borderColor: COLORS.gray,
+    borderRadius: 4,
+    padding: 7,
+    marginBottom: 10,
+    marginTop: 10,
+  },
+  resultDetailsText: {
+    color: '#000',
+    fontFamily: 'RobotoSlab-Light',
+    fontSize: SIZES.font,
+  },
+  resultSpan: {
+    color: '#000',
+    fontFamily: 'RobotoSlab-Medium',
+  },
+
+  // profile
+  detailsTitle: {
+    color: COLORS.white,
+    backgroundColor: COLORS.secondary,
+    textAlign: 'center',
+    padding: 10,
+    width: '100%',
+    fontFamily: 'RobotoSlab-Bold',
+    fontSize: SIZES.large,
+    marginTop: 20,
+  },
+  textTitle: {
+    color: '#000',
+    fontFamily: 'RobotoSlab-Bold',
+    marginTop: 20,
+    fontSize: SIZES.medium,
+  },
+  textSubtitle: {color: '#000', fontFamily: 'RobotoSlab-Regular'},
+
+  // project
+  label: {
+    color: '#000',
+    fontFamily: 'RobotoSlab-Regular',
+    fontSize: SIZES.medium,
+    marginTop: 15,
+    marginBottom: 5,
+  },
+  projectInput: {
+    borderWidth: 1,
+    borderColor: COLORS.gray,
+    borderRadius: SIZES.base,
+    height: 40,
+  },
+  projectButonContainer: {
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 10,
+  },
+
+  // students
+  table: {
+    flexDirection: 'column',
+  },
+  tableHead: {
+    flexDirection: 'row',
+    backgroundColor: '#f1f8ff',
+  },
+  tableBody: {
+    flexDirection: 'row',
+  },
+  hd: {
+    color: '#000',
+    textAlign: 'center',
+    fontFamily: 'RobotoSlab-Regular',
+    padding: 14,
+    borderWidth: 1,
+    borderColor: '#c8e1ff',
+    width: 120,
+    fontSize: 12,
+  },
+  hdd: {
+    color: '#000',
+    fontFamily: 'RobotoSlab-Regular',
+    padding: 14,
+    borderWidth: 1,
+    borderColor: '#c8e1ff',
+    width: 220,
+    fontSize: 12,
+  },
+  hdb: {
+    color: '#000',
+    textAlign: 'center',
+    fontFamily: 'RobotoSlab-Regular',
+    padding: 14,
+    borderWidth: 1,
+    borderColor: '#c8e1ff',
+    width: 120,
+    fontSize: 12,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+  },
+  topActions: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 10,
+  },
+  subTopAction: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: Dimensions.get('window').width * 0.9,
+    marginTop: 10,
+  },
+  addButton: {
+    backgroundColor: COLORS.primary,
+    padding: 10,
+    borderRadius: SIZES.base,
+    marginBottom: 5,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: 'lightgray',
+    height: Dimensions.get('window').height * 0.05,
+    width: Dimensions.get('window').width * 0.4,
+    borderRadius: SIZES.base,
+    paddingHorizontal: 15,
+  },
+  dropdown: {borderColor: 'lightgray', color: '#000'},
+  profilebtn: {
+    color: COLORS.primary,
+    textAlign: 'center',
+    fontFamily: 'RobotoSlab-Regular',
+    padding: 14,
+    borderWidth: 1,
+    borderColor: '#c8e1ff',
+    width: 120,
+    fontSize: 12,
+  },
+  profilebtnPrm: {
+    color: COLORS.secondary,
+    textAlign: 'center',
+    fontFamily: 'RobotoSlab-Regular',
+    padding: 14,
+    borderWidth: 1,
+    borderColor: '#c8e1ff',
+    width: 120,
+    fontSize: 12,
+  },
+
+  // student profile
+  studentProfile: {
+    backgroundColor: COLORS.secondary,
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height * 0.06,
+    justifyContent: 'center',
+    paddingHorizontal: 10,
+    marginTop: 1,
+  },
+  studentProfileD: {
+    backgroundColor: COLORS.secondary,
+    width: Dimensions.get('window').width,
+    // height: Dimensions.get('window').height * 0.06,
+    justifyContent: 'center',
+    paddingHorizontal: 10,
+    marginTop: 1,
+  },
+  studentProfileDetails: {
+    fontFamily: 'RobotoSlab-Regular',
+    color: COLORS.white,
+    fontSize: SIZES.font,
+  },
+  studentProfileDetailsRole: {
+    fontFamily: 'RobotoSlab-Regular',
+    color: COLORS.white,
+    fontSize: SIZES.medium,
+  },
+  span: {
+    fontSize: SIZES.small,
+    fontFamily: 'RobotoSlab-Regular',
+    color: 'white',
+  },
+  spanOpen: {
+    fontSize: SIZES.small,
+    fontFamily: 'RobotoSlab-Regular',
+    color: 'white',
+    backgroundColor: '#009EFB',
+  },
+  spanClose: {
+    fontSize: SIZES.small,
+    fontFamily: 'RobotoSlab-Regular',
+    color: 'white',
+    backgroundColor: 'teal',
+  },
+  row: {flexDirection: 'row', justifyContent: 'space-between'},
+  disableStudent: {
+    backgroundColor: COLORS.primary,
+    padding: SIZES.small,
+    borderRadius: SIZES.base,
+    marginVertical: 15,
+  },
+  studentImageContainer: {
+    width: Dimensions.get('window').width * 0.24,
+    height: Dimensions.get('window').height * 0.12,
+    alignItems: 'center',
+    justifyContent: 'center',
+    // marginRight:5,
+    borderRadius: 50,
+    marginTop: 10,
+  },
+  studentImage: {width: '100%', height: '100%', borderRadius: 50},
+
+  // staff
+  staffInput: {
+    borderWidth: 1,
+    borderColor: 'lightgray',
+    height: Dimensions.get('window').height * 0.05,
+    width: Dimensions.get('window').width * 0.9,
+    borderRadius: SIZES.base,
+    paddingHorizontal: 15,
+  },
+  staffView: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 70,
+  },
+  staffs: {
+    backgroundColor: COLORS.primary,
+    margin: 5,
+    padding: 10,
+    width: Dimensions.get('window').width * 0.45,
+    borderRadius: SIZES.base,
+    ...SHADOWS.dark,
+    alignItems: 'center',
+  },
+  staffProfilebtn: {
+    color: COLORS.white,
+    textAlign: 'center',
+    fontFamily: 'RobotoSlab-Regular',
+    padding: 10,
+    borderWidth: 1,
+    borderColor: '#c8e1ff',
+    width: 120,
+    fontSize: 12,
+    borderRadius: SIZES.base,
+  },
+  staffProfilebtnContainer: {marginTop: 20, marginBottom: 5},
+  editStaff: {
+    color: COLORS.primary,
+    fontFamily: 'RobotoSlab-Regular',
+    fontSize: SIZES.font,
+  },
+  editStaffBtn: {marginRight: 20},
+  addContainer: {
+    position: 'absolute',
+    bottom: 50,
+    zIndex: 10,
+    backgroundColor: 'white',
+    width: Dimensions.get('window').width,
+    padding: 20,
+    alignItems: 'center',
+  },
+  addMainCon: {position: 'absolute', bottom: -120, left: 0},
+  addInput: {
+    borderWidth: 1,
+    borderColor: 'lightgray',
+    borderRadius: SIZES.base,
+    margin: 5,
+    paddingHorizontal: 10,
+    color: '#000',
+    width: Dimensions.get('window').width * 0.9,
+    backgroundColor: COLORS.white,
+  },
+  closeIcon: {
+    backgroundColor: COLORS.white,
+    borderRadius: SIZES.extraLarge,
+    ...SHADOWS.dark,
+    padding: 8,
+    marginBottom: 15,
+    marginTop: -35,
+  },
+
+  // attendance
+  attendanceOption: {
+    height: Dimensions.get('window').height,
+    justifyContent: 'center',
+    padding: 10,
+  },
+  attendanceBtn: {
+    borderWidth: 1,
+    borderColor: 'lightgray',
+    textAlign: 'center',
+  },
+
+  // edit
+  ScrollView: {
+   overflow:'hidden'
+  },
+  editContainer: {
+    backgroundColor: 'white',
+    width: Dimensions.get('window').width,
+    alignItems: 'center',
+    paddingVertical: 15,
+  },
+  editLabel: {
+    color: COLORS.primary,
+    fontFamily: 'RobotoSlab-Regular',
+    marginVertical: 10,
+  },
+  flexBtn: {flexDirection: 'row', justifyContent: 'space-between'},
+  editButton: {
+    backgroundColor: COLORS.secondary,
+    padding: 15,
+    marginVertical: 15,
+    borderRadius: SIZES.base,
+    width: Dimensions.get('window').width * 0.4,
+  },
+  editButtonE: {
+    backgroundColor: COLORS.primary,
+    padding: 15,
+    borderRadius: SIZES.base,
+    marginVertical: 15,
+    width: Dimensions.get('window').width * 0.4,
+  },
+  indicator: {
+    // padding: 10,
+    marginVertical: 20,
+    borderRadius: SIZES.base,
+    width: Dimensions.get('window').width * 0.4,
+  },
+  editView: {right: 0},
+  editInput: {
+    borderRadius: SIZES.base,
+    margin: 5,
+    color: '#000',
+    width: Dimensions.get('window').width * 0.9,
+    backgroundColor: COLORS.white,
+  },
+
+  // attendance
+  enquiryIconBtn: {
+    borderColor: 'lightgray',
+    textAlign: 'center',
+  },
+
+  // chat
+  chatContainerList: {padding: 0},
+  conversationContainer: {
+    marginBottom: 5,
+    paddingHorizontal: 10,
+    padding: 5,
+  },
+  name: {
+    color: 'white',
+    fontFamily: 'RobotoSlab-Regular',
+    fontSize: SIZES.large,
+  },
+  convDetails: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  lastMessage: {
+    color: COLORS.white,
+    fontFamily: 'RobotoSlab-Regular',
+    fontSize: SIZES.small,
+    width: Dimensions.get('window').width / 2,
+  },
+  messageDate: {
+    color: COLORS.white,
+    fontFamily: 'RobotoSlab-Regular',
+    fontSize: SIZES.small,
+  },
+  sendDm: {
+    color: 'lightgray',
+    fontFamily: 'RobotoSlab-Regular',
+    fontSize: SIZES.large,
+    marginVertical: 5,
+    paddingHorizontal: 10,
+  },
+  sendBroadcast: {
+    color: 'white',
+    fontFamily: 'RobotoSlab-Regular',
+    fontSize: SIZES.medium,
+    padding: 15,
+  },
+  newConvButton: {
+    borderRadius: SIZES.large,
+    paddingHorizontal: 2,
+    marginBottom: 6,
+  },
+  friendContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  newConvImg: {
+    width: Dimensions.get('window').width * 0.13,
+    height: Dimensions.get('window').height * 0.06,
+    borderRadius: SIZES.extraLarge,
+  },
+  username: {
+    color: COLORS.white,
+    fontFamily: 'RobotoSlab-Regular',
+    fontSize: SIZES.small,
+    textAlign: 'center',
+  },
+  swipeLeftAction: {
+    backgroundColor: 'red',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 40,
+    width: 100,
+  },
+  swipeText: {
+    fontFamily: 'RobotoSlab-Medium',
+    color: COLORS.white,
+  },
+});
