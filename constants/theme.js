@@ -1,8 +1,3 @@
-import {useSelector} from 'react-redux';
-
-const isDark = useSelector(state => state.theme.isDark);
-console.log(isDark);
-
 export const COLORS = {
   light: {
     primary: '#2D3281',
@@ -13,8 +8,9 @@ export const COLORS = {
     white: '#fff',
     gray: '#545F6E',
     red: '#DF3737',
-    card: '#dcf8c6',
+    card: '#F5F0F0',
     link: '#6667CD',
+    black: '#000000',
   },
   dark: {
     primary: '#2D3281',
@@ -22,6 +18,7 @@ export const COLORS = {
     background: '#222',
     backgroundSoft: '#333',
     textSoft: 'lightgray',
+    black: '#000000',
   },
 };
 
