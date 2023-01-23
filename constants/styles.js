@@ -25,27 +25,29 @@ export const styles = StyleSheet.create({
     height: height,
     flexDirection: 'column',
     alignItems: 'center',
+    flex: 1,
   },
   welcomeImgCon: {
-    width: itemWidth * 0.9,
-    height: itemHeight * 0.45,
+    width: itemWidth,
+    height: itemHeight * 0.42,
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    width: '100%',
+    alignItems: 'flex-start',
   },
   welcomeImgCon2: {
-    width: itemWidth * 0.6,
-    height: itemHeight * 0.3,
+    width: itemWidth,
+    height: itemHeight * 0.32,
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    width: '100%',
-    marginTop: -25,
+    marginTop: -35,
   },
+  welcomeImg: {width: '85%', height: '100%'},
   welcomeText: {
     color: COLORS.dark.backgroundSoft,
     fontFamily: 'IBMPlexSans-Medium',
     fontSize: SIZES.font,
     textAlign: 'center',
+    width:'95%',
   },
   ditesCon: {width: itemWidth * 0.5, position: 'relative', overflow: 'hidden'},
   ditesConActual: {
@@ -76,7 +78,6 @@ export const styles = StyleSheet.create({
     fontFamily: 'IBMPlexSans-Medium',
     fontSize: SIZES.font,
     textAlign: 'center',
-    
   },
   welcomeIcon: {
     backgroundColor: COLORS.light.background,
@@ -118,7 +119,7 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
   },
   topRight: {flexDirection: 'row', alignItems: 'center'},
-  tabBarView: {marginTop: 30},
+  tabBarView: {marginTop: 10, },
   broadcast: {
     backgroundColor: COLORS.light.gray,
     height: 40,

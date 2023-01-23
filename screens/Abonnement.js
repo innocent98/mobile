@@ -5,6 +5,7 @@ import {
   ScrollView,
   TextInput,
   ActivityIndicator,
+  Image,
 } from 'react-native';
 import React, {useState} from 'react';
 import {useSelector} from 'react-redux';
@@ -29,7 +30,9 @@ const AbonnementDrop = ({setAbonne}) => {
       style={styles.abonnementContainer}>
       <ScrollView>
         <View>
-          <Text style={styles.abonnementDropTitle}>Abonnement journal en ligne</Text>
+          <Text style={styles.abonnementDropTitle}>
+            Abonnement journal en ligne
+          </Text>
           <Text style={styles.abonnementDropSub}>
             Choisissez la période de facturation de votre abonnement
           </Text>
@@ -90,20 +93,17 @@ const Abonnement = () => {
 
   return (
     <SafeAreaView style={isDark ? styles.safeAreaDark : styles.safeArea}>
-      <View style={abonne? styles.abonnementConSha : styles.container}>
+      <View style={abonne ? styles.abonnementConSha : styles.container}>
         {abonne && <AbonnementDrop setAbonne={setAbonne} />}
         <TopComp />
         <ScrollView>
           <View style={styles.abonnement}>
-            <FastImage
+            <Image
+              source={require('../assets/subcription.png')}
+              resizeMode="contain"
               style={styles.abbonementImg}
-              source={{
-                uri: 'https://i.ibb.co/9hCf3WS/subcription-1.png',
-                headers: {Authorization: 'someAuthToken'},
-                priority: FastImage.priority.normal,
-              }}
-              resizeMode={FastImage.resizeMode.contain}
             />
+
             <Text style={styles.abonnementText}>
               Choisissez votre type d'abonnement
             </Text>
@@ -111,14 +111,10 @@ const Abonnement = () => {
             <View style={styles.abonnementDown}>
               <RectButton onPress={() => setAbonne(true)}>
                 <View style={styles.abonnementDownImgCon}>
-                  <FastImage
+                  <Image
+                    source={require('../assets/online.png')}
+                    resizeMode="contain"
                     style={styles.abonnementDownImg}
-                    source={{
-                      uri: 'https://i.ibb.co/ZNnkPCg/online-subscription-1.png',
-                      headers: {Authorization: 'someAuthToken'},
-                      priority: FastImage.priority.normal,
-                    }}
-                    resizeMode={FastImage.resizeMode.contain}
                   />
                   <Text style={styles.abonnementText}>
                     Abonnement journal en ligne
@@ -128,14 +124,10 @@ const Abonnement = () => {
 
               <RectButton onPress={() => setAbonne(true)}>
                 <View style={styles.abonnementDownImgCon}>
-                  <FastImage
+                  <Image
+                    source={require('../assets/draw.png')}
+                    resizeMode="contain"
                     style={styles.abonnementDownImg}
-                    source={{
-                      uri: 'https://i.ibb.co/QmgdMqq/undraw-books-re-8gea-1.png',
-                      headers: {Authorization: 'someAuthToken'},
-                      priority: FastImage.priority.normal,
-                    }}
-                    resizeMode={FastImage.resizeMode.contain}
                   />
                   <Text style={styles.abonnementText}>
                     Recevoir le journal en papier

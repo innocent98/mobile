@@ -23,14 +23,7 @@ export const TopComp = () => {
   return (
     <View style={styles.topSection}>
       <View>
-        <Image
-          source={
-            isDark
-              ? require('../assets/logow.png')
-              : require('../assets/logo.png')
-          }
-          style={styles.logo}
-        />
+        <Image source={require('../assets/logo.png')} style={styles.logo} />
       </View>
       <View style={styles.topRight}>
         <RectButton
@@ -46,31 +39,35 @@ export const TopComp = () => {
           </View>
           <Text style={styles.buyTextSpan}>A partir de 200f</Text>
         </RectButton>
-        <RectButton onPress={() => navigation.navigate('Settings')}>
+        <BorderlessButton onPress={() => navigation.navigate('Settings')}>
           <FontAwesome
             name="user-cog"
             size={22}
             color={isDark ? COLORS.light.background : COLORS.light.primary}
           />
-        </RectButton>
+        </BorderlessButton>
       </View>
     </View>
   );
 };
 
 export const MyTabs = () => {
+  const isDark = useSelector(state => state.theme.isDark);
+
   return (
     <Tab.Navigator
       initialRouteName="Alaune"
       screenOptions={{
         tabBarScrollEnabled: true,
         tabBarActiveTintColor: COLORS.light.white,
-        tabBarInactiveTintColor: '#000',
+        tabBarInactiveTintColor: isDark  ? COLORS.light.secondary : "#000",
         tabBarIndicatorStyle: {
           backgroundColor: COLORS.light.primary,
-          height: '100%',
+          height: '95%',
+          borderRadius:30,
+          marginHorizontal:5
         },
-        tabBarStyle: {backgroundColor: COLORS.light.secondary},
+        tabBarStyle: {backgroundColor: isDark ? COLORS.dark.background :COLORS.light.background},
         tabBarLabelStyle: {
           fontFamily: 'IBMPlexSans-Medium',
           fontSize: SIZES.font,
