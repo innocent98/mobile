@@ -1,4 +1,4 @@
-import {View, Text, SafeAreaView, ScrollView, Image} from 'react-native';
+import {View, Text, SafeAreaView, ScrollView, Image, useWindowDimensions} from 'react-native';
 import React from 'react';
 import {useSelector} from 'react-redux';
 import {styles} from '../constants/styles';
@@ -16,7 +16,7 @@ const Category = () => {
       <View style={styles.container}>
         <TopComp />
         <ScrollView>
-          <View style={styles.catConCom}>
+          <View style={[styles.catConCom, isDark && {backgroundColor: COLORS.dark.backgroundSoft}]}>
             <View style={styles.catCon}>
               {category.map(item => (
                 <View style={styles.catItem} key={item.id}>
@@ -43,11 +43,11 @@ const Category = () => {
             </View>
             <RectButton>
               <View style={styles.catBtn}>
-                <Text style={styles.catBtnTxt}>voir Plus</Text>
-                <Icon name="add" size={18} color={COLORS.light.red} />
+                <Text style={[styles.catBtnTxt, isDark && {color: COLORS.light.background}]}>voir Plus</Text>
+                <Icon name="add" size={18} color={isDark ? COLORS.light.background : COLORS.light.red} />
               </View>
             </RectButton>
-            <Text style={styles.footerText}>© 2023 La Nation Benin.</Text>
+            <Text style={[styles.footerText, isDark && {color: COLORS.light.background}]}>© 2023 La Nation Benin.</Text>
           </View>
         </ScrollView>
       </View>

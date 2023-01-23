@@ -8,6 +8,7 @@ import {actualites} from '../constants/dummy';
 import EconomieSection from './EconomieSection';
 import {RectButton} from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';
+import {useSelector} from 'react-redux';
 
 const Actualites = ({data}) => {
   const navigation = useNavigation();
@@ -61,6 +62,7 @@ const Actualites = ({data}) => {
 memo(Actualites);
 
 const NewsExtra = () => {
+  const isDark = useSelector(state => state.theme.isDark);
   const renderActualites = ({item}) => <Actualites data={item} />;
 
   return (
@@ -94,10 +96,10 @@ const NewsExtra = () => {
         }}
         resizeMode={FastImage.resizeMode.cover}
       />
-      <Text style={styles.smallText}>PUBLICITE</Text>
+      <Text style={[styles.smallText, isDark && {color: COLORS.light.backgroundSoft}]}>PUBLICITE</Text>
 
       <View style={styles.actualites}>
-        <Text style={styles.text}>ACTUALITÉS EN DIRECT</Text>
+        <Text style={[styles.text, isDark && {color: COLORS.light.background}]}>ACTUALITÉS EN DIRECT</Text>
         <FlatList
           data={actualites}
           renderItem={renderActualites}

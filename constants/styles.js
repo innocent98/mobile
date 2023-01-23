@@ -1,5 +1,10 @@
 import {Dimensions, StyleSheet} from 'react-native';
 import {COLORS, SHADOWS, SIZES} from './theme';
+import ScreenSizes from './utils/ScreenSizes';
+
+const {width, height} = ScreenSizes;
+const itemWidth = Dimensions.get('window').width;
+const itemHeight = Dimensions.get('window').height;
 
 export const styles = StyleSheet.create({
   safeArea: {flex: 1, backgroundColor: COLORS.light.background},
@@ -13,6 +18,72 @@ export const styles = StyleSheet.create({
   scrollView: {width: '100%', paddingHorizontal: 20},
   iconImg: {width: 30, height: 30},
   tabImg: {height: 20, width: 20},
+
+  //
+  welcomeContainer: {
+    width: width,
+    height: height,
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  welcomeImgCon: {
+    width: itemWidth * 0.9,
+    height: itemHeight * 0.45,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    width: '100%',
+  },
+  welcomeImgCon2: {
+    width: itemWidth * 0.6,
+    height: itemHeight * 0.3,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    width: '100%',
+    marginTop: -25,
+  },
+  welcomeText: {
+    color: COLORS.dark.backgroundSoft,
+    fontFamily: 'IBMPlexSans-Medium',
+    fontSize: SIZES.font,
+    textAlign: 'center',
+  },
+  ditesCon: {width: itemWidth * 0.5, position: 'relative', overflow: 'hidden'},
+  ditesConActual: {
+    backgroundColor: COLORS.light.secondary,
+    padding: 8,
+    borderRadius: 50,
+    width: '100%',
+    alignItems: 'center',
+    marginTop: 10,
+    flexDirection: 'row',
+  },
+  ditesConOverlay: {
+    backgroundColor: COLORS.light.primary,
+    position: 'absolute',
+    padding: 8,
+    borderRadius: 50,
+    width: '100%',
+    alignItems: 'center',
+    marginTop: 10,
+    flexDirection: 'row-reverse',
+    left: -200,
+    top: 0,
+    zIndex: 1,
+  },
+  dites: {
+    color: COLORS.light.white,
+    textTransform: 'capitalize',
+    fontFamily: 'IBMPlexSans-Medium',
+    fontSize: SIZES.font,
+    textAlign: 'center',
+    
+  },
+  welcomeIcon: {
+    backgroundColor: COLORS.light.background,
+    borderRadius: 50,
+    marginRight: 10,
+    padding: 5,
+  },
 
   //   top
   topContainer: {
@@ -36,12 +107,12 @@ export const styles = StyleSheet.create({
   },
   topRightSpan: {flexDirection: 'row', alignItems: 'center'},
   buyText: {
-    color: COLORS.light.backgroundSoft,
+    color: COLORS.light.background,
     fontFamily: 'IBMPlexSans-Medium',
     fontSize: SIZES.medium,
   },
   buyTextSpan: {
-    color: COLORS.light.backgroundSoft,
+    color: COLORS.light.background,
     fontFamily: 'IBMPlexSans-Regular',
     fontSize: SIZES.small,
     textAlign: 'center',
@@ -107,7 +178,11 @@ export const styles = StyleSheet.create({
     fontSize: SIZES.font,
     color: COLORS.dark.background,
   },
-  newsListDetExtra: {flexDirection: 'row', justifyContent: 'space-between'},
+  newsListDetExtra: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 10,
+  },
   newsListDetExtraLeft: {flexDirection: 'row', alignItems: 'center'},
   newsListDetExtraTxt: {
     fontFamily: 'IBMPlexSans-SemiBold',
@@ -162,6 +237,14 @@ export const styles = StyleSheet.create({
     color: COLORS.light.primary,
     fontFamily: 'IBMPlexSans-SemiBold',
     fontSize: SIZES.xxl,
+    textAlign: 'left',
+    marginBottom: 20,
+    textTransform: 'uppercase',
+  },
+  serviceText: {
+    color: COLORS.light.primary,
+    fontFamily: 'IBMPlexSans-SemiBold',
+    fontSize: SIZES.large,
     textAlign: 'left',
     marginBottom: 20,
     textTransform: 'uppercase',
@@ -245,8 +328,8 @@ export const styles = StyleSheet.create({
   // videos
   videos: {},
   videosCon: {
-    width: Dimensions.get('window').width * 0.85,
-    height: Dimensions.get('window').height * 0.3,
+    width: itemWidth * 0.85,
+    height: itemHeight * 0.3,
     backgroundColor: COLORS.dark.background,
     margin: 5,
   },
@@ -257,8 +340,8 @@ export const styles = StyleSheet.create({
     margin: 10,
   },
   videosConImg: {
-    width: Dimensions.get('window').width * 0.85,
-    height: Dimensions.get('window').height * 0.2,
+    width: '100%',
+    height: '60%',
     opacity: 0.5,
   },
   videosPlayCon: {
@@ -362,6 +445,7 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 10,
     textTransform: 'uppercase',
+    marginTop: 50,
   },
   newsDetailsBtnText: {
     color: COLORS.light.background,
@@ -375,6 +459,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 8,
     marginBottom: 5,
+    color: COLORS.light.background,
   },
 
   // abonnement
@@ -479,17 +564,17 @@ export const styles = StyleSheet.create({
   },
   catCon: {
     flexDirection: 'row',
-    padding: 8,
+    padding: 0,
     flexWrap: 'wrap',
     alignItems: 'center',
-
-    width: '100%',
+    justifyContent: 'center',
+    width: width,
   },
-  catItem: {height: 200, width: 170, margin: 5, ...SHADOWS.medium},
+  catItem: {height: itemHeight * 0.2, width: itemWidth * 0.4, margin: 8},
   catItemLayer: {
     position: 'absolute',
-    height: 200,
-    width: 170,
+    height: itemHeight * 0.2,
+    width: itemWidth * 0.4,
     borderRadius: 20,
   },
   catImg: {height: '100%', width: '100%', borderRadius: 20},
@@ -551,7 +636,35 @@ export const styles = StyleSheet.create({
     fontSize: SIZES.font,
     marginLeft: 10,
   },
-  settingsItemTextSpan: {color: COLORS.dark.textSoft, marginLeft: 10},
+  settingsItemTextSpan: {color: COLORS.light.textSoft, marginLeft: 10},
   settingsItemTextSpanDark: {color: COLORS.light.textSoft, marginLeft: 10},
-  settingFlex: {flexDirection: 'row', justifyContent: 'space-between', width:'100%'},
+  settingFlex: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+  },
+
+  // font resize
+  fontResizeSlide: {flexDirection: 'row', alignItems: 'center', padding: 20},
+  fontResizeBox: {padding: 10, marginTop: 5},
+  fontResizeBoxLabel: {
+    color: COLORS.dark.backgroundSoft,
+    fontFamily: 'IBMPlexSans-Regular',
+  },
+  fontResizeTestBox: {
+    padding: 20,
+    borderWidth: 1,
+    borderColor: COLORS.dark.textSoft,
+    marginTop: 20,
+    fontFamily: 'IBMPlexSans-Regular',
+    // fontSize: SIZES.xxl,
+    color: COLORS.dark.backgroundSoft,
+  },
+  fontSizeLabel: {
+    color: COLORS.dark.background,
+    fontFamily: 'IBMPlexSans-SemiBold',
+    fontSize: SIZES.extraLarge,
+    paddingHorizontal: 10,
+    marginBottom: 10,
+  },
 });

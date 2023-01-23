@@ -2,6 +2,7 @@ import {View, Text, Image} from 'react-native';
 import {BorderlessButton, RectButton} from 'react-native-gesture-handler';
 import {styles} from '../constants/styles';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome5';
 import {COLORS, SIZES} from '../constants/theme';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import Alaune from './Alaune';
@@ -11,16 +12,25 @@ import Economie from './Economie';
 import Sport from './Sport';
 import TextTicker from 'react-native-text-ticker';
 import {useNavigation} from '@react-navigation/native';
+import {useSelector} from 'react-redux';
 
 const Tab = createMaterialTopTabNavigator();
 
 export const TopComp = () => {
+  const isDark = useSelector(state => state.theme.isDark);
   const navigation = useNavigation();
 
   return (
     <View style={styles.topSection}>
       <View>
-        <Image source={require('../assets/logo.png')} style={styles.logo} />
+        <Image
+          source={
+            isDark
+              ? require('../assets/logow.png')
+              : require('../assets/logo.png')
+          }
+          style={styles.logo}
+        />
       </View>
       <View style={styles.topRight}>
         <RectButton
@@ -31,16 +41,16 @@ export const TopComp = () => {
             <Icon
               name="shopping-cart"
               size={16}
-              color={COLORS.light.backgroundSoft}
+              color={COLORS.light.background}
             />
           </View>
           <Text style={styles.buyTextSpan}>A partir de 200f</Text>
         </RectButton>
         <RectButton onPress={() => navigation.navigate('Settings')}>
-          <Image
-            source={{uri: 'https://i.ibb.co/MDXjBmT/usercog.png'}}
-            style={styles.iconImg}
-            resizeMode="contain"
+          <FontAwesome
+            name="user-cog"
+            size={22}
+            color={isDark ? COLORS.light.background : COLORS.light.primary}
           />
         </RectButton>
       </View>
@@ -84,9 +94,9 @@ const Top = () => {
         <View style={styles.broadcast}>
           <Icon name="campaign" size={28} color={COLORS.light.background} />
           <TextTicker
-            style={{fontSize: 16, color: COLORS.light.background}}
+            style={{fontSize: 14, color: COLORS.light.background}}
             loop
-            scrollSpeed={20}
+            scrollSpeed={75}
             animationType="scroll"
             bounce
             repeatSpacer={10}

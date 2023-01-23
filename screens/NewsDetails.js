@@ -10,6 +10,7 @@ import {useNavigation} from '@react-navigation/native';
 
 const NewsDetails = () => {
   const isDark = useSelector(state => state.theme.isDark);
+  const fontSize = useSelector(state => state.font.fontSize);
   const navigation = useNavigation();
 
   const [inputValue, setInputValue] = useState('Hey! share me.');
@@ -31,12 +32,12 @@ const NewsDetails = () => {
         <ScrollView style={styles.scrollView}>
           <View style={styles.newsDetailsTop}>
             <View style={styles.newsDetailsCat}>
-              <Icon name="circle" color={COLORS.light.primary} />
-              <Text style={styles.newsListDetExtraTxt}>SPORTS</Text>
+              <Icon name="circle" color={isDark ? COLORS.light.background : COLORS.light.primary} />
+              <Text style={[styles.newsListDetExtraTxt, isDark && {color: COLORS.light.background}]}>SPORTS</Text>
             </View>
             <View style={styles.newsDetailsAuthor}>
               <FastImage
-                style={styles.profileImg}
+                style={[styles.profileImg, isDark && {borderWidth: 1, borderColor:COLORS.light.background}]}
                 source={{
                   uri: 'https://i.ibb.co/8c3xKmX/profilepic.png',
                   headers: {Authorization: 'someAuthToken'},
@@ -44,11 +45,12 @@ const NewsDetails = () => {
                 }}
                 resizeMode={FastImage.resizeMode.cover}
               />
-              <Text style={styles.profileText}>Radji Mouhammed</Text>
+              <Text style={[styles.profileText, isDark && {color: COLORS.light.backgroundSoft}]}>Radji Mouhammed</Text>
             </View>
           </View>
+
           <View style={styles.newsDetiailTitleCon}>
-            <Text style={styles.titleText}>
+            <Text style={[styles.titleText, isDark && {color: COLORS.light.background}]}>
               Mort de Pelé : les ambiguïtés politiques du « roi » du football,
               loin des terrains
             </Text>
@@ -66,7 +68,7 @@ const NewsDetails = () => {
           </View>
 
           {/* paragraphs */}
-          <Text style={styles.newsDetailsParagraph}>
+          <Text style={[styles.newsDetailsParagraph,  {color: isDark ? COLORS.light.backgroundSoft : COLORS.dark.background, fontSize: fontSize}]}>
             Le Brésilien, mort le 29 décembre 2022, a souvent été critiqué,
             pendant et après sa carrière, pour sa proximité avec des figures du
             pouvoir autoritaire et pour son affairisme. Ministre des sports de
@@ -82,7 +84,7 @@ const NewsDetails = () => {
             }}
             resizeMode={FastImage.resizeMode.cover}
           />
-          <Text style={styles.newsDetailsParagraph}>
+          <Text style={[styles.newsDetailsParagraph, {color: isDark ? COLORS.light.backgroundSoft : COLORS.dark.background, fontSize: fontSize}]}>
             Pelé, « roi » du football, mais aussi des polémiques. Célébrée dans
             le monde pour ses performances sportives exceptionnelles, la star du
             ballon rond aura aussi été la cible d’intenses critiques au Brésil.
@@ -90,7 +92,7 @@ const NewsDetails = () => {
             carrière de joueur. Entre passivité, dérapages, conservatisme et
             indifférence aux grands enjeux de la société de son pays.
           </Text>
-          <Text style={styles.newsDetailsParagraph}>
+          <Text style={[styles.newsDetailsParagraph, {color: isDark ? COLORS.light.backgroundSoft : COLORS.dark.background, fontSize: fontSize}]}>
             Le principal grief concerne la période de la dictature militaire
             (1964-1985). Arrivé au pouvoir en 1969, le général Emilio Garrastazu
             Médici accentue la répression sur un Brésil où les libertés sont
@@ -98,7 +100,7 @@ const NewsDetails = () => {
             crimes, la junte a besoin d’un succès éclatant à l’international. La
             victoire au Mondial mexicain de 1970 devient sa priorité.
           </Text>
-          <Text style={styles.newsDetailsParagraph}>
+          <Text style={[styles.newsDetailsParagraph, {color: isDark ? COLORS.light.backgroundSoft : COLORS.dark.background, fontSize: fontSize}]}>
             A presque 30 ans, Pelé est au sommet de son art. « Il était la
             figure humaine la plus connue du monde. Pour Médici, il était
             crucial de s’approprier son image », rappelle Euclides de Freitas
@@ -110,7 +112,7 @@ const NewsDetails = () => {
           </Text>
 
           <View style={styles.newsDetailsDown}>
-            <Text style={styles.newsDetailsDownText}>
+            <Text style={[styles.newsDetailsDownText, isDark && {color: COLORS.light.background}]}>
               Abonnez-vous Pour lire la suite
             </Text>
             <RectButton
@@ -144,7 +146,10 @@ const NewsDetails = () => {
         <BorderlessButton onPress={shareMessage}>
           <Icon name="share" color={COLORS.dark.backgroundSoft} size={24} />
         </BorderlessButton>
-        <BorderlessButton>
+        <BorderlessButton
+          onPress={() =>
+            navigation.navigate('Settings', {screen: 'FontResize'})
+          }>
           <Icon name="tune" color={COLORS.dark.backgroundSoft} size={24} />
         </BorderlessButton>
       </View>

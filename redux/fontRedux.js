@@ -1,16 +1,20 @@
-import { createSlice } from "@reduxjs/toolkit";
+import {createSlice} from '@reduxjs/toolkit';
 
 const fontSlice = createSlice({
-  name: "font",
+  name: 'font',
   initialState: {
     fontSize: 16,
+    keepSettings: false,
   },
   reducers: {
     changeFont: (state, action) => {
       state.fontSize = action.payload;
     },
+    changeSettings: (state, action) => {
+      state.keepSettings = action.payload;
+    },
   },
 });
 
-export const { changeFont } = fontSlice.actions;
+export const {changeFont, changeSettings} = fontSlice.actions;
 export default fontSlice.reducer;

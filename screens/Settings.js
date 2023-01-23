@@ -1,7 +1,7 @@
+import { useNavigation } from '@react-navigation/native';
 import {View, SafeAreaView, ScrollView, Image, Text} from 'react-native';
 import {BorderlessButton, RectButton} from 'react-native-gesture-handler';
 import {Divider} from 'react-native-paper';
-import { color } from 'react-native-reanimated';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useSelector, useDispatch} from 'react-redux';
 import {styles} from '../constants/styles';
@@ -12,6 +12,7 @@ const Settings = () => {
   const isDark = useSelector(state => state.theme.isDark);
 
   const dispatch = useDispatch();
+  const navigation = useNavigation()
 
   const handleTheme = () => {
     if (isDark) {
@@ -32,21 +33,21 @@ const Settings = () => {
                 <Icon
                   name="person-outline"
                   color={isDark
-                    ? COLORS.light.background
+                    ? COLORS.light.backgroundSoft
                     : COLORS.dark.background}
                   size={18}
                 />
-                <Text style={[styles.settingsItemText, isDark && {color: COLORS.light.background}]}>Se connecter</Text>
+                <Text style={[styles.settingsItemText, isDark && {color: COLORS.light.backgroundSoft}]}>Se connecter</Text>
               </RectButton>
               <RectButton style={styles.settingsItem}>
                 <Icon
                   name="person-add-alt"
                   color={isDark
-                    ? COLORS.light.background
+                    ? COLORS.light.backgroundSoft
                     : COLORS.dark.background}
                   size={18}
                 />
-                <Text style={[styles.settingsItemText, isDark && {color: COLORS.light.background}]}>Créer un compte</Text>
+                <Text style={[styles.settingsItemText, isDark && {color: COLORS.light.backgroundSoft}]}>Créer un compte</Text>
               </RectButton>
             </View>
             <Divider />
@@ -58,13 +59,13 @@ const Settings = () => {
                   source={isDark ? require('../assets/tab1w.png') : require('../assets/tab1.png')}
                   style={styles.tabImg}
                 />
-                <Text style={[styles.settingsItemText, isDark && {color: COLORS.light.background}]}>S'abonner</Text>
+                <Text style={[styles.settingsItemText, isDark && {color: COLORS.light.backgroundSoft}]}>S'abonner</Text>
               </RectButton>
               <RectButton style={styles.settingsItem}>
                 <Icon name="refresh" color={isDark
-                    ? COLORS.light.background
+                    ? COLORS.light.backgroundSoft
                     : COLORS.dark.background} size={18} />
-                <Text style={[styles.settingsItemText, isDark && {color: COLORS.light.background}]}>
+                <Text style={[styles.settingsItemText, isDark && {color: COLORS.light.backgroundSoft}]}>
                   Restaurer un abonnement
                 </Text>
               </RectButton>
@@ -79,33 +80,33 @@ const Settings = () => {
                 <Icon
                   name="notifications"
                   color={isDark
-                    ? COLORS.light.background
+                    ? COLORS.light.backgroundSoft
                     : COLORS.dark.background}
                   size={18}
                 />
-                <Text style={[styles.settingsItemText, isDark && {color: COLORS.light.background}]}>Notifications</Text>
+                <Text style={[styles.settingsItemText, isDark && {color: COLORS.light.backgroundSoft}]}>Notifications</Text>
               </RectButton>
-              <RectButton style={styles.settingsItem}>
+              <RectButton onPress={()=>navigation.navigate('FontResize')} style={styles.settingsItem}>
                 <Icon
                   name="text-fields"
                   color={isDark
-                    ? COLORS.light.background
+                    ? COLORS.light.backgroundSoft
                     : COLORS.dark.background}
                   size={18}
                 />
-                <Text style={[styles.settingsItemText, isDark && {color: COLORS.light.background}]}>Taile du texte</Text>
+                <Text style={[styles.settingsItemText, isDark && {color: COLORS.light.backgroundSoft}]}>Taile du texte</Text>
               </RectButton>
               <RectButton style={styles.settingsItem}>
                 <Icon
                   name="settings-brightness"
                   color={isDark
-                    ? COLORS.light.background
+                    ? COLORS.light.backgroundSoft
                     : COLORS.dark.background}
                   size={18}
                 />
                 <View style={styles.settingFlex}>
                   <View>
-                    <Text style={[styles.settingsItemText, isDark && {color: COLORS.light.background}]}>Apparence</Text>
+                    <Text style={[styles.settingsItemText, isDark && {color: COLORS.light.backgroundSoft}]}>Apparence</Text>
                     <Text style={styles.settingsItemTextSpan}>{isDark ? 'Mode sombre' : 'Mode clair'}</Text>
                   </View>
                   <BorderlessButton onPress={handleTheme}>
@@ -113,7 +114,7 @@ const Settings = () => {
                       name={isDark ? 'toggle-on' : 'toggle-off'}
                       color={
                         isDark
-                          ? COLORS.light.background
+                          ? COLORS.light.backgroundSoft
                           : COLORS.dark.background
                       }
                       size={40}
@@ -130,7 +131,7 @@ const Settings = () => {
                 <Icon name="apps" color={isDark
                     ? COLORS.light.background
                     : COLORS.dark.background} size={18} />
-                <Text style={[styles.settingsItemText, isDark && {color: COLORS.light.background}]}>
+                <Text style={[styles.settingsItemText, isDark && {color: COLORS.light.backgroundSoft}]}>
                   Nouvelle Application
                 </Text>
               </RectButton>
@@ -138,27 +139,27 @@ const Settings = () => {
                 <Icon
                   name="question-answer"
                   color={isDark
-                    ? COLORS.light.background
+                    ? COLORS.light.backgroundSoft
                     : COLORS.dark.background}
                   size={18}
                 />
-                <Text style={[styles.settingsItemText, isDark && {color: COLORS.light.background}]}>FAQ et suggestions</Text>
+                <Text style={[styles.settingsItemText, isDark && {color: COLORS.light.backgroundSoft}]}>FAQ et suggestions</Text>
               </RectButton>
               <RectButton style={styles.settingsItem}>
                 <Icon
                   name="contact-support"
                   color={isDark
-                    ? COLORS.light.background
+                    ? COLORS.light.backgroundSoft
                     : COLORS.dark.background}
                   size={18}
                 />
-                <Text style={[styles.settingsItemText, isDark && {color: COLORS.light.background}]}>Nous contacter</Text>
+                <Text style={[styles.settingsItemText, isDark && {color: COLORS.light.backgroundSoft}]}>Nous contacter</Text>
               </RectButton>
               <RectButton style={styles.settingsItem}>
                 <Icon name="info" color={isDark
-                    ? COLORS.light.background
+                    ? COLORS.light.backgroundSoft
                     : COLORS.dark.background} size={18} />
-                <Text style={[styles.settingsItemText, isDark && {color: COLORS.light.background}]}>
+                <Text style={[styles.settingsItemText, isDark && {color: COLORS.light.backgroundSoft}]}>
                   Gérer vos données personnelles
                 </Text>
               </RectButton>
@@ -171,17 +172,17 @@ const Settings = () => {
                 <Icon
                   name="person-outline"
                   color={isDark
-                    ? COLORS.light.background
+                    ? COLORS.light.backgroundSoft
                     : COLORS.dark.background}
                   size={18}
                 />
-                <Text style={[styles.settingsItemText, isDark && {color: COLORS.light.background}]}>
+                <Text style={[styles.settingsItemText, isDark && {color: COLORS.light.backgroundSoft}]}>
                   Conditions et confidentialité
                 </Text>
               </RectButton>
               <RectButton style={styles.settingsItem}>
                 <View>
-                  <Text style={[styles.settingsItemText, isDark && {color: COLORS.light.background}]}>Version</Text>
+                  <Text style={[styles.settingsItemText, isDark && {color: COLORS.light.backgroundSoft}]}>Version</Text>
                   <Text style={styles.settingsItemTextSpan}>1.0.0</Text>
                 </View>
               </RectButton>

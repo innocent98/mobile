@@ -1,4 +1,5 @@
 import {createStackNavigator} from '@react-navigation/stack';
+import {useNavigationState} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {changeTheme, defaultTheme} from './redux/themeRedux';
 import {useSelector, useDispatch} from 'react-redux';
@@ -12,17 +13,40 @@ import {styles} from './constants/styles';
 import Search from './screens/Search';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Settings from './screens/Settings';
+import FontResize from './components/settings/FontResize';
+import {useState} from 'react';
+import Welcome from './screens/Welcome';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const SettingsNavigator = () => {
+  const isDark = useSelector(state => state.theme.isDark);
   return (
-    <Stack.Navigator initialRouteName="Settings">
+    <Stack.Navigator
+      initialRouteName="Setting"
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: isDark
+            ? COLORS.dark.background
+            : COLORS.light.background,
+        },
+        headerTintColor: isDark
+          ? COLORS.light.background
+          : COLORS.dark.background,
+        headerTitleStyle: {
+          color: isDark ? COLORS.light.background : COLORS.dark.background,
+        },
+      }}>
       <Stack.Screen
-        name="Settings"
+        name="Setting"
         component={Settings}
         options={{headerTitle: 'Paramètres'}}
+      />
+      <Stack.Screen
+        name="FontResize"
+        component={FontResize}
+        options={{headerTitle: "Réglage de l'application"}}
       />
     </Stack.Navigator>
   );
@@ -35,9 +59,17 @@ const HomeNavigator = () => {
     <Stack.Navigator
       initialRouteName="Home"
       screenOptions={{
-        headerStyle: {backgroundColor: isDark ? COLORS.dark.background : COLORS.light.background},
-        headerTintColor: isDark  ? COLORS.light.background : COLORS.dark.background,
-        headerTitleStyle: {color: isDark ? COLORS.light.background : COLORS.dark.background},
+        headerStyle: {
+          backgroundColor: isDark
+            ? COLORS.dark.background
+            : COLORS.light.background,
+        },
+        headerTintColor: isDark
+          ? COLORS.light.background
+          : COLORS.dark.background,
+        headerTitleStyle: {
+          color: isDark ? COLORS.light.background : COLORS.dark.background,
+        },
       }}>
       <Stack.Screen
         name="Home"
@@ -56,18 +88,32 @@ const HomeNavigator = () => {
       />
       <Stack.Screen
         name="Settings"
-        component={Settings}
-        options={{
-          headerTitle: 'Paramètres',
-        }}
+        component={SettingsNavigator}
+        options={{headerShown: false}}
       />
     </Stack.Navigator>
   );
 };
 
 const SearchNavigator = () => {
+  const isDark = useSelector(state => state.theme.isDark);
+
   return (
-    <Stack.Navigator initialRouteName="Search">
+    <Stack.Navigator
+      initialRouteName="Search"
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: isDark
+            ? COLORS.dark.background
+            : COLORS.light.background,
+        },
+        headerTintColor: isDark
+          ? COLORS.light.background
+          : COLORS.dark.background,
+        headerTitleStyle: {
+          color: isDark ? COLORS.light.background : COLORS.dark.background,
+        },
+      }}>
       <Tab.Screen
         name="Search"
         component={Search}
@@ -80,16 +126,32 @@ const SearchNavigator = () => {
       />
       <Stack.Screen
         name="Settings"
-        component={Settings}
-        options={{headerTitle: 'Paramètres'}}
+        component={SettingsNavigator}
+        options={{headerShown: false}}
       />
     </Stack.Navigator>
   );
 };
 
 const CategoryNavigator = () => {
+  const isDark = useSelector(state => state.theme.isDark);
+
   return (
-    <Stack.Navigator initialRouteName="Category">
+    <Stack.Navigator
+      initialRouteName="Category"
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: isDark
+            ? COLORS.dark.background
+            : COLORS.light.background,
+        },
+        headerTintColor: isDark
+          ? COLORS.light.background
+          : COLORS.dark.background,
+        headerTitleStyle: {
+          color: isDark ? COLORS.light.background : COLORS.dark.background,
+        },
+      }}>
       <Tab.Screen
         name="Category"
         component={Category}
@@ -102,8 +164,8 @@ const CategoryNavigator = () => {
       />
       <Stack.Screen
         name="Settings"
-        component={Settings}
-        options={{headerTitle: 'Paramètres'}}
+        component={SettingsNavigator}
+        options={{headerShown: false}}
       />
     </Stack.Navigator>
   );
@@ -118,12 +180,19 @@ const TabNavigator = () => {
       screenOptions={({route}) => ({
         tabBarIcon: ({focused, color, size}) => {
           let iconName;
+          
+          const state = useNavigationState(state => state);
+          const routeName = state.routeNames[state.index];
 
           switch (route.name) {
             case 'HomePage':
               return (
                 <Image
-                  source={require('./assets/tab1w.png')}
+                  source={
+                    routeName === route.name
+                      ? require('./assets/tab1.png')
+                      : require('./assets/tab1w.png')
+                  }
                   style={styles.tabImg}
                 />
               );
@@ -147,7 +216,9 @@ const TabNavigator = () => {
         tabBarActiveTintColor: COLORS.light.primary,
         tabBarInactiveTintColor: COLORS.light.background,
         tabBarStyle: {
-          backgroundColor: COLORS.light.primary,
+          backgroundColor: isDark
+            ? COLORS.dark.background
+            : COLORS.light.primary,
           paddingHorizontal: 40,
           height: 60,
           maxWidth: '100%',
@@ -179,8 +250,19 @@ const TabNavigator = () => {
   );
 };
 
+const OnBoard = () => {
+  return (
+    <Stack.Navigator
+      initialRouteName="OnBoard"
+      screenOptions={{headerShown: false}}>
+      <Stack.Screen name="OnBoard" component={Welcome} />
+    </Stack.Navigator>
+  );
+};
+
 const MainApp = () => {
   const isDark = useSelector(state => state.theme.isDark);
+  const isBoarded = useSelector(state => state.onBoard.isBoarded);
 
   const dispatch = useDispatch();
 
@@ -192,7 +274,8 @@ const MainApp = () => {
     }
   };
 
-  return <TabNavigator />;
+  if (isBoarded) return <TabNavigator />;
+  return <OnBoard />;
 };
 
 export default MainApp;

@@ -9,15 +9,17 @@ import {Divider} from 'react-native-paper';
 import Videos from './Videos';
 import {useNavigation} from '@react-navigation/native';
 import {RectButton} from 'react-native-gesture-handler';
+import {useSelector} from 'react-redux';
 
 const Economie = ({data}) => {
+  const isDark = useSelector(state => state.theme.isDark);
   const navigation = useNavigation();
   return (
     <RectButton
       onPress={() => navigation.navigate('NewsDetails')}
       style={styles.economieTextCon}>
-      <Text style={styles.economieText}>{data.text}</Text>
-      <Text style={styles.economieTextSpan}>{data.time}</Text>
+      <Text style={[styles.economieText, isDark && {color: COLORS.light.backgroundSoft}]}>{data.text}</Text>
+      <Text style={[styles.economieTextSpan, isDark && {color: COLORS.light.backgroundSoft}]}>{data.time}</Text>
       <Divider />
     </RectButton>
   );
@@ -25,6 +27,7 @@ const Economie = ({data}) => {
 memo(Economie);
 
 const EconomieSection = () => {
+  const isDark = useSelector(state => state.theme.isDark);
   const renderEconomie = ({item}) => <Economie data={item} />;
   const navigation = useNavigation();
 
@@ -74,8 +77,8 @@ const EconomieSection = () => {
                   resizeMode={FastImage.resizeMode.cover}
                 />
                 <View style={styles.economieTextCon}>
-                  <Text style={styles.economieText}>{item.text}</Text>
-                  <Text style={styles.economieTextSpan}>{item.time}</Text>
+                  <Text style={[styles.economieText, isDark && {color: COLORS.light.backgroundSoft}]}>{item.text}</Text>
+                  <Text style={[styles.economieTextSpan, isDark && {color: COLORS.light.backgroundSoft}]}>{item.time}</Text>
                 </View>
               </RectButton>
             ))}

@@ -9,8 +9,10 @@ import {Divider} from 'react-native-paper';
 import NewsExtra from './NewsExtra';
 import {RectButton} from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';
+import {useSelector} from 'react-redux';
 
 const News = ({data}) => {
+  const isDark = useSelector(state => state.theme.isDark);
   const navigation = useNavigation();
   return (
     <RectButton onPress={() => navigation.navigate('NewsDetails')}>
@@ -25,11 +27,11 @@ const News = ({data}) => {
           resizeMode={FastImage.resizeMode.cover}
         />
         <View style={styles.newsListDet}>
-          <Text style={styles.smallText}>{data.title}</Text>
+          <Text style={[styles.smallText, isDark && {color: COLORS.light.backgroundSoft}]}>{data.title}</Text>
           <View style={styles.newsListDetExtra}>
             <View style={styles.newsListDetExtraLeft}>
-              <Icon name="circle" color={COLORS.light.primary} />
-              <Text style={styles.newsListDetExtraTxt}>{data.cat}</Text>
+              <Icon name="circle" color={isDark ? COLORS.light.background : COLORS.light.primary} />
+              <Text style={[styles.newsListDetExtraTxt, isDark && {color: COLORS.light.backgroundSoft}]}>{data.cat}</Text>
             </View>
             <View style={styles.newsListDetExtraRight}>
               <Text style={styles.newsListDetExtraRightView}>
@@ -48,11 +50,12 @@ const News = ({data}) => {
 memo(News);
 
 const Alaune = () => {
+  const isDark = useSelector(state => state.theme.isDark);
   const navigation = useNavigation();
   const renderItem = ({item}) => <News data={item} />;
 
   return (
-    <View style={styles.tabScreen}>
+    <View style={[styles.tabScreen, isDark && {backgroundColor: COLORS.dark.background}]}>
       <FlatList
         data={newsData}
         renderItem={renderItem}
