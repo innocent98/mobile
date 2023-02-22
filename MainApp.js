@@ -16,6 +16,8 @@ import Settings from './screens/Settings';
 import FontResize from './components/settings/FontResize';
 import {useState} from 'react';
 import Welcome from './screens/Welcome';
+import Register from './components/settings/Register';
+import Login from './components/settings/Login';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -47,6 +49,16 @@ const SettingsNavigator = () => {
         name="FontResize"
         component={FontResize}
         options={{headerTitle: "Réglage de l'application"}}
+      />
+      <Stack.Screen
+        name="Register"
+        component={Register}
+        options={{headerTitle: "Créer un compte"}}
+      />
+       <Stack.Screen
+        name="Login"
+        component={Login}
+        options={{headerTitle: "S'identifier"}}
       />
     </Stack.Navigator>
   );
@@ -226,25 +238,25 @@ const TabNavigator = () => {
         tabBarInactiveBackgroundColor: 'transparent',
         tabBarActiveBackgroundColor: COLORS.dark.textSoft,
         tabBarItemStyle: {height: '80%', borderRadius: 10, marginTop: 5},
-        tabBarShowLabel: false,
+        // tabBarShowLabel: false,
       })}>
       <Tab.Screen
         name="HomePage"
         component={HomeNavigator}
         options={{
           headerShown: false,
-          tabBarLabel: 'A LA UNE',
+          tabBarLabel: 'A la une',
         }}
       />
       <Tab.Screen
         name="SearchPage"
         component={SearchNavigator}
-        options={{headerShown: false}}
+        options={{headerShown: false, tabBarLabel: 'Recherche',}}
       />
       <Tab.Screen
         name="CategoryPage"
         component={CategoryNavigator}
-        options={{headerShown: false}}
+        options={{headerShown: false, tabBarLabel: 'Autre',}}
       />
     </Tab.Navigator>
   );

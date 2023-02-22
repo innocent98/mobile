@@ -19,7 +19,7 @@ export const styles = StyleSheet.create({
   iconImg: {width: 30, height: 30},
   tabImg: {height: 20, width: 20},
 
-  //
+  // onboard
   welcomeContainer: {
     width: width,
     height: height,
@@ -47,7 +47,7 @@ export const styles = StyleSheet.create({
     fontFamily: 'IBMPlexSans-Medium',
     fontSize: SIZES.font,
     textAlign: 'center',
-    width:'95%',
+    width: '95%',
   },
   ditesCon: {width: itemWidth * 0.5, position: 'relative', overflow: 'hidden'},
   ditesConActual: {
@@ -119,7 +119,7 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
   },
   topRight: {flexDirection: 'row', alignItems: 'center'},
-  tabBarView: {marginTop: 10, },
+  tabBarView: {marginTop: 10},
   broadcast: {
     backgroundColor: COLORS.light.gray,
     height: 40,
@@ -156,9 +156,10 @@ export const styles = StyleSheet.create({
   },
   bigText: {
     fontFamily: 'IBMPlexSans-SemiBold',
-    fontSize: SIZES.extraLarge,
+    fontSize: SIZES.large,
     color: COLORS.light.background,
   },
+  featuredIcon: {marginLeft: 15, marginTop: 5},
   newsList: {
     flexDirection: 'row',
     padding: SIZES.base,
@@ -179,6 +180,11 @@ export const styles = StyleSheet.create({
     fontSize: SIZES.font,
     color: COLORS.dark.background,
   },
+  pubText: {
+    fontFamily: 'IBMPlexSans-Medium',
+    fontSize: SIZES.small,
+    color: COLORS.dark.background,
+  },
   newsListDetExtra: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -189,6 +195,7 @@ export const styles = StyleSheet.create({
     fontFamily: 'IBMPlexSans-SemiBold',
     fontSize: SIZES.font,
     color: COLORS.light.primary,
+    textTransform: 'uppercase',
   },
   newsListDetExtraRight: {flexDirection: 'row', alignItems: 'center'},
   newsListDetExtraRightView: {color: COLORS.dark.textSoft, marginLeft: 5},
@@ -237,7 +244,7 @@ export const styles = StyleSheet.create({
   text: {
     color: COLORS.light.primary,
     fontFamily: 'IBMPlexSans-SemiBold',
-    fontSize: SIZES.xxl,
+    fontSize: SIZES.large,
     textAlign: 'left',
     marginBottom: 20,
     textTransform: 'uppercase',
@@ -667,5 +674,130 @@ export const styles = StyleSheet.create({
     fontSize: SIZES.extraLarge,
     paddingHorizontal: 10,
     marginBottom: 10,
+  },
+
+  // search
+  search: {
+    borderWidth: 1,
+    borderColor: COLORS.dark.textSoft,
+    width: itemWidth * 0.95,
+    height: itemHeight * 0.055,
+    margin: 10,
+    paddingHorizontal: 10,
+    borderRadius: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  searchText: {
+    color: COLORS.dark.background,
+    fontFamily: 'IBMPlexSans-Regular',
+    fontSize: SIZES.small,
+  },
+
+  // register
+  media: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: width,
+  },
+  mediaText: {
+    color: COLORS.dark.background,
+    fontSize: SIZES.large,
+    fontFamily: 'IBMPlexSans-Regular',
+    width: '70%',
+  },
+  mediaImg: {height: itemHeight * 0.09, width: itemWidth * 0.2},
+  inputContainer: {width: '100%', paddingHorizontal: 20, marginTop: 10},
+  input: {
+    color: COLORS.light.textSoft,
+    borderBottomWidth: 1,
+    borderBottomColor: COLORS.dark.textSoft,
+    fontFamily: 'IBMPlexSans-Regular',
+    fontSize: SIZES.font,
+  },
+  loginContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginTop: 30,
+    marginBottom: 50,
+  },
+  forgetText: {
+    fontFamily: 'IBMPlexSans-SemiBold',
+    fontSize: SIZES.font,
+    color: COLORS.light.primary,
+  },
+  regButton: {
+    backgroundColor: COLORS.dark.textSoft,
+    padding: 13,
+  },
+  regText: {
+    color: COLORS.light.textSoft,
+    textAlign: 'center',
+    textTransform: 'uppercase',
+    fontFamily: 'IBMPlexSans-SemiBold',
+    fontSize: SIZES.font,
+  },
+  authButton: {
+    backgroundColor: COLORS.light.background,
+    padding: 12,
+    marginTop: 10,
+    borderWidth: 1,
+    borderColor: COLORS.dark.textSoft,
+    borderRadius: 5,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  authText: {
+    color: COLORS.light.textSoft,
+    textAlign: 'center',
+    fontFamily: 'IBMPlexSans-SemiBold',
+    fontSize: SIZES.font,
+  },
+  authImg: {height: itemHeight * 0.02, width: itemWidth * 0.2},
+  authImgApple: {height: 25, width: 25},
+  compteText: {
+    color: COLORS.light.textSoft,
+    textAlign: 'left',
+    fontFamily: 'IBMPlexSans-SemiBold',
+    fontSize: SIZES.medium,
+    marginTop: 15,
+  },
+  dejaContainer: {
+    backgroundColor: COLORS.dark.textSoft,
+    flexDirection: 'row',
+    marginTop: 15,
+    padding: 15,
+    alignItems: 'center',
+  },
+  dejaText: {
+    color: COLORS.light.textSoft,
+    textAlign: 'left',
+    fontFamily: 'IBMPlexSans-Regular',
+    fontSize: SIZES.medium,
+    width: '50%',
+  },
+  dejaText2: {
+    color: COLORS.light.primary,
+    textAlign: 'left',
+    fontFamily: 'IBMPlexSans-SemiBold',
+    fontSize: SIZES.medium,
+    textTransform: 'capitalize',
+  },
+
+  // notification
+  notification: {
+    backgroundColor: 'whitesmoke',
+    width: '100%',
+    height: 80,
+    position: 'absolute',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+    zIndex: 999,
   },
 });

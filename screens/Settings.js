@@ -6,9 +6,11 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useSelector, useDispatch} from 'react-redux';
 import {styles} from '../constants/styles';
 import {COLORS} from '../constants/theme';
+import { userLogout } from '../redux/apiCalls';
 import {changeTheme, defaultTheme} from '../redux/themeRedux';
 
 const Settings = () => {
+  const user = useSelector(state => state.user.currentUser);
   const isDark = useSelector(state => state.theme.isDark);
 
   const dispatch = useDispatch();
@@ -22,6 +24,10 @@ const Settings = () => {
     }
   };
 
+  const handleLogout = () => {
+    userLogout(dispatch)
+  }
+
   return (
     <SafeAreaView style={isDark ? styles.safeAreaDark : styles.safeArea}>
       <View style={styles.container}>
@@ -29,7 +35,7 @@ const Settings = () => {
           <ScrollView>
             <View style={styles.settingsItems}>
               <Text style={[styles.settingsItemLabel, isDark && {color: COLORS.light.background}]}>Compte</Text>
-              <RectButton style={styles.settingsItem}>
+              <RectButton style={styles.settingsItem}  onPress={user ? handleLogout : ()=>navigation.navigate('Login')}>
                 <Icon
                   name="person-outline"
                   color={isDark
@@ -37,9 +43,9 @@ const Settings = () => {
                     : COLORS.dark.background}
                   size={18}
                 />
-                <Text style={[styles.settingsItemText, isDark && {color: COLORS.light.backgroundSoft}]}>Se connecter</Text>
+                <Text style={[styles.settingsItemText, isDark && {color: COLORS.light.backgroundSoft}]}>{user ? "Se déconnecter":"Se connecter"}</Text>
               </RectButton>
-              <RectButton style={styles.settingsItem}>
+              <RectButton onPress={()=>navigation.navigate('Register')} style={styles.settingsItem}>
                 <Icon
                   name="person-add-alt"
                   color={isDark

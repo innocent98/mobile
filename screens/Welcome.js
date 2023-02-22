@@ -2,7 +2,6 @@ import {
   View,
   Text,
   SafeAreaView,
-  StatusBar,
   Image,
   ActivityIndicator,
   ScrollView,

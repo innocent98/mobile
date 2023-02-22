@@ -4,17 +4,41 @@ import {styles} from '../constants/styles';
 import FastImage from 'react-native-fast-image';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {COLORS} from '../constants/theme';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {BorderlessButton, RectButton} from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';
+import {makeGet, makeGet2} from '../redux/apiCalls';
+import {useEffect} from 'react';
+import moment from 'moment';
 
-const NewsDetails = () => {
+const NewsDetails = ({route}) => {
+  const user = useSelector(state => state.user.currentUser);
+
+  const dispatch = useDispatch();
   const isDark = useSelector(state => state.theme.isDark);
   const fontSize = useSelector(state => state.font.fontSize);
   const navigation = useNavigation();
+  const {detUrl} = route?.params;
 
   const [inputValue, setInputValue] = useState('Hey! share me.');
+  const [message, setMessage] = useState({});
 
+  const fetchNewsDetails = () => {
+    makeGet2(dispatch, detUrl, setMessage);
+  };
+
+  useEffect(() => {
+    let unsubscribed = false;
+    if (!unsubscribed) {
+      fetchNewsDetails();
+    }
+    return () => {
+      unsubscribed = true;
+    };
+  }, [setMessage]);
+  // console.log(message);
+
+  // share news function
   const shareMessage = () => {
     //Here is the Share API
     Share.share({
@@ -32,12 +56,27 @@ const NewsDetails = () => {
         <ScrollView style={styles.scrollView}>
           <View style={styles.newsDetailsTop}>
             <View style={styles.newsDetailsCat}>
-              <Icon name="circle" color={isDark ? COLORS.light.background : COLORS.light.primary} />
-              <Text style={[styles.newsListDetExtraTxt, isDark && {color: COLORS.light.background}]}>SPORTS</Text>
+              <Icon
+                name="circle"
+                color={isDark ? COLORS.light.background : COLORS.light.primary}
+              />
+              <Text
+                style={[
+                  styles.newsListDetExtraTxt,
+                  isDark && {color: COLORS.light.background},
+                ]}>
+                {message.type}
+              </Text>
             </View>
             <View style={styles.newsDetailsAuthor}>
               <FastImage
-                style={[styles.profileImg, isDark && {borderWidth: 1, borderColor:COLORS.light.background}]}
+                style={[
+                  styles.profileImg,
+                  isDark && {
+                    borderWidth: 1,
+                    borderColor: COLORS.light.background,
+                  },
+                ]}
                 source={{
                   uri: 'https://i.ibb.co/8c3xKmX/profilepic.png',
                   headers: {Authorization: 'someAuthToken'},
@@ -45,18 +84,28 @@ const NewsDetails = () => {
                 }}
                 resizeMode={FastImage.resizeMode.cover}
               />
-              <Text style={[styles.profileText, isDark && {color: COLORS.light.backgroundSoft}]}>Radji Mouhammed</Text>
+              <Text
+                style={[
+                  styles.profileText,
+                  isDark && {color: COLORS.light.backgroundSoft},
+                ]}>
+                {message.author}
+              </Text>
             </View>
           </View>
 
           <View style={styles.newsDetiailTitleCon}>
-            <Text style={[styles.titleText, isDark && {color: COLORS.light.background}]}>
-              Mort de Pelé : les ambiguïtés politiques du « roi » du football,
-              loin des terrains
+            <Text
+              style={[
+                styles.titleText,
+                isDark && {color: COLORS.light.background},
+              ]}>
+              {message.title}
             </Text>
             <View style={styles.titleDetails}>
               <Text style={styles.newsListDetExtraRightView}>
-                Le 29 Decembre 2022 à 9H35
+                Le {moment(message.created_at).format('DD MMMM YYYY')} à{' '}
+                {moment(message.created_at).format('LT')}
               </Text>
               <View style={styles.titleDetailTime}>
                 <Icon name="schedule" color={COLORS.dark.textSoft} />
@@ -67,52 +116,62 @@ const NewsDetails = () => {
             </View>
           </View>
 
-          {/* paragraphs */}
-          <Text style={[styles.newsDetailsParagraph,  {color: isDark ? COLORS.light.backgroundSoft : COLORS.dark.background, fontSize: fontSize}]}>
-            Le Brésilien, mort le 29 décembre 2022, a souvent été critiqué,
-            pendant et après sa carrière, pour sa proximité avec des figures du
-            pouvoir autoritaire et pour son affairisme. Ministre des sports de
-            1995 à 1999, il a même un temps caressé l’espoir d’être élu à la
-            présidence.
+          {/* content */}
+          <Text
+            style={[
+              styles.newsDetailsParagraph,
+              {
+                color: isDark
+                  ? COLORS.light.backgroundSoft
+                  : COLORS.dark.background,
+                fontSize: fontSize,
+              },
+            ]}>
+            {message.content}
           </Text>
           <FastImage
             style={styles.paragraphImg}
             source={{
-              uri: 'https://i.ibb.co/0JtSJPD/La-France-sans-Pogba-Benzema-Kante-face-a-l-Australie-370x248-1.png',
+              uri: message?.fichier?.path,
               headers: {Authorization: 'someAuthToken'},
               priority: FastImage.priority.normal,
             }}
             resizeMode={FastImage.resizeMode.cover}
           />
-          <Text style={[styles.newsDetailsParagraph, {color: isDark ? COLORS.light.backgroundSoft : COLORS.dark.background, fontSize: fontSize}]}>
-            Pelé, « roi » du football, mais aussi des polémiques. Célébrée dans
-            le monde pour ses performances sportives exceptionnelles, la star du
-            ballon rond aura aussi été la cible d’intenses critiques au Brésil.
-            En cause : des positions controversées tenues durant et après sa
-            carrière de joueur. Entre passivité, dérapages, conservatisme et
-            indifférence aux grands enjeux de la société de son pays.
-          </Text>
-          <Text style={[styles.newsDetailsParagraph, {color: isDark ? COLORS.light.backgroundSoft : COLORS.dark.background, fontSize: fontSize}]}>
-            Le principal grief concerne la période de la dictature militaire
-            (1964-1985). Arrivé au pouvoir en 1969, le général Emilio Garrastazu
-            Médici accentue la répression sur un Brésil où les libertés sont
-            suspendues et la torture des opposants généralisée. Pour masquer ses
-            crimes, la junte a besoin d’un succès éclatant à l’international. La
-            victoire au Mondial mexicain de 1970 devient sa priorité.
-          </Text>
-          <Text style={[styles.newsDetailsParagraph, {color: isDark ? COLORS.light.backgroundSoft : COLORS.dark.background, fontSize: fontSize}]}>
-            A presque 30 ans, Pelé est au sommet de son art. « Il était la
-            figure humaine la plus connue du monde. Pour Médici, il était
-            crucial de s’approprier son image », rappelle Euclides de Freitas
-            Couto, spécialiste des liens entre football et politique. A
-            l’approche du tournoi, la dictature appose la figure du « roi » du
-            football sur les affiches de sa propagande, accompagnée de slogans
-            nationalistes (« Le Brésil, tu l’aimes ou tu le quittes », «
-            Personne ne peut retenir ce pays ! »…).
-          </Text>
+
+          {/* paragraphs */}
+          {message?.paragraphs?.map((paragraph, index) => (
+            <View key={index}>
+              <Text
+                style={[
+                  styles.newsDetailsParagraph,
+                  {
+                    color: isDark
+                      ? COLORS.light.backgroundSoft
+                      : COLORS.dark.background,
+                    fontSize: fontSize,
+                  },
+                ]}>
+                {paragraph.content}
+              </Text>
+              <FastImage
+                style={styles.paragraphImg}
+                source={{
+                  uri: paragraph?.insertion?.fichier?.path,
+                  headers: {Authorization: 'someAuthToken'},
+                  priority: FastImage.priority.normal,
+                }}
+                resizeMode={FastImage.resizeMode.cover}
+              />
+            </View>
+          ))}
 
           <View style={styles.newsDetailsDown}>
-            <Text style={[styles.newsDetailsDownText, isDark && {color: COLORS.light.background}]}>
+            <Text
+              style={[
+                styles.newsDetailsDownText,
+                isDark && {color: COLORS.light.background},
+              ]}>
               Abonnez-vous Pour lire la suite
             </Text>
             <RectButton

@@ -8,18 +8,23 @@ import {actualites} from '../constants/dummy';
 import EconomieSection from './EconomieSection';
 import {RectButton} from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {makeGet} from '../redux/apiCalls';
+import {useState} from 'react';
+import {useEffect} from 'react';
+import moment from 'moment';
 
 const Actualites = ({data}) => {
   const navigation = useNavigation();
+  const detUrl = `/documentations/${data.id}`
   return (
     <RectButton
-      onPress={() => navigation.navigate('NewsDetails')}
+      onPress={() => navigation.navigate('NewsDetails', {detUrl})}
       style={styles.actualitesImgContainer}>
       <FastImage
         style={styles.actualitesImg}
         source={{
-          uri: data.pp,
+          uri: data?.fichier?.path,
           headers: {Authorization: 'someAuthToken'},
           priority: FastImage.priority.normal,
         }}
@@ -28,10 +33,14 @@ const Actualites = ({data}) => {
       <View style={styles.shadowCon}>
         <View style={styles.actualitesTop}>
           <View style={styles.actualitesTxtCon}>
-            <Text style={styles.actualitesTxt}>Le 29, decembre 2022</Text>
-            <Text style={styles.actualitesSpan}>
-              Mort de Pelé : les ambiguïtés politiques du « roi » du football,
-              loin des terrains
+            <Text style={styles.actualitesTxt}>
+              Le {moment(data.created_at).format('DD, MMMM YYYY')}
+            </Text>
+            <Text
+              style={styles.actualitesSpan}
+              numberOfLines={4}
+              ellipsizeMode="tail">
+              {data.content}
             </Text>
           </View>
           <Icon
@@ -51,7 +60,7 @@ const Actualites = ({data}) => {
             resizeMode={FastImage.resizeMode.cover}
           />
           <View style={styles.profileDet}>
-            <Text style={styles.actualitesTxt}>Radji Mouhammed</Text>
+            <Text style={styles.actualitesTxt}>{data.author}</Text>
             <Text style={styles.actualitesTxt}>2 Dec 5 min de lecture</Text>
           </View>
         </View>
@@ -63,7 +72,25 @@ memo(Actualites);
 
 const NewsExtra = () => {
   const isDark = useSelector(state => state.theme.isDark);
+  const dispatch = useDispatch();
+  const [message, setMessage] = useState([]);
+
   const renderActualites = ({item}) => <Actualites data={item} />;
+
+  const fetchNews = () => {
+    makeGet(dispatch, '/documentations', setMessage);
+  };
+
+  useEffect(() => {
+    let unsubscribed = false;
+    if (!unsubscribed) {
+      fetchNews();
+    }
+    return () => {
+      unsubscribed = true;
+    };
+  }, [setMessage]);
+  // console.log(message)
 
   return (
     <View style={styles.newsExtra}>
@@ -96,12 +123,20 @@ const NewsExtra = () => {
         }}
         resizeMode={FastImage.resizeMode.cover}
       />
-      <Text style={[styles.smallText, isDark && {color: COLORS.light.backgroundSoft}]}>PUBLICITE</Text>
+      <Text
+        style={[
+          styles.pubText,
+          isDark && {color: COLORS.light.backgroundSoft},
+        ]}>
+        PUBLICITE
+      </Text>
 
       <View style={styles.actualites}>
-        <Text style={[styles.text, isDark && {color: COLORS.light.background}]}>ACTUALITÉS EN DIRECT</Text>
+        <Text style={[styles.text, isDark && {color: COLORS.light.background}]}>
+          ACTUALITÉS EN DIRECT
+        </Text>
         <FlatList
-          data={actualites}
+          data={message?.data}
           renderItem={renderActualites}
           keyExtractor={item => item.id}
           horizontal

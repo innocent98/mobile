@@ -167,48 +167,48 @@ export const category = [
     title: 'ECONOMIE',
     img: 'https://i.ibb.co/TLdVQsy/image-1.png',
     icon: 'https://i.ibb.co/9TRmMpH/icon-1.png',
-    color:'#cdc60573'
+    color:'#2d338179'
   },
   {
     id: 3,
     title: 'culture',
     img: 'https://i.ibb.co/Zg7NK36/image-2.png',
     icon: 'https://i.ibb.co/KW41Zh6/icon-2.png',
-    color:'#a50fea79'
+    color:'#2d338179'
   },
   {
     id: 4,
     title: 'SOCIETE',
     img: 'https://i.ibb.co/Pwx8CLp/image-3.png',
     icon: 'https://i.ibb.co/mHn5RTv/icon-3.png',
-    color:'#e8801e75'
+    color:'#2d338179'
   },
   {
     id: 5,
     title: 'politique',
     img: 'https://i.ibb.co/grrKPdR/La-France-sans-Pogba-Benzema-Kante-face-a-l-Australie-370x248-2.png',
     icon: 'https://i.ibb.co/PN9Rsnn/icon-4.png',
-    color:'#d24c5579'
+    color:'#2d338179'
   },
   {
     id: 6,
     title: 'sport',
     img: 'https://i.ibb.co/d7nZxGS/image.png',
     icon: 'https://i.ibb.co/dbKGrsJ/icon-5.png',
-    color:'#b898257c'
+    color:'#2d338179'
   },
   {
     id: 7,
     title: 'sante',
     img: 'https://i.ibb.co/my6KT49/La-France-sans-Pogba-Benzema-Kante-face-a-l-Australie-370x248-2-1.png',
     icon: 'https://i.ibb.co/qjCv1nc/icon-6.png',
-    color:'#4cd2537e'
+    color:'#2d338179'
   },
   {
     id: 8,
     title: 'education',
     img: 'https://i.ibb.co/4gLm40W/image-5.png',
     icon: 'https://i.ibb.co/TLjMz23/icon-7.png',
-    color: '#16b3be7e'
+    color: '#2d338179'
   },
 ];

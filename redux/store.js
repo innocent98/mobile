@@ -13,6 +13,8 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import fontReducer from './fontRedux';
 import onBoardReducer from './onBoardRedux';
+import userReducer from './userRedux';
+import processReducer from './processRedux';
 
 const persistConfig = {
   key: 'root',
@@ -24,6 +26,8 @@ const rootReducer = combineReducers({
   theme: themeReducer,
   font: fontReducer,
   onBoard: onBoardReducer,
+  user: userReducer,
+  process: processReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

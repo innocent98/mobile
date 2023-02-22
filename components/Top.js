@@ -60,17 +60,21 @@ export const MyTabs = () => {
       screenOptions={{
         tabBarScrollEnabled: true,
         tabBarActiveTintColor: COLORS.light.white,
-        tabBarInactiveTintColor: isDark  ? COLORS.light.secondary : "#000",
+        tabBarInactiveTintColor: isDark ? COLORS.light.secondary : '#000',
         tabBarIndicatorStyle: {
           backgroundColor: COLORS.light.primary,
           height: '95%',
-          borderRadius:30,
-          marginHorizontal:5
+          borderRadius: 30,
+          marginHorizontal: 5,
         },
-        tabBarStyle: {backgroundColor: isDark ? COLORS.dark.background :COLORS.light.background},
+        tabBarStyle: {
+          backgroundColor: isDark
+            ? COLORS.dark.background
+            : COLORS.light.background,
+        },
         tabBarLabelStyle: {
           fontFamily: 'IBMPlexSans-Medium',
-          fontSize: SIZES.font,
+          fontSize: SIZES.small,
         },
       }}>
       <Tab.Screen name="Alaune" component={Alaune} />

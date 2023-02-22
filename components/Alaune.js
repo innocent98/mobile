@@ -8,37 +8,61 @@ import {COLORS} from '../constants/theme';
 import {Divider} from 'react-native-paper';
 import NewsExtra from './NewsExtra';
 import {RectButton} from 'react-native-gesture-handler';
+import {useDispatch, useSelector} from 'react-redux';
+import {useEffect} from 'react';
+import {makeGet} from '../redux/apiCalls';
+import {useState} from 'react';
+import moment from 'moment';
 import {useNavigation} from '@react-navigation/native';
-import {useSelector} from 'react-redux';
 
 const News = ({data}) => {
   const isDark = useSelector(state => state.theme.isDark);
   const navigation = useNavigation();
+  const detUrl = `/newscasts/${data.id}`;
+  // console.log(data.fichier.path);
+
   return (
-    <RectButton onPress={() => navigation.navigate('NewsDetails')}>
+    <RectButton onPress={() => navigation.navigate('NewsDetails', {detUrl})}>
       <View style={styles.newsList}>
         <FastImage
           style={styles.newsListImg}
           source={{
-            uri: data.img,
+            uri: data?.fichier?.path,
             headers: {Authorization: 'someAuthToken'},
             priority: FastImage.priority.normal,
           }}
           resizeMode={FastImage.resizeMode.cover}
         />
         <View style={styles.newsListDet}>
-          <Text style={[styles.smallText, isDark && {color: COLORS.light.backgroundSoft}]}>{data.title}</Text>
+          <Text
+            style={[
+              styles.smallText,
+              isDark && {color: COLORS.light.backgroundSoft},
+            ]}>
+            {data.title}
+          </Text>
           <View style={styles.newsListDetExtra}>
             <View style={styles.newsListDetExtraLeft}>
-              <Icon name="circle" color={isDark ? COLORS.light.background : COLORS.light.primary} />
-              <Text style={[styles.newsListDetExtraTxt, isDark && {color: COLORS.light.backgroundSoft}]}>{data.cat}</Text>
+              <Icon
+                name="circle"
+                color={isDark ? COLORS.light.background : COLORS.light.primary}
+              />
+              <Text
+                style={[
+                  styles.newsListDetExtraTxt,
+                  isDark && {color: COLORS.light.backgroundSoft},
+                ]}>
+                {data.type}
+              </Text>
             </View>
             <View style={styles.newsListDetExtraRight}>
               <Text style={styles.newsListDetExtraRightView}>
                 <Icon name="visibility" color={COLORS.dark.textSoft} />
                 {data.view}
               </Text>
-              <Text style={styles.newsListDetExtraRightView}>{data.date}</Text>
+              <Text style={styles.newsListDetExtraRightView}>
+                {moment(data.created_at).format('DD-MM-YYYY')}
+              </Text>
             </View>
           </View>
         </View>
@@ -52,41 +76,78 @@ memo(News);
 const Alaune = () => {
   const isDark = useSelector(state => state.theme.isDark);
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const [message, setMessage] = useState([]);
   const renderItem = ({item}) => <News data={item} />;
 
+  const fetchNews = () => {
+    makeGet(dispatch, '/newscasts', setMessage);
+  };
+
+  useEffect(() => {
+    let unsubscribed = false;
+    if (!unsubscribed) {
+      fetchNews();
+    }
+    return () => {
+      unsubscribed = true;
+    };
+  }, [setMessage]);
+
+  let featured = message.data;
+  // console.log(featured);
+
   return (
-    <View style={[styles.tabScreen, isDark && {backgroundColor: COLORS.dark.background}]}>
+    <View
+      style={[
+        styles.tabScreen,
+        isDark && {backgroundColor: COLORS.dark.background},
+      ]}>
       <FlatList
-        data={newsData}
+        data={message.data}
         renderItem={renderItem}
         keyExtractor={item => item.id}
         showsVerticalScrollIndicator={false}
         removeClippedSubviews
+        refreshing={false}
+        onRefresh={fetchNews}
         ListHeaderComponent={() => (
-          <RectButton onPress={() => navigation.navigate('NewsDetails')}>
-            <View style={styles.featured}>
-              <FastImage
-                style={styles.featuredImg}
-                source={{
-                  uri: 'https://i.ibb.co/nDC71N2/52031806704-806863a86c-c1-880x380-1.png',
-                  headers: {Authorization: 'someAuthToken'},
-                  priority: FastImage.priority.normal,
-                }}
-                resizeMode={FastImage.resizeMode.cover}
-              />
-              <View style={styles.featuredText}>
-                <Text style={styles.bigText}>
-                  Administration publique et secteur privé: La revalorisation
-                  des salaires et du Smig officialisée
-                </Text>
-                <Icon
-                  name="bookmark-border"
-                  size={26}
-                  color={COLORS.light.background}
-                />
-              </View>
-            </View>
-          </RectButton>
+          <>
+            {featured?.slice(0, 1).map((item, index) => (
+              <RectButton
+                onPress={() =>
+                  navigation.navigate('NewsDetails', {
+                    detUrl: `/newscasts/${item.id}`,
+                  })
+                }>
+                <View style={styles.featured} key={index}>
+                  <FastImage
+                    style={styles.featuredImg}
+                    source={{
+                      uri: item?.fichier?.path,
+                      headers: {Authorization: 'someAuthToken'},
+                      priority: FastImage.priority.normal,
+                    }}
+                    resizeMode={FastImage.resizeMode.cover}
+                  />
+                  <View style={styles.featuredText}>
+                    <Text
+                      style={styles.bigText}
+                      numberOfLines={3}
+                      ellipsizeMode="tail">
+                      {item.content}
+                    </Text>
+                    <Icon
+                      name="bookmark-border"
+                      size={22}
+                      color={COLORS.light.background}
+                      style={styles.featuredIcon}
+                    />
+                  </View>
+                </View>
+              </RectButton>
+            ))}
+          </>
         )}
         ListFooterComponent={() => <NewsExtra />}
       />

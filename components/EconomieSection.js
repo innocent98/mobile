@@ -9,17 +9,34 @@ import {Divider} from 'react-native-paper';
 import Videos from './Videos';
 import {useNavigation} from '@react-navigation/native';
 import {RectButton} from 'react-native-gesture-handler';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {makeGet} from '../redux/apiCalls';
+import {useEffect} from 'react';
+import {useState} from 'react';
+import moment from 'moment';
 
 const Economie = ({data}) => {
   const isDark = useSelector(state => state.theme.isDark);
   const navigation = useNavigation();
+  const detUrl = `/pages/${data.id}`;
   return (
     <RectButton
-      onPress={() => navigation.navigate('NewsDetails')}
+      onPress={() => navigation.navigate('NewsDetails', {detUrl})}
       style={styles.economieTextCon}>
-      <Text style={[styles.economieText, isDark && {color: COLORS.light.backgroundSoft}]}>{data.text}</Text>
-      <Text style={[styles.economieTextSpan, isDark && {color: COLORS.light.backgroundSoft}]}>{data.time}</Text>
+      <Text
+        style={[
+          styles.economieText,
+          isDark && {color: COLORS.light.backgroundSoft},
+        ]}>
+        {data?.title}
+      </Text>
+      <Text
+        style={[
+          styles.economieTextSpan,
+          isDark && {color: COLORS.light.backgroundSoft},
+        ]}>
+        {moment(data?.created_at).format('DD, MMMM YYYY')}
+      </Text>
       <Divider />
     </RectButton>
   );
@@ -28,13 +45,36 @@ memo(Economie);
 
 const EconomieSection = () => {
   const isDark = useSelector(state => state.theme.isDark);
-  const renderEconomie = ({item}) => <Economie data={item} />;
+  const dispatch = useDispatch();
   const navigation = useNavigation();
+  const [message, setMessage] = useState([]);
+  const [message2, setMessage2] = useState([]);
+
+  const renderEconomie = ({item}) => <Economie data={item} />;
+
+  const fetchNews = () => {
+    makeGet(dispatch, '/pages', setMessage);
+  };
+  const fetchNews2 = () => {
+    makeGet(dispatch, '/newscasts', setMessage2);
+  };
+
+  useEffect(() => {
+    let unsubscribed = false;
+    if (!unsubscribed) {
+      fetchNews();
+      fetchNews2();
+    }
+    return () => {
+      unsubscribed = true;
+    };
+  }, [setMessage]);
+  // console.log(message)
 
   return (
     <View style={styles.actualites}>
       <RectButton
-        onPress={() => navigation.navigate('NewsDetails')}
+        // onPress={() => navigation.navigate('NewsDetails')}
         style={styles.economieImgCon}>
         <View style={styles.economieTxtCon}>
           <Text style={styles.bigText}>ECONOMIE</Text>
@@ -55,30 +95,42 @@ const EconomieSection = () => {
         />
       </RectButton>
       <FlatList
-        data={economie}
+        data={message?.data}
         keyExtractor={item => item.id}
         renderItem={renderEconomie}
         showsVerticalScrollIndicator={false}
         removeClippedSubviews
         ListFooterComponent={() => (
           <>
-            {extraEconomie.map(item => (
+            {message2?.data?.map(item => (
               <RectButton
-                onPress={() => navigation.navigate('NewsDetails')}
+                onPress={() => navigation.navigate('NewsDetails', {detUrl: `/newscasts/${item.id}`})}
                 style={styles.extraEconomie}
                 key={item.id}>
                 <FastImage
                   style={styles.extraEconomieimg}
                   source={{
-                    uri: item.img,
+                    uri: item?.fichier?.path,
                     headers: {Authorization: 'someAuthToken'},
                     priority: FastImage.priority.normal,
                   }}
                   resizeMode={FastImage.resizeMode.cover}
                 />
                 <View style={styles.economieTextCon}>
-                  <Text style={[styles.economieText, isDark && {color: COLORS.light.backgroundSoft}]}>{item.text}</Text>
-                  <Text style={[styles.economieTextSpan, isDark && {color: COLORS.light.backgroundSoft}]}>{item.time}</Text>
+                  <Text
+                    style={[
+                      styles.economieText,
+                      isDark && {color: COLORS.light.backgroundSoft},
+                    ]}>
+                    {item.title}
+                  </Text>
+                  <Text
+                    style={[
+                      styles.economieTextSpan,
+                      isDark && {color: COLORS.light.backgroundSoft},
+                    ]}>
+                    {moment(item.created_at).format('DD, MMMM YYYY')}
+                  </Text>
                 </View>
               </RectButton>
             ))}
