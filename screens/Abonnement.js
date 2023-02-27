@@ -7,8 +7,8 @@ import {
   ActivityIndicator,
   Image,
 } from 'react-native';
-import React, {useState} from 'react';
-import {useSelector} from 'react-redux';
+import React, {useEffect, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import FastImage from 'react-native-fast-image';
 import {styles} from '../constants/styles';
 import {TopComp} from '../components/Top';
@@ -16,6 +16,7 @@ import {MotiView} from 'moti';
 import {RectButton} from 'react-native-gesture-handler';
 import {Easing} from 'react-native-reanimated';
 import {COLORS} from '../constants/theme';
+import {makeGet} from '../redux/apiCalls';
 
 const AbonnementDrop = ({setAbonne}) => {
   return (
@@ -89,7 +90,25 @@ const AbonnementDrop = ({setAbonne}) => {
 
 const Abonnement = () => {
   const isDark = useSelector(state => state.theme.isDark);
+  const dispatch = useDispatch();
+
   const [abonne, setAbonne] = useState(false);
+  const [message, setMessage] = useState([]);
+
+  const fetchNews = () => {
+    makeGet(dispatch, '/pricings', setMessage);
+  };
+
+  useEffect(() => {
+    let unsubscribed = false;
+    if (!unsubscribed) {
+      fetchNews();
+    }
+    return () => {
+      unsubscribed = true;
+    };
+  }, [setMessage]);
+  // console.log(message);
 
   return (
     <SafeAreaView style={isDark ? styles.safeAreaDark : styles.safeArea}>
@@ -109,31 +128,33 @@ const Abonnement = () => {
             </Text>
 
             <View style={styles.abonnementDown}>
-              <RectButton onPress={() => setAbonne(true)}>
-                <View style={styles.abonnementDownImgCon}>
-                  <Image
-                    source={require('../assets/online.png')}
-                    resizeMode="contain"
-                    style={styles.abonnementDownImg}
-                  />
-                  <Text style={styles.abonnementText}>
-                    Abonnement journal en ligne
-                  </Text>
-                </View>
-              </RectButton>
+              {message?.data?.map((item, index) => (
+                <View key={index}>
+                  <RectButton onPress={() => setAbonne(true)}>
+                    <View style={styles.abonnementDownImgCon}>
+                      <Image
+                        source={{uri: item?.fichier?.path}}
+                        resizeMode="contain"
+                        style={styles.abonnementDownImg}
+                      />
+                      <Text style={styles.abonnementText}>{item?.title}</Text>
+                    </View>
+                  </RectButton>
 
-              <RectButton onPress={() => setAbonne(true)}>
-                <View style={styles.abonnementDownImgCon}>
-                  <Image
-                    source={require('../assets/draw.png')}
-                    resizeMode="contain"
-                    style={styles.abonnementDownImg}
-                  />
-                  <Text style={styles.abonnementText}>
-                    Recevoir le journal en papier
-                  </Text>
+                  {/* <RectButton onPress={() => setAbonne(true)}>
+                    <View style={styles.abonnementDownImgCon}>
+                      <Image
+                        source={require('../assets/draw.png')}
+                        resizeMode="contain"
+                        style={styles.abonnementDownImg}
+                      />
+                      <Text style={styles.abonnementText}>
+                        Recevoir le journal en papier
+                      </Text>
+                    </View>
+                  </RectButton> */}
                 </View>
-              </RectButton>
+              ))}
             </View>
           </View>
         </ScrollView>

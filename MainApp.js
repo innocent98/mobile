@@ -14,10 +14,11 @@ import Search from './screens/Search';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Settings from './screens/Settings';
 import FontResize from './components/settings/FontResize';
-import {useState} from 'react';
 import Welcome from './screens/Welcome';
 import Register from './components/settings/Register';
 import Login from './components/settings/Login';
+import SingleSearch from './screens/SingleSearch';
+import VideoLists from './components/VideoLists';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -53,9 +54,9 @@ const SettingsNavigator = () => {
       <Stack.Screen
         name="Register"
         component={Register}
-        options={{headerTitle: "Créer un compte"}}
+        options={{headerTitle: 'Créer un compte'}}
       />
-       <Stack.Screen
+      <Stack.Screen
         name="Login"
         component={Login}
         options={{headerTitle: "S'identifier"}}
@@ -99,6 +100,11 @@ const HomeNavigator = () => {
         options={{headerShown: false}}
       />
       <Stack.Screen
+        name="VideoLists"
+        component={VideoLists}
+        options={{headerShown: true, headerTitle: 'Nos Videos'}}
+      />
+      <Stack.Screen
         name="Settings"
         component={SettingsNavigator}
         options={{headerShown: false}}
@@ -129,6 +135,16 @@ const SearchNavigator = () => {
       <Tab.Screen
         name="Search"
         component={Search}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="SingleSearch"
+        component={SingleSearch}
+        options={{headerShown: true, headerTitle: 'Recherche'}}
+      />
+      <Stack.Screen
+        name="NewsDetails"
+        component={NewsDetails}
         options={{headerShown: false}}
       />
       <Stack.Screen
@@ -192,7 +208,7 @@ const TabNavigator = () => {
       screenOptions={({route}) => ({
         tabBarIcon: ({focused, color, size}) => {
           let iconName;
-          
+
           const state = useNavigationState(state => state);
           const routeName = state.routeNames[state.index];
 
@@ -251,12 +267,12 @@ const TabNavigator = () => {
       <Tab.Screen
         name="SearchPage"
         component={SearchNavigator}
-        options={{headerShown: false, tabBarLabel: 'Recherche',}}
+        options={{headerShown: false, tabBarLabel: 'Recherche'}}
       />
       <Tab.Screen
         name="CategoryPage"
         component={CategoryNavigator}
-        options={{headerShown: false, tabBarLabel: 'Autre',}}
+        options={{headerShown: false, tabBarLabel: 'Autre'}}
       />
     </Tab.Navigator>
   );

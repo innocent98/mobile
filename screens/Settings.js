@@ -58,7 +58,7 @@ const Settings = () => {
             </View>
             <Divider />
 
-            <View style={styles.settingsItems}>
+            {/* <View style={styles.settingsItems}>
               <Text style={[styles.settingsItemLabel, isDark && {color: COLORS.light.background}]}>Édition Abonnés</Text>
               <RectButton style={styles.settingsItem}>
                 <Image
@@ -76,7 +76,7 @@ const Settings = () => {
                 </Text>
               </RectButton>
             </View>
-            <Divider />
+            <Divider /> */}
 
             <View style={styles.settingsItems}>
               <Text style={[styles.settingsItemLabel, isDark && {color: COLORS.light.background}]}>
@@ -133,14 +133,14 @@ const Settings = () => {
 
             <View style={styles.settingsItems}>
               <Text style={[styles.settingsItemLabel, isDark && {color: COLORS.light.background}]}>Aide & Support</Text>
-              <RectButton style={styles.settingsItem}>
+              {/* <RectButton style={styles.settingsItem}>
                 <Icon name="apps" color={isDark
                     ? COLORS.light.background
                     : COLORS.dark.background} size={18} />
                 <Text style={[styles.settingsItemText, isDark && {color: COLORS.light.backgroundSoft}]}>
                   Nouvelle Application
                 </Text>
-              </RectButton>
+              </RectButton> */}
               <RectButton style={styles.settingsItem}>
                 <Icon
                   name="question-answer"

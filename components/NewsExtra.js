@@ -1,22 +1,21 @@
 import {View, Text, FlatList} from 'react-native';
-import React, {memo} from 'react';
+import {memo} from 'react';
 import {styles} from '../constants/styles';
 import FastImage from 'react-native-fast-image';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {COLORS} from '../constants/theme';
-import {actualites} from '../constants/dummy';
 import EconomieSection from './EconomieSection';
 import {RectButton} from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
-import {makeGet} from '../redux/apiCalls';
-import {useState} from 'react';
-import {useEffect} from 'react';
 import moment from 'moment';
+import 'moment/locale/fr';
+
+moment.locale('fr');
 
 const Actualites = ({data}) => {
   const navigation = useNavigation();
-  const detUrl = `/documentations/${data.id}`
+  const detUrl = `/newscasts/${data.id}`;
   return (
     <RectButton
       onPress={() => navigation.navigate('NewsDetails', {detUrl})}
@@ -34,7 +33,7 @@ const Actualites = ({data}) => {
         <View style={styles.actualitesTop}>
           <View style={styles.actualitesTxtCon}>
             <Text style={styles.actualitesTxt}>
-              Le {moment(data.created_at).format('DD, MMMM YYYY')}
+              Le {moment(data.created_at).format('DD MMMM, YYYY')}
             </Text>
             <Text
               style={styles.actualitesSpan}
@@ -61,7 +60,9 @@ const Actualites = ({data}) => {
           />
           <View style={styles.profileDet}>
             <Text style={styles.actualitesTxt}>{data.author}</Text>
-            <Text style={styles.actualitesTxt}>2 Dec 5 min de lecture</Text>
+            <Text style={styles.actualitesTxt}>
+              {data.duration} min de lecture
+            </Text>
           </View>
         </View>
       </View>
@@ -70,27 +71,11 @@ const Actualites = ({data}) => {
 };
 memo(Actualites);
 
-const NewsExtra = () => {
+const NewsExtra = ({data, data2}) => {
   const isDark = useSelector(state => state.theme.isDark);
   const dispatch = useDispatch();
-  const [message, setMessage] = useState([]);
 
   const renderActualites = ({item}) => <Actualites data={item} />;
-
-  const fetchNews = () => {
-    makeGet(dispatch, '/documentations', setMessage);
-  };
-
-  useEffect(() => {
-    let unsubscribed = false;
-    if (!unsubscribed) {
-      fetchNews();
-    }
-    return () => {
-      unsubscribed = true;
-    };
-  }, [setMessage]);
-  // console.log(message)
 
   return (
     <View style={styles.newsExtra}>
@@ -132,11 +117,11 @@ const NewsExtra = () => {
       </Text>
 
       <View style={styles.actualites}>
-        <Text style={[styles.text, isDark && {color: COLORS.light.background}]}>
-          ACTUALITÉS EN DIRECT
+        <Text style={[styles.text,  {color: isDark ? COLORS.light.background : COLORS.light.red}]}>
+          EN DIRECT
         </Text>
         <FlatList
-          data={message?.data}
+          data={data?.inLiveNewscasts}
           renderItem={renderActualites}
           keyExtractor={item => item.id}
           horizontal
@@ -144,7 +129,7 @@ const NewsExtra = () => {
           removeClippedSubviews
         />
       </View>
-      <EconomieSection />
+      <EconomieSection data={data} data2={data2} />
     </View>
   );
 };

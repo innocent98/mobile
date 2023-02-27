@@ -1,15 +1,22 @@
 import {View, Text, SafeAreaView, ScrollView, Image} from 'react-native';
-import React from 'react';
+import {useState} from 'react';
 import {styles} from '../../constants/styles';
 import {useSelector} from 'react-redux';
 import FastImage from 'react-native-fast-image';
 import {RectButton, TextInput} from 'react-native-gesture-handler';
 import {COLORS} from '../../constants/theme';
 import {useNavigation} from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const Register = () => {
   const isDark = useSelector(state => state.theme.isDark);
   const navigation = useNavigation();
+
+  const [isVisible, setIsVisible] = useState(false);
+
+  const handleVisibility = () => {
+    setIsVisible(!isVisible);
+  };
 
   return (
     <SafeAreaView style={isDark ? styles.safeAreaDark : styles.safeArea}>
@@ -42,17 +49,27 @@ const Register = () => {
               style={styles.input}
               placeholderTextColor={COLORS.light.textSoft}
             />
-            <TextInput
-              placeholder="Mot de passe"
-              style={styles.input}
-              placeholderTextColor={COLORS.light.textSoft}
-              secureTextEntry
-            />
+            <View style={styles.passwordCon}>
+              <TextInput
+                placeholder="Mot de passe"
+                style={styles.input}
+                placeholderTextColor={COLORS.light.textSoft}
+                secureTextEntry={isVisible ? false : true}
+                // onChangeText={handlePassword}
+              />
+              <Icon
+                name={isVisible ? 'visibility-off' : 'visibility'}
+                size={22}
+                color={COLORS.dark.background}
+                style={styles.passwordIcon}
+                onPress={handleVisibility}
+              />
+            </View>
             <RectButton
               style={[styles.regButton, {marginTop: 30, marginBottom: 50}]}>
               <Text style={styles.regText}>créer un compte</Text>
             </RectButton>
-            <RectButton>
+            {/* <RectButton>
               <View style={styles.authButton}>
                 <FastImage
                   style={[
@@ -88,7 +105,7 @@ const Register = () => {
                   Se connecter avec apple
                 </Text>
               </View>
-            </RectButton>
+            </RectButton> */}
             <Text style={styles.compteText}>
               En créant un compte, vous confirmez que vous acceptez les{' '}
               <Text style={{color: COLORS.light.primary}}>

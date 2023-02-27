@@ -69,7 +69,7 @@ const NewsDetails = ({route}) => {
               </Text>
             </View>
             <View style={styles.newsDetailsAuthor}>
-              <FastImage
+              {/* <FastImage
                 style={[
                   styles.profileImg,
                   isDark && {
@@ -83,7 +83,7 @@ const NewsDetails = ({route}) => {
                   priority: FastImage.priority.normal,
                 }}
                 resizeMode={FastImage.resizeMode.cover}
-              />
+              /> */}
               <Text
                 style={[
                   styles.profileText,
@@ -109,7 +109,8 @@ const NewsDetails = ({route}) => {
               </Text>
               <View style={styles.titleDetailTime}>
                 <Icon name="schedule" color={COLORS.dark.textSoft} />
-                <Text style={styles.newsListDetExtraRightView}>
+                <Text
+                  style={[styles.newsListDetExtraRightView, {marginLeft: 5}]}>
                   Lecture de 5 Mins
                 </Text>
               </View>

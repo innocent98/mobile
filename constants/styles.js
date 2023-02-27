@@ -14,7 +14,7 @@ export const styles = StyleSheet.create({
     paddingVertical: 20,
     paddingBottom: 30,
   },
-  logo: {width: 150, height: 50},
+  logo: {width: itemWidth * 0.4, height: itemHeight * 0.05},
   scrollView: {width: '100%', paddingHorizontal: 20},
   iconImg: {width: 30, height: 30},
   tabImg: {height: 20, width: 20},
@@ -110,12 +110,12 @@ export const styles = StyleSheet.create({
   buyText: {
     color: COLORS.light.background,
     fontFamily: 'IBMPlexSans-Medium',
-    fontSize: SIZES.medium,
+    fontSize: SIZES.small,
   },
   buyTextSpan: {
     color: COLORS.light.background,
     fontFamily: 'IBMPlexSans-Regular',
-    fontSize: SIZES.small,
+    fontSize: SIZES.base,
     textAlign: 'center',
   },
   topRight: {flexDirection: 'row', alignItems: 'center'},
@@ -193,12 +193,16 @@ export const styles = StyleSheet.create({
   newsListDetExtraLeft: {flexDirection: 'row', alignItems: 'center'},
   newsListDetExtraTxt: {
     fontFamily: 'IBMPlexSans-SemiBold',
-    fontSize: SIZES.font,
+    fontSize: SIZES.small,
     color: COLORS.light.primary,
     textTransform: 'uppercase',
+    marginLeft: 5,
   },
   newsListDetExtraRight: {flexDirection: 'row', alignItems: 'center'},
-  newsListDetExtraRightView: {color: COLORS.dark.textSoft, marginLeft: 5},
+  newsListDetExtraRightView: {
+    color: COLORS.dark.textSoft,
+    fontSize: SIZES.small,
+  },
 
   //   news extra
   newsExtra: {padding: 14, paddingBottom: 50, alignItems: 'center'},
@@ -321,6 +325,11 @@ export const styles = StyleSheet.create({
     color: COLORS.dark.background,
     fontSize: SIZES.medium,
   },
+  economieTextSpanCon: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
   economieTextSpan: {
     fontFamily: 'IBMPlexSans-Regular',
     color: COLORS.dark.background,
@@ -334,12 +343,29 @@ export const styles = StyleSheet.create({
   extraEconomie: {marginTop: 30},
 
   // videos
-  videos: {},
+  videos: {marginTop: 50},
+  videoTextCon: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    // alignItems: 'center',
+  },
+  videoSeeAllTxt: {
+    fontFamily: 'IBMPlexSans-SemiBold',
+    fontSize: SIZES.font,
+    color: COLORS.dark.textSoft,
+    // margin: 10,
+  },
   videosCon: {
     width: itemWidth * 0.85,
     height: itemHeight * 0.3,
     backgroundColor: COLORS.dark.background,
     margin: 5,
+  },
+  videosCon2: {
+    width: itemWidth,
+    height: itemHeight * 0.3,
+    backgroundColor: COLORS.dark.background,
+    marginBottom: 5,
   },
   videoText: {
     fontFamily: 'IBMPlexSans-Regular',
@@ -349,14 +375,14 @@ export const styles = StyleSheet.create({
   },
   videosConImg: {
     width: '100%',
-    height: '60%',
+    height: '70%',
     opacity: 0.5,
   },
   videosPlayCon: {
     position: 'absolute',
     flexDirection: 'row',
     alignItems: 'center',
-    top: 110,
+    top: 130,
     left: 20,
   },
   videosPlayText: {
@@ -395,8 +421,8 @@ export const styles = StyleSheet.create({
 
   // news details
   newsDetailsTop: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
     justifyContent: 'space-between',
     width: '100%',
   },
@@ -414,8 +440,8 @@ export const styles = StyleSheet.create({
     marginTop: 25,
   },
   titleDetails: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
     justifyContent: 'space-between',
     marginTop: 5,
     marginBottom: 20,
@@ -449,7 +475,7 @@ export const styles = StyleSheet.create({
   newsDetailsDownText: {
     color: COLORS.light.primary,
     fontFamily: 'IBMPlexSans-SemiBold',
-    fontSize: SIZES.large,
+    fontSize: SIZES.medium,
     textAlign: 'center',
     marginBottom: 10,
     textTransform: 'uppercase',
@@ -459,7 +485,7 @@ export const styles = StyleSheet.create({
     color: COLORS.light.background,
     textTransform: 'uppercase',
     fontFamily: 'IBMPlexSans-Medium',
-    fontSize: SIZES.large,
+    fontSize: SIZES.medium,
   },
   newsDetailsBtn: {
     backgroundColor: COLORS.light.red,
@@ -476,15 +502,21 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 50,
+    marginBottom: 20,
   },
   abbonementImg: {width: 400, height: 200},
-  abonnementDown: {flexDirection: 'row', marginLeft: -10, marginTop: 40},
+  abonnementDown: {
+    flexDirection: 'row',
+    marginLeft: 10,
+    marginTop: 40,
+    flexWrap: 'wrap',
+  },
   abonnementDownImgCon: {
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    width: 170,
-    height: 220,
+    width: itemWidth * 0.45,
+    height: itemHeight * 0.3,
     borderColor: COLORS.dark.textSoft,
     borderWidth: 1,
     borderRadius: 20,
@@ -693,6 +725,26 @@ export const styles = StyleSheet.create({
     color: COLORS.dark.background,
     fontFamily: 'IBMPlexSans-Regular',
     fontSize: SIZES.small,
+    width: '90%',
+  },
+  recherceTags: {
+    marginTop: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    paddingHorizontal: 15,
+  },
+  recherceTagsBtn: {
+    backgroundColor: COLORS.light.primary,
+    paddingHorizontal: 12,
+    borderRadius: SIZES.medium,
+    paddingVertical: 5,
+    margin: 5,
+  },
+  recherceTagsBtnTxt: {
+    color: COLORS.light.white,
+    fontFamily: 'IBMPlexSans-Regular',
+    fontSize: SIZES.font,
   },
 
   // register
@@ -724,6 +776,8 @@ export const styles = StyleSheet.create({
     marginTop: 30,
     marginBottom: 50,
   },
+  passwordCon: {position: 'relative'},
+  passwordIcon: {position: 'absolute', right: 0, top: 15},
   forgetText: {
     fontFamily: 'IBMPlexSans-SemiBold',
     fontSize: SIZES.font,
@@ -771,19 +825,21 @@ export const styles = StyleSheet.create({
     marginTop: 15,
     padding: 15,
     alignItems: 'center',
+    width: '90%',
+    justifyContent: 'space-between',
   },
   dejaText: {
     color: COLORS.light.textSoft,
     textAlign: 'left',
     fontFamily: 'IBMPlexSans-Regular',
-    fontSize: SIZES.medium,
+    fontSize: SIZES.font,
     width: '50%',
   },
   dejaText2: {
     color: COLORS.light.primary,
     textAlign: 'left',
     fontFamily: 'IBMPlexSans-SemiBold',
-    fontSize: SIZES.medium,
+    fontSize: SIZES.font,
     textTransform: 'capitalize',
   },
 

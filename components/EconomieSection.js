@@ -2,78 +2,78 @@ import {View, Text, FlatList} from 'react-native';
 import React, {memo} from 'react';
 import {styles} from '../constants/styles';
 import FastImage from 'react-native-fast-image';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import {COLORS} from '../constants/theme';
-import {economie, extraEconomie} from '../constants/dummy';
-import {Divider} from 'react-native-paper';
 import Videos from './Videos';
 import {useNavigation} from '@react-navigation/native';
 import {RectButton} from 'react-native-gesture-handler';
 import {useDispatch, useSelector} from 'react-redux';
-import {makeGet} from '../redux/apiCalls';
-import {useEffect} from 'react';
-import {useState} from 'react';
 import moment from 'moment';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const Economie = ({data}) => {
   const isDark = useSelector(state => state.theme.isDark);
   const navigation = useNavigation();
-  const detUrl = `/pages/${data.id}`;
+  const detUrl = data.id;
   return (
     <RectButton
-      onPress={() => navigation.navigate('NewsDetails', {detUrl})}
-      style={styles.economieTextCon}>
-      <Text
-        style={[
-          styles.economieText,
-          isDark && {color: COLORS.light.backgroundSoft},
-        ]}>
-        {data?.title}
-      </Text>
-      <Text
-        style={[
-          styles.economieTextSpan,
-          isDark && {color: COLORS.light.backgroundSoft},
-        ]}>
-        {moment(data?.created_at).format('DD, MMMM YYYY')}
-      </Text>
-      <Divider />
+      onPress={() =>
+        navigation.navigate('NewsDetails', {detUrl: `/newscasts/${detUrl}`})
+      }
+      style={styles.extraEconomie}>
+      <FastImage
+        style={styles.extraEconomieimg}
+        source={{
+          uri: data?.fichier?.path,
+          headers: {Authorization: 'someAuthToken'},
+          priority: FastImage.priority.normal,
+        }}
+        resizeMode={FastImage.resizeMode.cover}
+      />
+      <View style={[styles.economieTextCon, {marginHorizontal: 10}]}>
+        <View style={styles.economieTextSpanCon}>
+          <Text
+            style={[
+              styles.economieText,
+              isDark && {color: COLORS.light.backgroundSoft},
+            ]}>
+            {data.title}
+          </Text>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <Icon name="visibility" color={COLORS.dark.textSoft} />
+            <Text style={styles.newsListDetExtraRightView}>{data.view}</Text>
+          </View>
+        </View>
+        <View style={styles.economieTextSpanCon}>
+          <Text
+            style={[
+              styles.economieTextSpan,
+              isDark && {color: COLORS.light.backgroundSoft},
+            ]}>
+            {moment(data.created_at).format('DD, MMMM YYYY')}
+          </Text>
+          <Text
+            style={[
+              styles.newsListDetExtraRightView,
+              isDark && {color: COLORS.light.backgroundSoft},
+            ]}>
+            {`${data.duration} min de lecture`}
+          </Text>
+        </View>
+      </View>
     </RectButton>
   );
 };
 memo(Economie);
 
-const EconomieSection = () => {
+const EconomieSection = ({data, data2}) => {
   const isDark = useSelector(state => state.theme.isDark);
   const dispatch = useDispatch();
-  const navigation = useNavigation();
-  const [message, setMessage] = useState([]);
-  const [message2, setMessage2] = useState([]);
 
   const renderEconomie = ({item}) => <Economie data={item} />;
 
-  const fetchNews = () => {
-    makeGet(dispatch, '/pages', setMessage);
-  };
-  const fetchNews2 = () => {
-    makeGet(dispatch, '/newscasts', setMessage2);
-  };
-
-  useEffect(() => {
-    let unsubscribed = false;
-    if (!unsubscribed) {
-      fetchNews();
-      fetchNews2();
-    }
-    return () => {
-      unsubscribed = true;
-    };
-  }, [setMessage]);
-  // console.log(message)
-
   return (
     <View style={styles.actualites}>
-      <RectButton
+      {/* <RectButton
         // onPress={() => navigation.navigate('NewsDetails')}
         style={styles.economieImgCon}>
         <View style={styles.economieTxtCon}>
@@ -93,18 +93,22 @@ const EconomieSection = () => {
           }}
           resizeMode={FastImage.resizeMode.cover}
         />
-      </RectButton>
+      </RectButton> */}
       <FlatList
-        data={message?.data}
+        data={data2?.data?.slice(4)}
         keyExtractor={item => item.id}
         renderItem={renderEconomie}
         showsVerticalScrollIndicator={false}
         removeClippedSubviews
         ListFooterComponent={() => (
           <>
-            {message2?.data?.map(item => (
+            {/* {message2?.data?.map(item => (
               <RectButton
-                onPress={() => navigation.navigate('NewsDetails', {detUrl: `/newscasts/${item.id}`})}
+                onPress={() =>
+                  navigation.navigate('NewsDetails', {
+                    detUrl: `/newscasts/${item.id}`,
+                  })
+                }
                 style={styles.extraEconomie}
                 key={item.id}>
                 <FastImage
@@ -133,8 +137,8 @@ const EconomieSection = () => {
                   </Text>
                 </View>
               </RectButton>
-            ))}
-            <Videos />
+            ))} */}
+            <Videos data={data} />
           </>
         )}
       />

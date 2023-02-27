@@ -12,7 +12,10 @@ import Economie from './Economie';
 import Sport from './Sport';
 import TextTicker from 'react-native-text-ticker';
 import {useNavigation} from '@react-navigation/native';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {useState} from 'react';
+import {useEffect} from 'react';
+import {makeGet} from '../redux/apiCalls';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -23,7 +26,11 @@ export const TopComp = () => {
   return (
     <View style={styles.topSection}>
       <View>
-        <Image source={require('../assets/logo.png')} style={styles.logo} />
+        <Image
+          source={require('../assets/logo.png')}
+          style={styles.logo}
+          resizeMode="contain"
+        />
       </View>
       <View style={styles.topRight}>
         <RectButton
@@ -33,7 +40,7 @@ export const TopComp = () => {
             <Text style={styles.buyText}>Abonnez vous</Text>
             <Icon
               name="shopping-cart"
-              size={16}
+              size={10}
               color={COLORS.light.background}
             />
           </View>
@@ -42,7 +49,7 @@ export const TopComp = () => {
         <BorderlessButton onPress={() => navigation.navigate('Settings')}>
           <FontAwesome
             name="user-cog"
-            size={22}
+            size={20}
             color={isDark ? COLORS.light.background : COLORS.light.primary}
           />
         </BorderlessButton>
@@ -51,7 +58,8 @@ export const TopComp = () => {
   );
 };
 
-export const MyTabs = () => {
+export const MyTabs = ({data}) => {
+  // console.log(data?.allnewscastsByModule[0].name.toUpperCase())
   const isDark = useSelector(state => state.theme.isDark);
 
   return (
@@ -78,22 +86,40 @@ export const MyTabs = () => {
         },
       }}>
       <Tab.Screen name="Alaune" component={Alaune} />
-      <Tab.Screen name="Actualites" component={Actualites} />
-      <Tab.Screen name="Culture" component={Culture} />
-      <Tab.Screen name="Economie" component={Economie} />
-      <Tab.Screen name="Sports" component={Sport} />
+      <Tab.Screen name="Actualites" component={Actualites} options={{title:'QUISQUAM'}} />
+      <Tab.Screen name="Culture" component={Culture} options={{title:'VERO CUM'}} />
+      {/* <Tab.Screen name="Economie" component={Economie} /> */}
+      {/* <Tab.Screen name="Sports" component={Sport} /> */}
     </Tab.Navigator>
   );
 };
 
 const Top = () => {
+  const dispatch = useDispatch();
+  const [message, setMessage] = useState({});
+
+  const fetchNews = () => {
+    makeGet(dispatch, '/home', setMessage);
+  };
+
+  useEffect(() => {
+    let unsubscribed = false;
+    if (!unsubscribed) {
+      fetchNews();
+    }
+    return () => {
+      unsubscribed = true;
+    };
+  }, [setMessage]);
+  // console.log(message);
+
   return (
     <View style={styles.topContainer}>
       <TopComp />
       <View style={styles.tabBarView}>
-        <MyTabs />
+        <MyTabs data={message} />
         <View style={styles.broadcast}>
-          <Icon name="campaign" size={28} color={COLORS.light.background} />
+          <Icon name="campaign" size={28} color={COLORS.light.red} />
           <TextTicker
             style={{fontSize: 14, color: COLORS.light.background}}
             loop
@@ -102,10 +128,9 @@ const Top = () => {
             bounce
             repeatSpacer={10}
             marqueeDelay={0}>
-            Super long piece of text is long. The quick brown fox jumps over the
-            lazy dog. Super long piece of text is long. The quick brown fox
-            jumps over the lazy dog. The quick brown fox jumps over the lazy
-            dog.
+            {message?.alertInfoNewscasts?.map((item, index) => (
+              <Text key={index}>{`${item.title},`} </Text>
+            ))}
           </TextTicker>
         </View>
       </View>

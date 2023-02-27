@@ -5,11 +5,10 @@ import FastImage from 'react-native-fast-image';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {COLORS} from '../constants/theme';
 import {Divider} from 'react-native-paper';
-import NewsExtra from './NewsExtra';
 import {RectButton} from 'react-native-gesture-handler';
 import {useDispatch, useSelector} from 'react-redux';
 import {useEffect} from 'react';
-import {makeGet} from '../redux/apiCalls';
+import {makeGet, makeGet2} from '../redux/apiCalls';
 import {useState} from 'react';
 import moment from 'moment';
 import 'moment/locale/fr';
@@ -48,7 +47,6 @@ const News = ({data}) => {
               <Icon
                 name="circle"
                 color={isDark ? COLORS.light.background : COLORS.light.primary}
-                size={8}
               />
               <Text
                 style={[
@@ -59,11 +57,13 @@ const News = ({data}) => {
               </Text>
             </View>
             <View style={styles.newsListDetExtraRight}>
-              <Icon name="visibility" color={COLORS.dark.textSoft} />
-              <Text style={styles.newsListDetExtraRightView}>{data.view}</Text>
+              <Text style={styles.newsListDetExtraRightView}>
+                <Icon name="visibility" color={COLORS.dark.textSoft} />
+                {data.view}
+              </Text>
               {/* <Text style={styles.newsListDetExtraRightView}>
-                {moment(data.created_at).format('DD-MM-YYYY')}
-              </Text> */}
+                  {moment(data.created_at).format('DD-MM-YYYY')}
+                </Text> */}
             </View>
           </View>
         </View>
@@ -74,92 +74,52 @@ const News = ({data}) => {
 };
 memo(News);
 
-const Alaune = () => {
+const SingleSearch = ({route}) => {
   const isDark = useSelector(state => state.theme.isDark);
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const [message, setMessage] = useState({});
-  const [message2, setMessage2] = useState([]);
+  const {id} = route.params;
+  //   console.log(id)
+
+  const [message, setMessage] = useState([]);
   const renderItem = ({item}) => <News data={item} />;
 
   const fetchNews = () => {
-    makeGet(dispatch, '/home', setMessage);
+    makeGet2(dispatch, `/tags/${id}`, setMessage);
   };
-  const fetchNewsCasts = () => {
-    makeGet(dispatch, '/newscasts', setMessage2);
-  };
+  //   console.log(message?.newscasts)
 
   useEffect(() => {
     let unsubscribed = false;
     if (!unsubscribed) {
       fetchNews();
-      fetchNewsCasts();
     }
     return () => {
       unsubscribed = true;
     };
-  }, [setMessage, setMessage2]);
-
-  // useEffect(() => {
-  //   message?.allnewscastsByModule?.slice(0, 1).map((item, index) => {
-  //     return setMessage2(item);
-  //   });
-  // }, [message]);
+  }, [setMessage]);
 
   return (
     <View
       style={[
         styles.tabScreen,
-        isDark && {backgroundColor: COLORS.dark.background},
+        {
+          backgroundColor: isDark && COLORS.dark.background,
+          marginTop: 0,
+          paddingBottom: 0,
+        },
       ]}>
       <FlatList
-        data={message2?.data?.slice(1, 4)}
+        data={message?.newscasts}
         renderItem={renderItem}
         keyExtractor={item => item.id}
         showsVerticalScrollIndicator={false}
         removeClippedSubviews
         refreshing={false}
         onRefresh={fetchNews}
-        ListHeaderComponent={() => (
-          <RectButton
-            onPress={() =>
-              navigation.navigate('NewsDetails', {
-                detUrl: `/newscasts/${message?.principalNewscats?.id}`,
-              })
-            }>
-            <View style={styles.featured}>
-              <FastImage
-                style={styles.featuredImg}
-                source={{
-                  uri: message?.principalNewscats?.fichier?.path,
-                  headers: {Authorization: 'someAuthToken'},
-                  priority: FastImage.priority.normal,
-                }}
-                resizeMode={FastImage.resizeMode.cover}
-              />
-              <View style={styles.featuredText}>
-                <Text
-                  style={styles.bigText}
-                  numberOfLines={3}
-                  ellipsizeMode="tail">
-                  {message?.principalNewscats?.content}
-                </Text>
-                <Icon
-                  name="bookmark-border"
-                  size={22}
-                  color={COLORS.light.background}
-                  style={styles.featuredIcon}
-                />
-              </View>
-            </View>
-          </RectButton>
-        )}
-        ListFooterComponent={() => (
-          <NewsExtra data={message} data2={message2} />
-        )}
       />
     </View>
   );
 };
 
-export default Alaune;
+export default SingleSearch;

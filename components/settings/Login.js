@@ -6,7 +6,6 @@ import {
   ActivityIndicator,
   Image,
 } from 'react-native';
-import React from 'react';
 import {styles} from '../../constants/styles';
 import {useDispatch, useSelector} from 'react-redux';
 import FastImage from 'react-native-fast-image';
@@ -17,6 +16,7 @@ import DeviceInfo from 'react-native-device-info';
 import {login} from '../../redux/apiCalls';
 import {useNavigation} from '@react-navigation/native';
 import {Notification} from '../Notification';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const Login = () => {
   const isDark = useSelector(state => state.theme.isDark);
@@ -28,6 +28,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [buildId, setBuildId] = useState('');
   const [message, setMessage] = useState('');
+  const [isVisible, setIsVisible] = useState(false);
 
   const brand = DeviceInfo.getBrand();
   const buildNumber = DeviceInfo.getBuildNumber();
@@ -61,6 +62,10 @@ const Login = () => {
     } else {
       login(dispatch, user, setMessage, navigation);
     }
+  };
+
+  const handleVisibility = () => {
+    setIsVisible(!isVisible);
   };
 
   return (
@@ -104,13 +109,22 @@ const Login = () => {
               placeholderTextColor={COLORS.light.textSoft}
               onChangeText={handleEmail}
             />
-            <TextInput
-              placeholder="Mot de passe"
-              style={styles.input}
-              placeholderTextColor={COLORS.light.textSoft}
-              // secureTextEntry
-              onChangeText={handlePassword}
-            />
+            <View style={styles.passwordCon}>
+              <TextInput
+                placeholder="Mot de passe"
+                style={styles.input}
+                placeholderTextColor={COLORS.light.textSoft}
+                secureTextEntry={isVisible ? false : true}
+                onChangeText={handlePassword}
+              />
+              <Icon
+                name={isVisible ? "visibility-off" : "visibility"}
+                size={22}
+                color={COLORS.dark.background}
+                style={styles.passwordIcon}
+                onPress={handleVisibility}
+              />
+            </View>
             <View style={styles.loginContainer}>
               <Text style={styles.forgetText}>Mot de passe oublié?</Text>
               <RectButton
@@ -126,7 +140,7 @@ const Login = () => {
                 )}
               </RectButton>
             </View>
-            <RectButton>
+            {/* <RectButton>
               <View style={styles.authButton}>
                 <FastImage
                   style={[
@@ -162,7 +176,7 @@ const Login = () => {
                   Se connecter avec apple
                 </Text>
               </View>
-            </RectButton>
+            </RectButton> */}
             <Text style={styles.compteText}>
               En créant un compte, vous confirmez que vous acceptez les
               conditions générales d'utilisations.
