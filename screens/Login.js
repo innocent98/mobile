@@ -3,17 +3,16 @@ import {
   View,
   Text,
   SafeAreaView,
-  StyleSheet,
-  Dimensions,
   TouchableHighlight,
   ActivityIndicator,
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
-import {TextInput} from 'react-native-gesture-handler';
 import {useDispatch, useSelector} from 'react-redux';
-import {COLORS, SHADOWS, SIZES} from '../constants';
-import { login } from '../redux/apiCalls';
+import {COLORS} from '../constants';
+import {login} from '../redux/apiCalls';
 import {Logo} from './Home';
+import {TextInput} from 'react-native-paper';
+import {styles} from '../constants/styles';
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -39,7 +38,7 @@ const Login = () => {
 
   return (
     <SafeAreaView style={{flex: 1}}>
-      <View style={styles.container}>
+      <View style={styles.loginMainContainer}>
         <FastImage
           style={styles.bkImage}
           source={{
@@ -51,22 +50,26 @@ const Login = () => {
         <View style={styles.loginContainer}>
           <Logo />
           <TextInput
-            placeholder="Username"
+            label="Username"
             placeholderTextColor={COLORS.gray}
-            style={styles.input}
+            style={styles.loginInput}
             onChangeText={handleUsername}
             value={user.username}
             autoCapitalize={'none'}
             autoCorrect={false}
+            mode="outlined"
+            activeOutlineColor={COLORS.secondary}
           />
           <TextInput
-            placeholder="Password"
+            label="Password"
             placeholderTextColor={COLORS.gray}
-            style={styles.input}
+            style={styles.loginInput}
             textContentType={'password'}
             value={user.password}
             secureTextEntry={true}
             onChangeText={handlePassword}
+            mode="outlined"
+            activeOutlineColor={COLORS.secondary}
           />
           <TouchableHighlight
             disabled={isFetching}
@@ -82,65 +85,11 @@ const Login = () => {
             </Text>
           </TouchableHighlight>
           <Text style={styles.lost}>Lost your password?</Text>
-          <Text style={styles.iaec}>Go to IAEC University</Text>
+          <Text style={styles.iaec}>Go to IAEC-TOGO University</Text>
         </View>
       </View>
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    position: 'relative',
-    alignItems: 'center',
-    height: '100%',
-    justifyContent: 'center',
-  },
-  bkImage: {
-    position: 'absolute',
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height,
-  },
-  loginContainer: {
-    backgroundColor: COLORS.white,
-    height: Dimensions.get('window').height * 0.6,
-    width: Dimensions.get('window').width / 1.2,
-    ...SHADOWS.dark,
-    borderRadius: SIZES.extraLarge,
-    padding: 15,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: COLORS.gray,
-    marginTop: 20,
-    borderRadius: SIZES.font,
-    padding: 10,
-    color: COLORS.gray,
-  },
-  loginButton: {
-    backgroundColor: COLORS.secondary,
-    padding: 12,
-    borderRadius: SIZES.font,
-    marginTop: 20,
-  },
-  loginText: {
-    textAlign: 'center',
-    color: COLORS.white,
-    fontFamily: 'RobotoSlab-Regular',
-    fontSize: 17,
-  },
-  iaec: {
-    color: COLORS.primary,
-    textAlign: 'center',
-    fontFamily: 'RobotoSlab-Regular',
-    marginTop: 12,
-  },
-  lost: {
-    color: COLORS.gray,
-    textAlign: 'center',
-    fontFamily: 'RobotoSlab-Regular',
-    marginTop: 10,
-  },
-});
 
 export default Login;

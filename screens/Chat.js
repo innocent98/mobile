@@ -18,10 +18,13 @@ import moment from 'moment';
 import {io} from 'socket.io-client';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {
+  BorderlessButton,
   RectButton,
   TouchableHighlight,
 } from 'react-native-gesture-handler';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
+import {Divider} from 'react-native-paper';
+import {styles} from '../constants/styles';
 
 export const FriendList = prop => {
   const user = useSelector(state => state.user.currentUser);
@@ -43,7 +46,7 @@ export const FriendList = prop => {
       const res = await userRequest.post('/conversations', members);
       const conId = res.data._id || res.data[0]._id;
       getConversation();
-      navigation.navigate('Chat', {
+      navigation.navigate('Chats', {
         screen: 'Messenger',
         params: {conId, username},
       });
@@ -53,16 +56,16 @@ export const FriendList = prop => {
   return (
     <>
       {data?.role && (
-        <TouchableHighlight
+        <BorderlessButton
           underlayColor="lightgray"
-          style={styles.button}
+          style={styles.newConvButton}
           onPress={newConversation}>
           {user?._id !== data?._id && user?.role === 'student' ? (
             <>
               {data?.role === 'bursar' && (
                 <View style={styles.friendContainer}>
                   <FastImage
-                    style={styles.img}
+                    style={styles.newConvImg}
                     source={{
                       uri: 'https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png',
                       priority: FastImage.priority.normal,
@@ -78,7 +81,7 @@ export const FriendList = prop => {
               {user._id !== data._id && data?.role !== 'student' && (
                 <View style={styles.friendContainer}>
                   <FastImage
-                    style={styles.img}
+                    style={styles.newConvImg}
                     source={{
                       uri: 'https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png',
                       priority: FastImage.priority.normal,
@@ -90,7 +93,7 @@ export const FriendList = prop => {
               )}
             </>
           )}
-        </TouchableHighlight>
+        </BorderlessButton>
       )}
     </>
   );
@@ -111,10 +114,10 @@ export const ChatList = ({data}) => {
       outputRange: [-20, 0, 0, 1],
     });
     return (
-      <RectButton style={styles.leftAction} onPress={this.close}>
+      <RectButton style={styles.swipeLeftAction} onPress={this.close}>
         <Animated.Text
           style={[
-            styles.actionText,
+            styles.swipeText,
             {
               transform: [{translateX: trans}],
             },
@@ -181,9 +184,8 @@ export const ChatList = ({data}) => {
   return (
     <Swipeable renderLeftActions={renderLeftActions}>
       <RectButton
-        underlayColor="white"
         onPress={() =>
-          navigation.navigate('Chat', {
+          navigation.navigate('Chats', {
             screen: 'Messenger',
             params: {data, username},
           })
@@ -191,11 +193,11 @@ export const ChatList = ({data}) => {
         style={styles.conversationContainer}>
         <View accessible accessibilityRole="button">
           <Text style={styles.name}>{username}</Text>
-          <View style={styles.details}>
+          <View style={styles.convDetails}>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               {lastMessage?.img ? (
                 <>
-                  <Icon name="image" size={20} color={COLORS.gray} />
+                  <Icon name="image" size={20} color={COLORS.white} />
                   <Text style={styles.lastMessage} numberOfLines={1}>
                     {lastMessage?.text ? lastMessage?.text : 'Photo'}
                   </Text>
@@ -206,7 +208,7 @@ export const ChatList = ({data}) => {
                 <Text style={styles.lastMessage}>{lastMessage?.text}</Text>
               )}
             </View>
-            <Text style={styles.date}>{date}</Text>
+            <Text style={styles.messageDate}>{date}</Text>
           </View>
         </View>
       </RectButton>
@@ -295,8 +297,9 @@ const Chat = () => {
   const merge = [...friends, ...conversation];
 
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: COLORS.background}}>
-      <View style={styles.container}>
+    <SafeAreaView style={{flex: 1, backgroundColor: COLORS.secondary}}>
+      <View style={styles.chatContainerList}>
+        <Text style={styles.sendDm}>Send a dm...</Text>
         <FlatList
           data={merge}
           renderItem={({item}) => (
@@ -309,7 +312,8 @@ const Chat = () => {
           keyExtractor={item => item?._id}
           horizontal
         />
-        <Text style={styles.dm}>Send a dm...</Text>
+        <Divider />
+
         <FlatList
           data={conversation}
           renderItem={({item}) => <ChatList data={item} />}
@@ -318,23 +322,15 @@ const Chat = () => {
             <>
               {user.role !== 'student' && (
                 <View style={{marginBottom: 10}}>
-                  <TouchableHighlight
-                    underlayColor={COLORS.background}
+                  <RectButton
                     onPress={() =>
-                      navigation.navigate('Dashboard', {
-                        screen: 'Notification',
-                        params: {notifications},
-                      })
+                      navigation.navigate('Notification', {notifications})
                     }>
-                    <Text
-                      style={{
-                        color: '#000',
-                        fontFamily: 'RobotoSlab-Regular',
-                        fontSize: SIZES.medium,
-                      }}>
+                    <Text style={styles.sendBroadcast}>
                       Send a broadcast message
                     </Text>
-                  </TouchableHighlight>
+                    <Divider />
+                  </RectButton>
                 </View>
               )}
             </>
@@ -344,70 +340,5 @@ const Chat = () => {
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {padding: 15},
-  conversationContainer: {
-    marginBottom: 15,
-    backgroundColor: 'whitesmoke',
-    padding: 5,
-  },
-  name: {
-    color: '#000',
-    fontFamily: 'RobotoSlab-Medium',
-    fontSize: SIZES.large,
-  },
-  details: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  lastMessage: {
-    color: COLORS.gray,
-    fontFamily: 'RobotoSlab-Regular',
-    fontSize: SIZES.small,
-    width: Dimensions.get('window').width / 2,
-  },
-  date: {
-    color: COLORS.gray,
-    fontFamily: 'RobotoSlab-Regular',
-    fontSize: SIZES.small,
-  },
-  dm: {
-    color: '#000',
-    fontFamily: 'RobotoSlab-Regular',
-    fontSize: SIZES.large,
-    borderBottomColor: COLORS.gray,
-    borderBottomWidth: 1,
-    marginBottom: 20,
-    marginTop: 15,
-  },
-  button: {
-    borderRadius: SIZES.large,
-    // marginRight: 20,
-  },
-  friendContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  img: {width: 50, height: 50, borderRadius: SIZES.large},
-  username: {
-    color: '#000',
-    fontFamily: 'RobotoSlab-Medium',
-    fontSize: SIZES.small,
-    textAlign: 'center',
-  },
-  leftAction: {
-    backgroundColor: 'red',
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: 40,
-    width: 100,
-  },
-  actionText: {
-    fontFamily: 'RobotoSlab-Medium',
-    color: COLORS.white,
-  },
-});
 
 export default Chat;

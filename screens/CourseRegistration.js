@@ -2,13 +2,14 @@ import {
   View,
   Text,
   SafeAreaView,
-  StyleSheet,
   TouchableHighlight,
 } from 'react-native';
 import React, {useState} from 'react';
 import {Logo} from './Home';
 import {MultipleSelectList} from 'react-native-dropdown-select-list';
-import {COLORS, SHADOWS, SIZES} from '../constants';
+import {COLORS} from '../constants';
+import { styles } from './../constants/styles';
+import { RectButton } from 'react-native-gesture-handler';
 
 const CourseRegistration = () => {
   const [selected, setSelected] = useState([]);
@@ -24,10 +25,10 @@ const CourseRegistration = () => {
   ];
 
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor:COLORS.secondary}}>
+    <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
         <Logo />
-        <View style={styles.containerBody}>
+        <View style={styles.subContainer}>
           <Text style={styles.title}>Select Your Course and Register</Text>
           <MultipleSelectList
             setSelected={val => setSelected(val)}
@@ -40,9 +41,9 @@ const CourseRegistration = () => {
             fontFamily="RobotoSlab-Regular"
           />
           <View style={styles.buttonContainer}>
-            <TouchableHighlight style={styles.button}>
+            <RectButton style={styles.button}>
               <Text style={styles.buttonText}>Proceed</Text>
-            </TouchableHighlight>
+            </RectButton>
           </View>
         </View>
       </View>
@@ -50,39 +51,5 @@ const CourseRegistration = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  containerBody: {
-    backgroundColor: COLORS.background,
-    width: '90%',
-    borderRadius: SIZES.font,
-    marginTop: 20,
-    padding: 10,
-    ...SHADOWS.dark
-  },
-  title: {
-    color: '#000',
-    marginBottom: 10,
-    fontFamily: 'RobotoSlab-Medium',
-    fontSize: SIZES.medium,
-  },
-  buttonContainer: {
-    alignItems: 'center',
-    marginTop:5
-  },
-  button: {
-    backgroundColor: COLORS.secondary,
-    padding: 10,
-    paddingHorizontal: 20,
-    borderRadius: 2,
-  },
-  buttonText: {
-    fontFamily: 'RobotoSlab-Regular',
-    fontSize: SIZES.medium,
-  },
-});
 
 export default CourseRegistration;

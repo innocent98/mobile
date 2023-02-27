@@ -1,12 +1,104 @@
-import {View, Text, StyleSheet, SafeAreaView, ScrollView} from 'react-native';
+import {
+  View,
+  Text,
+  SafeAreaView,
+  ScrollView,
+  ActivityIndicator,
+  TextInput,
+} from 'react-native';
 import React, {useState} from 'react';
 import {Logo} from './Home';
 import {SelectList} from 'react-native-dropdown-select-list';
-import {COLORS, SHADOWS, SIZES} from '../constants';
+import {COLORS} from '../constants';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import {styles} from './../constants/styles';
+import {AnimatePresence, MotiView} from 'moti';
+import {Easing} from 'react-native-reanimated';
+import {RectButton} from 'react-native-gesture-handler';
+import {SavedData} from './admin/students/EditStudent';
+import DocumentPicker from 'react-native-document-picker';
+
+const AddLibrary = ({setAdd, setIsAdd}) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [file, setFile] = useState('');
+  const [urlFileName, setUrlFileName] = useState('');
+
+  const openPdfLibrary = async () => {
+    try {
+      const res = await DocumentPicker.pick({
+        type: [DocumentPicker.types.pdf],
+      });
+      setFile(res[0].uri);
+      setUrlFileName(res[0].name);
+    } catch (error) {}
+  };
+
+  const handleAdd = () => {
+    setIsLoading(true);
+    let timeout = setTimeout(() => {
+      setIsAdd(true);
+      setIsLoading(false);
+      setAdd(false);
+      timeout = setTimeout(() => {
+        setIsAdd(false);
+      }, 1000);
+    }, 1000);
+    return () => clearTimeout(timeout);
+  };
+
+  return (
+    <AnimatePresence>
+      <MotiView
+        from={{bottom: -50, opacity: 0.5}}
+        animate={{bottom: 0, opacity: 1}}
+        exit={{bottom: 0, opacity: 0.5}}
+        transition={{
+          type: 'timing',
+          duration: 500,
+          easing: Easing.out(Easing.ease),
+        }}
+        style={styles.addContainer}>
+        <Icon
+          name="close"
+          size={22}
+          color="#000"
+          style={styles.closeIcon}
+          onPress={() => setAdd(false)}
+        />
+        <TextInput
+          style={styles.addInput}
+          placeholder="Book Title"
+          placeholderTextColor="#000"
+        />
+        <TextInput
+          style={styles.addInput}
+          placeholder="Book Author"
+          placeholderTextColor="#000"
+        />
+        <TextInput
+          style={styles.addInput}
+          placeholder="Upload Book"
+          placeholderTextColor="#000"
+          value={urlFileName}
+          onPressIn={openPdfLibrary}
+        />
+
+        {isLoading ? (
+          <ActivityIndicator size="large" color={COLORS.primary} />
+        ) : (
+          <RectButton onPress={handleAdd} style={styles.addButton}>
+            <Text style={styles.buttonText}>Add Library</Text>
+          </RectButton>
+        )}
+      </MotiView>
+    </AnimatePresence>
+  );
+};
 
 const ELibrary = () => {
   const [selected, setSelected] = useState([]);
+  const [add, setAdd] = useState(false);
+  const [isAdd, setIsAdd] = useState(false);
 
   const data = [
     {key: '1', value: 'Mobiles', disabled: true},
@@ -19,111 +111,103 @@ const ELibrary = () => {
   ];
 
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor:COLORS.secondary}}>
+    <SafeAreaView style={styles.safeArea}>
+      {add && <AddLibrary setAdd={setAdd} setIsAdd={setIsAdd} />}
       <View style={styles.container}>
+        {isAdd && <SavedData />}
         <Logo />
-        <ScrollView style={{width: '90%'}}>
-          <View style={styles.libraryContainer}>
-            <Text style={styles.title}>Library Assets</Text>
-            <SelectList
-              setSelected={val => setSelected(val)}
-              data={data}
-              save="value"
-              inputStyles={{color: '#000'}}
-              dropdownTextStyles={{color: '#000'}}
-              fontFamily="RobotoSlab-Regular"
-            />
-            {/* asset cards */}
-            <View style={styles.assetCardContainer}>
-              <View style={styles.assetCard}>
-                <Text style={styles.assetCardTitle}>SOFTWARE DEVELOPMENT</Text>
-                <Text style={styles.assetCardAuthor}>Author: Mr Williams</Text>
-                <Text style={styles.assetCardDate}>
-                  09/11/2022{' '}
-                  <Icon name="file-download" size={18} color={COLORS.white} />
-                </Text>
-              </View>
 
-              <View style={styles.assetCard}>
-                <Text style={styles.assetCardTitle}>SOFTWARE DEVELOPMENT</Text>
-                <Text style={styles.assetCardAuthor}>Author: Mr Williams</Text>
-                <Text style={styles.assetCardDate}>
-                  09/11/2022{' '}
-                  <Icon name="file-download" size={18} color={COLORS.white} />
-                </Text>
-              </View>
+        <View style={styles.topActions}>
+          <RectButton onPress={() => setAdd(true)} style={styles.addButton}>
+            <Text style={styles.buttonText}>+ New Library</Text>
+          </RectButton>
+        </View>
 
-              <View style={styles.assetCard}>
-                <Text style={styles.assetCardTitle}>SOFTWARE DEVELOPMENT</Text>
-                <Text style={styles.assetCardAuthor}>Author: Mr Williams</Text>
-                <Text style={styles.assetCardDate}>
-                  09/11/2022{' '}
-                  <Icon name="file-download" size={18} color={COLORS.white} />
-                </Text>
-              </View>
-              <View style={styles.assetCard}>
-                <Text style={styles.assetCardTitle}>SOFTWARE DEVELOPMENT</Text>
-                <Text style={styles.assetCardAuthor}>Author: Mr Williams</Text>
-                <Text style={styles.assetCardDate}>
-                  09/11/2022{' '}
-                  <Icon name="file-download" size={18} color={COLORS.white} />
-                </Text>
-              </View>
+        <ScrollView style={styles.ScrollView}>
+          <View style={styles.subContainer}>
+            <ScrollView>
+              <Text style={styles.title}>Library Assets</Text>
+              <SelectList
+                setSelected={val => setSelected(val)}
+                data={data}
+                save="value"
+                inputStyles={{color: '#000'}}
+                dropdownTextStyles={{color: '#000'}}
+                fontFamily="RobotoSlab-Regular"
+              />
+              {/* asset cards */}
+              <View style={styles.assetCardContainer}>
+                <View style={styles.assetCard}>
+                  <Text style={styles.assetCardTitle}>ETHICAL HACKING</Text>
+                  <Text style={styles.assetCardAuthor}>
+                    Author: Shittu Abiola
+                  </Text>
+                  <Text style={styles.assetCardDate}>
+                    09/11/2022{' '}
+                    <Icon name="file-download" size={18} color={COLORS.white} />
+                  </Text>
+                </View>
 
-              <View style={styles.assetCard}>
-                <Text style={styles.assetCardTitle}>SOFTWARE DEVELOPMENT</Text>
-                <Text style={styles.assetCardAuthor}>Author: Mr Williams</Text>
-                <Text style={styles.assetCardDate}>
-                  09/11/2022{' '}
-                  <Icon name="file-download" size={18} color={COLORS.white} />
-                </Text>
-              </View>
+                <View style={styles.assetCard}>
+                  <Text style={styles.assetCardTitle}>ETHICAL HACKING</Text>
+                  <Text style={styles.assetCardAuthor}>
+                    Author: Shittu Abiola
+                  </Text>
+                  <Text style={styles.assetCardDate}>
+                    09/11/2022{' '}
+                    <Icon name="file-download" size={18} color={COLORS.white} />
+                  </Text>
+                </View>
 
-              <View style={styles.assetCard}>
-                <Text style={styles.assetCardTitle}>SOFTWARE DEVELOPMENT</Text>
-                <Text style={styles.assetCardAuthor}>Author: Mr Williams</Text>
-                <Text style={styles.assetCardDate}>
-                  09/11/2022{' '}
-                  <Icon name="file-download" size={18} color={COLORS.white} />
-                </Text>
+                <View style={styles.assetCard}>
+                  <Text style={styles.assetCardTitle}>ETHICAL HACKING</Text>
+                  <Text style={styles.assetCardAuthor}>
+                    Author: Shittu Abiola
+                  </Text>
+                  <Text style={styles.assetCardDate}>
+                    09/11/2022{' '}
+                    <Icon name="file-download" size={18} color={COLORS.white} />
+                  </Text>
+                </View>
+                <View style={styles.assetCard}>
+                  <Text style={styles.assetCardTitle}>ETHICAL HACKING</Text>
+                  <Text style={styles.assetCardAuthor}>
+                    Author: Shittu Abiola
+                  </Text>
+                  <Text style={styles.assetCardDate}>
+                    09/11/2022{' '}
+                    <Icon name="file-download" size={18} color={COLORS.white} />
+                  </Text>
+                </View>
+
+                <View style={styles.assetCard}>
+                  <Text style={styles.assetCardTitle}>ETHICAL HACKING</Text>
+                  <Text style={styles.assetCardAuthor}>
+                    Author: Shittu Abiola
+                  </Text>
+                  <Text style={styles.assetCardDate}>
+                    09/11/2022{' '}
+                    <Icon name="file-download" size={18} color={COLORS.white} />
+                  </Text>
+                </View>
+
+                <View style={styles.assetCard}>
+                  <Text style={styles.assetCardTitle}>ETHICAL HACKING</Text>
+                  <Text style={styles.assetCardAuthor}>
+                    Author: Shittu Abiola
+                  </Text>
+                  <Text style={styles.assetCardDate}>
+                    09/11/2022{' '}
+                    <Icon name="file-download" size={18} color={COLORS.white} />
+                  </Text>
+                </View>
               </View>
-            </View>
+            </ScrollView>
           </View>
         </ScrollView>
       </View>
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {alignItems: 'center', justifyContent: 'center', height:'100%'},
-  libraryContainer: {
-    width: '100%',
-    backgroundColor: COLORS.background,
-    borderRadius: SIZES.font,
-    padding: 10,
-    marginTop: 20,
-    ...SHADOWS.dark,
-  },
-  title: {
-    fontSize: SIZES.large,
-    fontFamily: 'RobotoSlab-Medium',
-    color: '#000',
-    textAlign: 'center',
-    marginBottom: SIZES.medium,
-  },
-  assetCardContainer: {flexDirection: 'row', flexWrap: 'wrap', marginTop: 10},
-  assetCard: {
-    backgroundColor: COLORS.secondary,
-    width: '45%',
-    padding: 10,
-    alignItems: 'center',
-    borderRadius: SIZES.base,
-    margin:5
-  },
-  assetCardTitle: {color: COLORS.white, textAlign: 'center'},
-  assetCardAuthor: {color: COLORS.white, textAlign: 'center'},
-  assetCardDate: {color: COLORS.white, textAlign: 'center'},
-});
 
 export default ELibrary;

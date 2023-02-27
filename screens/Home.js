@@ -1,15 +1,14 @@
 import {
   View,
   Text,
-  StyleSheet,
   SafeAreaView,
-  Dimensions,
   Alert,
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
-import {COLORS, SHADOWS, SIZES} from '../constants';
+import {COLORS} from '../constants';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useEffect, useState} from 'react';
+import { styles } from './../constants/styles';
 
 export const Logo = () => {
   return (
@@ -32,13 +31,13 @@ const config = {
 };
 
 const Home = () => {
-  const [quotes, setQuotes] = useState([]);
+  const [quotes, setQuotes] = useState({});
 
   const currentTime = new Date();
   const time = currentTime.getHours();
 
-  const getQuotes = () => {
-    fetch(config.apiUrl)
+  const getQuotes = async () => {
+   await fetch(config.apiUrl)
       .then(function (response) {
         return response.json();
       })
@@ -49,7 +48,6 @@ const Home = () => {
         Alert.alert(err.response.message);
       });
   };
-  console.log(quotes)
 
   useEffect(() => {
     let unsubscribe = false;
@@ -57,7 +55,7 @@ const Home = () => {
     if (!unsubscribe) {
       const interval = setInterval(() => {
         getQuotes();
-      }, 86400000);
+      }, 86400);
       return () => {
         clearInterval(interval);
       };
@@ -66,6 +64,7 @@ const Home = () => {
       unsubscribe = true;
     };
   }, [setQuotes]);
+  // console.log(quotes)
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: COLORS.secondary}}>
@@ -78,7 +77,7 @@ const Home = () => {
               ADEBAYO VICTOR OLUWATOSIN
             </Text>
             <Text style={styles.text}>Welcome to IAEC-TOGO student portal</Text>
-            <Icon name="emoji-emotions" size={44} color={COLORS.primary} />
+            <Icon name="emoji-emotions" size={40} color={COLORS.primary} />
           </View>
         </View>
 
@@ -89,7 +88,6 @@ const Home = () => {
             </Text>
             <Text style={styles.text}>{quotes.text}</Text>
             <Text style={styles.text}>~ {quotes.author}✨</Text>
-            {/* <Icon name="emoji-emotions" size={44} color={COLORS.primary} /> */}
           </View>
         </View>
       </View>
@@ -97,56 +95,5 @@ const Home = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {alignItems: 'center', justifyContent: 'center'},
-  logoContainer: {
-    backgroundColor: COLORS.background,
-    width: '100%',
-    height: 150,
-    // borderRadius: SIZES.font,
-    alignItems: 'center',
-    justifyContent: 'center',
-    ...SHADOWS.dark,
-    // marginTop:10
-  },
-  logo: {width: '100%', height: '70%'},
-  containerBody: {
-    width: '100%',
-    // height: Dimensions.get('window').height,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  welcomeContainer: {
-    width: '90%',
-    backgroundColor: COLORS.background,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: SIZES.font,
-    marginTop: 20,
-    paddingVertical: 40,
-    ...SHADOWS.dark,
-  },
-  welcomeText: {
-    color: '#000',
-    fontFamily: 'RobotoSlab-Bold',
-    fontSize: SIZES.extraLarge,
-    textAlign: 'center',
-  },
-  quoteText: {
-    color: '#000',
-    fontFamily: 'RobotoSlab-Bold',
-    fontSize: SIZES.medium,
-    textAlign: 'center',
-  },
-  text: {
-    color: '#000',
-    fontfamily: 'RobotoSlab-Regular',
-    fontSize: SIZES.medium,
-    textAlign: 'center',
-    marginTop: 10,
-    marginBottom: 20,
-    padding: 5,
-  },
-});
 
 export default Home;
