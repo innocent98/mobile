@@ -844,6 +844,38 @@ export const styles = StyleSheet.create({
     textTransform: 'capitalize',
   },
 
+  // change password
+  changePasswordOverlay: {
+    backgroundColor: COLORS.dark.backgroundSoft,
+    opacity: 0.4,
+    width: itemWidth,
+    height: itemHeight,
+    position: 'absolute',
+    top: 0,
+  },
+  changePasswordCon: {
+    backgroundColor: 'white',
+    width: '100%',
+    // height: 80,
+    position: 'absolute',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    zIndex: 9,
+    ...SHADOWS.dark,
+    bottom:0,
+    paddingBottom:25
+  },
+  mobileDivider: {
+    backgroundColor: COLORS.dark.textSoft,
+    height: 4,
+    width: 100,
+    borderRadius: 20,
+    zIndex: 999,
+  },
+
   // notification
   notification: {
     backgroundColor: 'whitesmoke',
@@ -856,5 +888,64 @@ export const styles = StyleSheet.create({
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
     zIndex: 999,
+  },
+
+  // profile
+  profileTopCon: {
+    width: '100%',
+    height: itemHeight * 0.2,
+    backgroundColor: COLORS.light.primary,
+    borderBottomLeftRadius: 100,
+    borderBottomRightRadius: 100,
+    padding: 10,
+    position: 'relative',
+    marginBottom: 50,
+  },
+  profileName: {
+    textAlign: 'center',
+    fontFamily: 'IBMPlexSans-SemiBold',
+    fontSize: SIZES.medium,
+    textTransform: 'capitalize',
+    color: COLORS.light.background,
+  },
+  profileIconCon: {
+    backgroundColor: COLORS.light.background,
+    borderWidth: 1,
+    borderColor: COLORS.light.primary,
+    width: itemWidth * 0.2,
+    height: itemHeight * 0.1,
+    borderRadius: 50,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+    left: itemWidth / 2.5,
+    bottom: -30,
+  },
+  profileItems: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '100%',
+    borderBottomColor: COLORS.light.primary,
+    borderBottomWidth: 1,
+    padding: 15,
+  },
+  profileItem: {
+    color: COLORS.dark.backgroundSoft,
+    fontFamily: 'IBMPlexSans-Regular',
+    fontSize: SIZES.medium,
+    marginLeft: 10,
+  },
+  logoutBtn: {
+    backgroundColor: COLORS.light.primary,
+    padding: 15,
+    borderRadius: 20,
+    marginTop: 60,
+    paddingHorizontal: 25,
+  },
+  logoutTxt: {
+    color: COLORS.light.background,
+    fontFamily: 'IBMPlexSans-Regular',
+    fontSize: SIZES.medium,
   },
 });

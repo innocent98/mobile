@@ -27,10 +27,11 @@ export const login = async (dispatch, user, setMessage, navigation) => {
   }
 };
 
-export const userLogout = async dispatch => {
+export const userLogout = async (dispatch, navigation) => {
   try {
     // await userRequest.post('/auth/logout');
     dispatch(logout());
+    navigation.navigate('Setting');
   } catch (err) {
     // console.log(err)
     dispatch(logoutError());
@@ -73,12 +74,13 @@ export const makePost = async (dispatch, url, info, setMessage) => {
       setMessage('');
     }, 2000);
     dispatch(processSuccess());
+    console.log(res);
   } catch (err) {
     setMessage("Le compte utilisateur avec l'adresse e-mail existe déjà");
     setTimeout(() => {
       setMessage('');
     }, 2000);
     dispatch(processFailure());
-    // console.log("Le compte utilisateur avec l'adresse e-mail existe déjà");
+    console.log(err);
   }
 };

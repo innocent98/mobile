@@ -80,7 +80,7 @@ const Login = () => {
         />
       )}
       <ScrollView>
-        <View style={styles.container}>
+        <View style={[styles.container, {paddingBottom: 0}]}>
           <View style={styles.media}>
             <Text
               style={[

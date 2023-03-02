@@ -1,21 +1,19 @@
 import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
 import {useEffect} from 'react';
-import {View, SafeAreaView, ScrollView, Image, Text} from 'react-native';
+import {View, SafeAreaView, ScrollView, Text} from 'react-native';
 import {BorderlessButton, RectButton} from 'react-native-gesture-handler';
 import {Divider} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useSelector, useDispatch} from 'react-redux';
 import {styles} from '../constants/styles';
 import {COLORS} from '../constants/theme';
-import {userLogout} from '../redux/apiCalls';
 import {changeTheme, defaultTheme} from '../redux/themeRedux';
 import {setIsUser, setUserProfile} from '../redux/userRedux';
 
 const Settings = () => {
   const user = useSelector(state => state.user.currentUser);
-  const {isUser, userProfile} = useSelector(state => state.user);
-  console.log(isUser, userProfile);
+  const {isUser} = useSelector(state => state.user);
   const isDark = useSelector(state => state.theme.isDark);
 
   const dispatch = useDispatch();
@@ -53,9 +51,7 @@ const Settings = () => {
     };
   }, [isUser]);
 
-  const handleLogout = () => {
-    userLogout(dispatch);
-  };
+
 
   return (
     <SafeAreaView style={isDark ? styles.safeAreaDark : styles.safeArea}>
@@ -73,7 +69,7 @@ const Settings = () => {
               <RectButton
                 style={styles.settingsItem}
                 onPress={
-                  user ? handleLogout : () => navigation.navigate('Login')
+                  user ? () => navigation.navigate('Profile') : () => navigation.navigate('Login')
                 }>
                 <Icon
                   name="person-outline"
@@ -89,7 +85,7 @@ const Settings = () => {
                     styles.settingsItemText,
                     isDark && {color: COLORS.light.backgroundSoft},
                   ]}>
-                  {user ? 'Se déconnecter' : 'Se connecter'}
+                  {user ? 'Profil' : 'Se connecter'}
                 </Text>
               </RectButton>
               <RectButton

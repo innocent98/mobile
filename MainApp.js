@@ -19,6 +19,7 @@ import Register from './components/settings/Register';
 import Login from './components/settings/Login';
 import SingleSearch from './screens/SingleSearch';
 import VideoLists from './components/VideoLists';
+import Profile from './screens/Profile';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -60,6 +61,11 @@ const SettingsNavigator = () => {
         name="Login"
         component={Login}
         options={{headerTitle: "S'identifier"}}
+      />
+      <Stack.Screen
+        name="Profile"
+        component={Profile}
+        options={{headerTitle: "", headerShown: false}}
       />
     </Stack.Navigator>
   );
