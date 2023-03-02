@@ -14,6 +14,7 @@ import {useState} from 'react';
 import moment from 'moment';
 import 'moment/locale/fr';
 import {useNavigation} from '@react-navigation/native';
+import { baseURL } from '../redux/config';
 
 moment.locale('fr');
 
@@ -29,7 +30,7 @@ const News = ({data}) => {
         <FastImage
           style={styles.newsListImg}
           source={{
-            uri: data?.fichier?.path,
+            uri: baseURL + data?.fichier?.path,
             headers: {Authorization: 'someAuthToken'},
             priority: FastImage.priority.normal,
           }}
@@ -113,7 +114,7 @@ const Alaune = () => {
         isDark && {backgroundColor: COLORS.dark.background},
       ]}>
       <FlatList
-        data={message2?.data?.slice(1, 4)}
+        data={message2?.data?.slice(0, 4)}
         renderItem={renderItem}
         keyExtractor={item => item.id}
         showsVerticalScrollIndicator={false}
@@ -131,7 +132,7 @@ const Alaune = () => {
               <FastImage
                 style={styles.featuredImg}
                 source={{
-                  uri: message?.principalNewscats?.fichier?.path,
+                  uri: baseURL + message?.principalNewscats?.fichier?.path,
                   headers: {Authorization: 'someAuthToken'},
                   priority: FastImage.priority.normal,
                 }}

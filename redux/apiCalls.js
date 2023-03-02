@@ -6,6 +6,7 @@ import {
   loginSuccess,
   logout,
   logoutError,
+  setIsUser,
 } from './userRedux';
 
 export const login = async (dispatch, user, setMessage, navigation) => {
@@ -13,7 +14,8 @@ export const login = async (dispatch, user, setMessage, navigation) => {
   try {
     const res = await userRequest.post('/auth/login', user);
     dispatch(loginSuccess(res.data, user));
-    navigation.navigate('Setting')
+    dispatch(setIsUser(true));
+    navigation.navigate('Setting');
     // console.log(res.data);
   } catch (err) {
     dispatch(loginFailure(err.response.data));
@@ -27,8 +29,10 @@ export const login = async (dispatch, user, setMessage, navigation) => {
 
 export const userLogout = async dispatch => {
   try {
+    // await userRequest.post('/auth/logout');
     dispatch(logout());
   } catch (err) {
+    // console.log(err)
     dispatch(logoutError());
   }
 };
@@ -55,5 +59,26 @@ export const makeGet2 = async (dispatch, url, setMessage) => {
   } catch (err) {
     dispatch(processFailure());
     // console.log(err.response.data);
+  }
+};
+
+export const makePost = async (dispatch, url, info, setMessage) => {
+  dispatch(processStart());
+  try {
+    const res = await userRequest.post(url, info);
+    setMessage(
+      'Utilisateur enregistré avec succès, continuez à vous connecter',
+    );
+    setTimeout(() => {
+      setMessage('');
+    }, 2000);
+    dispatch(processSuccess());
+  } catch (err) {
+    setMessage("Le compte utilisateur avec l'adresse e-mail existe déjà");
+    setTimeout(() => {
+      setMessage('');
+    }, 2000);
+    dispatch(processFailure());
+    // console.log("Le compte utilisateur avec l'adresse e-mail existe déjà");
   }
 };

@@ -9,6 +9,7 @@ import {RectButton} from 'react-native-gesture-handler';
 import {useDispatch, useSelector} from 'react-redux';
 import moment from 'moment';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { baseURL } from '../redux/config';
 
 const Economie = ({data}) => {
   const isDark = useSelector(state => state.theme.isDark);
@@ -23,7 +24,7 @@ const Economie = ({data}) => {
       <FastImage
         style={styles.extraEconomieimg}
         source={{
-          uri: data?.fichier?.path,
+          uri: baseURL + data?.fichier?.path,
           headers: {Authorization: 'someAuthToken'},
           priority: FastImage.priority.normal,
         }}

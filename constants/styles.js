@@ -202,6 +202,7 @@ export const styles = StyleSheet.create({
   newsListDetExtraRightView: {
     color: COLORS.dark.textSoft,
     fontSize: SIZES.small,
+    marginLeft: 2,
   },
 
   //   news extra
@@ -770,7 +771,7 @@ export const styles = StyleSheet.create({
     fontSize: SIZES.font,
   },
   loginContainer: {
-    flexDirection: 'row',
+    flexDirection: 'column-reverse',
     alignItems: 'center',
     justifyContent: 'space-between',
     marginTop: 30,

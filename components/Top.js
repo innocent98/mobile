@@ -16,6 +16,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useState} from 'react';
 import {useEffect} from 'react';
 import {makeGet} from '../redux/apiCalls';
+import { useCallback } from 'react';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -85,7 +86,7 @@ export const MyTabs = ({data}) => {
           fontSize: SIZES.small,
         },
       }}>
-      <Tab.Screen name="Alaune" component={Alaune} />
+      <Tab.Screen name="A la une" component={Alaune} />
       <Tab.Screen name="Actualites" component={Actualites} options={{title:'QUISQUAM'}} />
       <Tab.Screen name="Culture" component={Culture} options={{title:'VERO CUM'}} />
       {/* <Tab.Screen name="Economie" component={Economie} /> */}
@@ -98,9 +99,9 @@ const Top = () => {
   const dispatch = useDispatch();
   const [message, setMessage] = useState({});
 
-  const fetchNews = () => {
+  const fetchNews = useCallback(() => {
     makeGet(dispatch, '/home', setMessage);
-  };
+  }, [dispatch,setMessage]);
 
   useEffect(() => {
     let unsubscribed = false;
@@ -129,7 +130,7 @@ const Top = () => {
             repeatSpacer={10}
             marqueeDelay={0}>
             {message?.alertInfoNewscasts?.map((item, index) => (
-              <Text key={index}>{`${item.title},`} </Text>
+              <Text key={index}>{`${item.title} *** `} </Text>
             ))}
           </TextTicker>
         </View>

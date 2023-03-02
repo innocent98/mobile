@@ -3,7 +3,7 @@ import React, {memo} from 'react';
 import {styles} from '../constants/styles';
 import FastImage from 'react-native-fast-image';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {articles, services, videos} from '../constants/dummy';
+import {services} from '../constants/dummy';
 import {Divider} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
 import {RectButton} from 'react-native-gesture-handler';
@@ -15,7 +15,7 @@ const VideosList = ({data}) => {
   const navigation = useNavigation();
 
   const handleLinkPress = () => {
-    Linking.openURL('https://www.example.com');
+    Linking.openURL(data.link);
   };
 
   return (
@@ -127,6 +127,7 @@ const Videos = ({data}) => {
           </RectButton>
         ))}
       </View>
+      
       <View style={styles.servicesFooter}>
         <Text
           style={[

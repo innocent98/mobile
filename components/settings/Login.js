@@ -4,7 +4,6 @@ import {
   SafeAreaView,
   ScrollView,
   ActivityIndicator,
-  Image,
 } from 'react-native';
 import {styles} from '../../constants/styles';
 import {useDispatch, useSelector} from 'react-redux';
@@ -50,10 +49,13 @@ const Login = () => {
     password,
     device_name,
   };
-  // console.log(user);
+
+  const handleVisibility = () => {
+    setIsVisible(!isVisible);
+  };
 
   const handleLogin = () => {
-    if (user.username === '' || user.password === '') {
+    if (user.email === '' || user.password === '') {
       setMessage("L'identifiant ou le mot de passe est vide");
       setTimeout(() => {
         setMessage('');
@@ -64,17 +66,15 @@ const Login = () => {
     }
   };
 
-  const handleVisibility = () => {
-    setIsVisible(!isVisible);
-  };
-
   return (
     <SafeAreaView style={isDark ? styles.safeAreaDark : styles.safeArea}>
       {message && (
         <Notification
           message={message}
-          backgroundColor={COLORS.light.primary}
-          color={COLORS.light.white}
+          backgroundColor={
+            isDark ? COLORS.light.background : COLORS.light.primary
+          }
+          color={isDark ? COLORS.light.primary : COLORS.light.white}
           from={-50}
           animate={0}
         />
@@ -82,7 +82,11 @@ const Login = () => {
       <ScrollView>
         <View style={styles.container}>
           <View style={styles.media}>
-            <Text style={styles.mediaText}>
+            <Text
+              style={[
+                styles.mediaText,
+                isDark && {color: COLORS.light.backgroundSoft},
+              ]}>
               Pour profiter pleinement de l'application sur tous vos supports,{' '}
               <Text style={{fontFamily: 'IBMPlexSans-SemiBold'}}>
                 créez un compte
@@ -94,7 +98,9 @@ const Login = () => {
                 //   isDark && {borderWidth: 1, borderColor: COLORS.light.background},
               ]}
               source={{
-                uri: 'http://cdn.onlinewebfonts.com/svg/img_476855.png',
+                uri: isDark
+                  ? 'https://www.seekpng.com/png/full/249-2493332_websites-responsive-sm-web-design-white-icon.png'
+                  : 'http://cdn.onlinewebfonts.com/svg/img_476855.png',
                 headers: {Authorization: 'someAuthToken'},
                 priority: FastImage.priority.normal,
               }}
@@ -105,38 +111,56 @@ const Login = () => {
           <View style={styles.inputContainer}>
             <TextInput
               placeholder="Email"
-              style={styles.input}
-              placeholderTextColor={COLORS.light.textSoft}
+              style={[
+                styles.input,
+                isDark && {color: COLORS.light.backgroundSoft},
+              ]}
+              placeholderTextColor={
+                isDark ? COLORS.dark.textSoft : COLORS.light.textSoft
+              }
               onChangeText={handleEmail}
             />
             <View style={styles.passwordCon}>
               <TextInput
                 placeholder="Mot de passe"
-                style={styles.input}
-                placeholderTextColor={COLORS.light.textSoft}
+                style={[
+                  styles.input,
+                  isDark && {color: COLORS.light.backgroundSoft},
+                ]}
+                placeholderTextColor={
+                  isDark ? COLORS.dark.textSoft : COLORS.light.textSoft
+                }
                 secureTextEntry={isVisible ? false : true}
                 onChangeText={handlePassword}
               />
               <Icon
-                name={isVisible ? "visibility-off" : "visibility"}
+                name={isVisible ? 'visibility-off' : 'visibility'}
                 size={22}
-                color={COLORS.dark.background}
+                color={isDark ? COLORS.dark.textSoft : COLORS.dark.background}
                 style={styles.passwordIcon}
                 onPress={handleVisibility}
               />
             </View>
             <View style={styles.loginContainer}>
-              <Text style={styles.forgetText}>Mot de passe oublié?</Text>
+              <Text style={[styles.forgetText, {marginTop: 10}]}>
+                Mot de passe oublié?
+              </Text>
               <RectButton
                 onPress={handleLogin}
-                style={[styles.regButton, {width: '50%'}]}>
+                style={[styles.regButton, {width: '100%'}]}>
                 {isFetching ? (
                   <ActivityIndicator
                     color={COLORS.light.primary}
                     size="small"
                   />
                 ) : (
-                  <Text style={styles.regText}>S'identifier</Text>
+                  <Text
+                    style={[
+                      styles.regText,
+                      isDark && {color: COLORS.dark.background},
+                    ]}>
+                    S'identifier
+                  </Text>
                 )}
               </RectButton>
             </View>
@@ -177,14 +201,24 @@ const Login = () => {
                 </Text>
               </View>
             </RectButton> */}
-            <Text style={styles.compteText}>
+            <Text
+              style={[
+                styles.compteText,
+                isDark && {color: COLORS.light.backgroundSoft},
+              ]}>
               En créant un compte, vous confirmez que vous acceptez les
               conditions générales d'utilisations.
             </Text>
           </View>
 
           <View style={styles.dejaContainer}>
-            <Text style={styles.dejaText}>Vous n'avez pas de compte?</Text>
+            <Text
+              style={[
+                styles.dejaText,
+                isDark && {color: COLORS.dark.background},
+              ]}>
+              Vous n'avez pas de compte?
+            </Text>
             <Text
               style={styles.dejaText2}
               onPress={() => navigation.navigate('Register')}>

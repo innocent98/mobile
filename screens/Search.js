@@ -44,12 +44,14 @@ const Search = () => {
         <View style={styles.search}>
           <TextInput
             placeholder="Recherche..."
-            placeholderTextColor={COLORS.light.textSoft}
+            placeholderTextColor={
+              isDark ? COLORS.light.backgroundSoft : COLORS.light.textSoft
+            }
             onChangeText={handleSearch}
             value={query}
             style={[
               styles.searchText,
-              {color: isDark && COLORS.light.background},
+              {color: isDark && COLORS.light.backgroundSoft},
             ]}
           />
           <Icon
@@ -64,12 +66,21 @@ const Search = () => {
         <View style={styles.recherceTags}>
           {message?.map((item, index) => (
             <RectButton
-              style={styles.recherceTagsBtn}
+              style={[
+                styles.recherceTagsBtn,
+                isDark && {backgroundColor: COLORS.light.backgroundSoft},
+              ]}
               key={index}
               onPress={() =>
                 navigation.navigate('SingleSearch', {id: item.id})
               }>
-              <Text style={styles.recherceTagsBtnTxt}>{item.title}</Text>
+              <Text
+                style={[
+                  styles.recherceTagsBtnTxt,
+                  isDark && {backgroundColor: COLORS.dark.background},
+                ]}>
+                {item.title}
+              </Text>
             </RectButton>
           ))}
         </View>

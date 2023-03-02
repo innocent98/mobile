@@ -10,6 +10,7 @@ import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import moment from 'moment';
 import 'moment/locale/fr';
+import { baseURL } from '../redux/config';
 
 moment.locale('fr');
 
@@ -23,7 +24,7 @@ const Actualites = ({data}) => {
       <FastImage
         style={styles.actualitesImg}
         source={{
-          uri: data?.fichier?.path,
+          uri: baseURL + data?.fichier?.path,
           headers: {Authorization: 'someAuthToken'},
           priority: FastImage.priority.normal,
         }}
