@@ -2,21 +2,13 @@ import {View, Text, Image} from 'react-native';
 import {BorderlessButton, RectButton} from 'react-native-gesture-handler';
 import {styles} from '../constants/styles';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import FontAwesome from 'react-native-vector-icons/FontAwesome5';
 import {COLORS, SIZES} from '../constants/theme';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import Alaune from './Alaune';
 import Actualites from './Actualites';
-import Culture from './Culture';
-import Economie from './Economie';
-import Sport from './Sport';
 import TextTicker from 'react-native-text-ticker';
 import {useNavigation} from '@react-navigation/native';
-import {useDispatch, useSelector} from 'react-redux';
-import {useState} from 'react';
-import {useEffect} from 'react';
-import {makeGet} from '../redux/apiCalls';
-import { useCallback } from 'react';
+import {useSelector} from 'react-redux';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -48,11 +40,20 @@ export const TopComp = () => {
           <Text style={styles.buyTextSpan}>A partir de 200f</Text>
         </RectButton>
         <BorderlessButton onPress={() => navigation.navigate('Settings')}>
-          <FontAwesome
+          <Image
+            source={
+              isDark
+                ? require('../assets/menuw.png')
+                : require('../assets/menu.png')
+            }
+            style={styles.menu}
+            resizeMode="contain"
+          />
+          {/* <FontAwesome
             name="user-cog"
             size={20}
             color={isDark ? COLORS.light.background : COLORS.light.primary}
-          />
+          /> */}
         </BorderlessButton>
       </View>
     </View>
@@ -60,8 +61,8 @@ export const TopComp = () => {
 };
 
 export const MyTabs = ({data}) => {
-  // console.log(data?.allnewscastsByModule[0].name.toUpperCase())
   const isDark = useSelector(state => state.theme.isDark);
+  const components = useSelector(state => state.slide.components);
 
   return (
     <Tab.Navigator
@@ -87,33 +88,22 @@ export const MyTabs = ({data}) => {
         },
       }}>
       <Tab.Screen name="A la une" component={Alaune} />
-      <Tab.Screen name="Actualites" component={Actualites} options={{title:'QUISQUAM'}} />
-      <Tab.Screen name="Culture" component={Culture} options={{title:'VERO CUM'}} />
-      {/* <Tab.Screen name="Economie" component={Economie} /> */}
-      {/* <Tab.Screen name="Sports" component={Sport} /> */}
+      {components?.map((item, index) => {
+        return (
+          <Tab.Screen
+            name={item}
+            component={Actualites}
+            key={index}
+            initialParams={{index}}
+            // options={{title: 'VERO CUM'}}
+          />
+        );
+      })}
     </Tab.Navigator>
   );
 };
 
-const Top = () => {
-  const dispatch = useDispatch();
-  const [message, setMessage] = useState({});
-
-  const fetchNews = useCallback(() => {
-    makeGet(dispatch, '/home', setMessage);
-  }, [dispatch,setMessage]);
-
-  useEffect(() => {
-    let unsubscribed = false;
-    if (!unsubscribed) {
-      fetchNews();
-    }
-    return () => {
-      unsubscribed = true;
-    };
-  }, [setMessage]);
-  // console.log(message);
-
+const Top = ({message}) => {
   return (
     <View style={styles.topContainer}>
       <TopComp />
@@ -124,7 +114,7 @@ const Top = () => {
           <TextTicker
             style={{fontSize: 14, color: COLORS.light.background}}
             loop
-            scrollSpeed={75}
+            scrollSpeed={40}
             animationType="scroll"
             bounce
             repeatSpacer={10}

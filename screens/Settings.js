@@ -88,7 +88,7 @@ const Settings = () => {
                   {user ? 'Profil' : 'Se connecter'}
                 </Text>
               </RectButton>
-              <RectButton
+              {!user && <RectButton
                 onPress={() => navigation.navigate('Register')}
                 style={styles.settingsItem}>
                 <Icon
@@ -107,7 +107,7 @@ const Settings = () => {
                   ]}>
                   Créer un compte
                 </Text>
-              </RectButton>
+              </RectButton>}
             </View>
             <Divider />
 

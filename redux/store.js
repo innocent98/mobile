@@ -15,6 +15,7 @@ import fontReducer from './fontRedux';
 import onBoardReducer from './onBoardRedux';
 import userReducer from './userRedux';
 import processReducer from './processRedux';
+import topComponentReducer from './topComponentRedux';
 
 const persistConfig = {
   key: 'root',
@@ -27,7 +28,8 @@ const rootReducer = combineReducers({
   font: fontReducer,
   onBoard: onBoardReducer,
   user: userReducer,
-  process: processReducer
+  process: processReducer,
+  slide: topComponentReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -36,9 +38,8 @@ export const store = configureStore({
   reducer: persistedReducer,
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-      },
+      immutableCheck: false,
+      serializableCheck: false,
     }),
 });
 

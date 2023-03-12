@@ -10,6 +10,7 @@ import {useNavigation} from '@react-navigation/native';
 import {makeGet, makeGet2} from '../redux/apiCalls';
 import {useEffect} from 'react';
 import moment from 'moment';
+import { baseURL } from '../redux/config';
 
 const NewsDetails = ({route}) => {
   const user = useSelector(state => state.user.currentUser);
@@ -133,7 +134,7 @@ const NewsDetails = ({route}) => {
           <FastImage
             style={styles.paragraphImg}
             source={{
-              uri: message?.fichier?.path,
+              uri: baseURL + message?.fichier?.path,
               headers: {Authorization: 'someAuthToken'},
               priority: FastImage.priority.normal,
             }}
@@ -196,7 +197,7 @@ const NewsDetails = ({route}) => {
             onPress={() => navigation.goBack()}
           />
         </BorderlessButton>
-        <BorderlessButton>
+        <BorderlessButton onPress={()=>navigation.navigate('Bookmark', {message})}>
           <Icon
             name="bookmark-border"
             color={COLORS.dark.backgroundSoft}

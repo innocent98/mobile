@@ -3,20 +3,27 @@ import {memo} from 'react';
 import {styles} from '../constants/styles';
 import FastImage from 'react-native-fast-image';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {COLORS} from '../constants/theme';
+import {COLORS, SIZES} from '../constants/theme';
 import EconomieSection from './EconomieSection';
 import {RectButton} from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import moment from 'moment';
 import 'moment/locale/fr';
-import { baseURL } from '../redux/config';
+import {baseURL} from '../redux/config';
+import {useWindowDimensions} from 'react-native';
+import RenderHtml from 'react-native-render-html';
 
 moment.locale('fr');
 
 const Actualites = ({data}) => {
   const navigation = useNavigation();
   const detUrl = `/newscasts/${data.id}`;
+  const {width} = useWindowDimensions();
+
+  const source = data.content;
+  const htmlContent = '<p>Hello <strong>world</strong>!</p>';
+
   return (
     <RectButton
       onPress={() => navigation.navigate('NewsDetails', {detUrl})}
@@ -40,7 +47,19 @@ const Actualites = ({data}) => {
               style={styles.actualitesSpan}
               numberOfLines={4}
               ellipsizeMode="tail">
-              {data.content}
+              {/* {data.content} */}
+              <RenderHtml
+                source={{html: source}}
+                contentWidth={width}
+                tagsStyles={{
+                  p: {
+                    color: COLORS.light.background,
+                    fontFamily: 'IBMPlexSans-SemiBold',
+                    fontSize: SIZES.extraLarge,
+                    marginTop: 15,
+                  },
+                }}
+              />
             </Text>
           </View>
           <Icon
@@ -50,7 +69,7 @@ const Actualites = ({data}) => {
           />
         </View>
         <View style={styles.actualitesAuthor}>
-          <FastImage
+          {/* <FastImage
             style={styles.profileImg}
             source={{
               uri: 'https://i.ibb.co/8c3xKmX/profilepic.png',
@@ -58,11 +77,11 @@ const Actualites = ({data}) => {
               priority: FastImage.priority.normal,
             }}
             resizeMode={FastImage.resizeMode.cover}
-          />
+          /> */}
           <View style={styles.profileDet}>
             <Text style={styles.actualitesTxt}>{data.author}</Text>
             <Text style={styles.actualitesTxt}>
-              {data.duration} min de lecture
+              {data.duration !== '0' && `${data.duration} min de lecture`}
             </Text>
           </View>
         </View>
@@ -118,7 +137,11 @@ const NewsExtra = ({data, data2}) => {
       </Text>
 
       <View style={styles.actualites}>
-        <Text style={[styles.text,  {color: isDark ? COLORS.light.background : COLORS.light.red}]}>
+        <Text
+          style={[
+            styles.text,
+            {color: isDark ? COLORS.light.background : COLORS.light.red},
+          ]}>
           EN DIRECT
         </Text>
         <FlatList

@@ -7,9 +7,12 @@ import {category} from '../constants/dummy';
 import {RectButton} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {COLORS} from '../constants/theme';
+import { useNavigation } from '@react-navigation/native';
 
 const Category = () => {
   const isDark = useSelector(state => state.theme.isDark);
+  const components = useSelector(state => state.slide.components);
+  const navigation = useNavigation()
 
   return (
     <SafeAreaView style={isDark ? styles.safeAreaDark : styles.safeArea}>
@@ -18,25 +21,25 @@ const Category = () => {
         <ScrollView>
           <View style={[styles.catConCom, isDark && {backgroundColor: COLORS.dark.backgroundSoft}]}>
             <View style={styles.catCon}>
-              {category.map(item => (
-                <View style={styles.catItem} key={item.id}>
-                  <Image
+              {components?.map((item, index) => (
+                <View style={styles.catItem} key={index}>
+                  {/* <Image
                     source={{uri: item.img}}
                     resizeMode="cover"
                     style={styles.catImg}
-                  />
+                  /> */}
                   <View style={styles.catExtraCom}>
                     <Image
-                      source={{uri: item.icon}}
+                      source={{uri: 'https://i.ibb.co/Dp79tZf/icon.png'}}
                       resizeMode="contain"
                       style={styles.catIcon}
                     />
-                    <Text style={styles.catText}>{item.title}</Text>
+                    <Text style={styles.catText} onPress={()=> navigation.navigate(item, {index})} >{item}</Text>
                   </View>
                   <View
                     style={[
                       styles.catItemLayer,
-                      {backgroundColor: item.color},
+                      {backgroundColor: COLORS.light.primary},
                     ]}></View>
                 </View>
               ))}

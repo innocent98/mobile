@@ -9,7 +9,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import moment from 'moment';
 import {makeGet} from '../redux/apiCalls';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { baseURL } from '../redux/config';
+import {baseURL} from '../redux/config';
 
 const Actualite = ({data}) => {
   const isDark = useSelector(state => state.theme.isDark);
@@ -68,7 +68,6 @@ memo(Actualite);
 
 const Culture = () => {
   const isDark = useSelector(state => state.theme.isDark);
-  const navigation = useNavigation();
   const dispatch = useDispatch();
   const [message, setMessage] = useState({});
   const [message2, setMessage2] = useState([]);
@@ -113,6 +112,6 @@ const Culture = () => {
       </View>
     </SafeAreaView>
   );
-}
+};
 
-export default Culture
+export default Culture;

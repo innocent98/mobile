@@ -18,8 +18,8 @@ export const login = async (dispatch, user, setMessage, navigation) => {
     navigation.navigate('Setting');
     // console.log(res.data);
   } catch (err) {
-    dispatch(loginFailure(err.response.data));
-    setMessage(err.response.data.error);
+    dispatch(loginFailure(err?.response?.data));
+    setMessage(err?.response?.data?.error);
     // console.log(err.response.data.error);
     setTimeout(() => {
       setMessage('');
@@ -33,7 +33,7 @@ export const userLogout = async (dispatch, navigation) => {
     dispatch(logout());
     navigation.navigate('Setting');
   } catch (err) {
-    // console.log(err)
+    console.log(err)
     dispatch(logoutError());
   }
 };
@@ -74,13 +74,15 @@ export const makePost = async (dispatch, url, info, setMessage) => {
       setMessage('');
     }, 2000);
     dispatch(processSuccess());
-    console.log(res);
+    // console.log(res);
   } catch (err) {
-    setMessage("Le compte utilisateur avec l'adresse e-mail existe déjà");
+    // setMessage("Le compte utilisateur avec l'adresse e-mail existe déjà");
+    // setMessage(err?.response?.data?.errors);
     setTimeout(() => {
       setMessage('');
     }, 2000);
     dispatch(processFailure());
-    console.log(err);
+    console.log(err.response.data.errors);
+    // console.log(err);
   }
 };

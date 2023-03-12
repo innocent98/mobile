@@ -110,7 +110,7 @@ const Login = () => {
 
           <View style={styles.inputContainer}>
             <TextInput
-              placeholder="Email"
+              placeholder="E-mail"
               style={[
                 styles.input,
                 isDark && {color: COLORS.light.backgroundSoft},

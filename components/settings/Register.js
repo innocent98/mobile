@@ -120,7 +120,7 @@ const Register = () => {
 
           <View style={styles.inputContainer}>
             <TextInput
-              placeholder="Email"
+              placeholder="E-mail"
               style={[
                 styles.input,
                 isDark && {color: COLORS.light.backgroundSoft},
@@ -128,12 +128,11 @@ const Register = () => {
               placeholderTextColor={
                 isDark ? COLORS.dark.textSoft : COLORS.light.textSoft
               }
-              textContentType="emailAddress"
               inputMode="email"
               onChangeText={handleEmail}
             />
             <TextInput
-              placeholder="First Name"
+              placeholder="Prénom"
               style={[
                 styles.input,
                 isDark && {color: COLORS.light.backgroundSoft},
@@ -144,7 +143,7 @@ const Register = () => {
               onChangeText={handleFirstName}
             />
             <TextInput
-              placeholder="Last Name"
+              placeholder="Nom de famille"
               style={[
                 styles.input,
                 isDark && {color: COLORS.light.backgroundSoft},
@@ -155,7 +154,7 @@ const Register = () => {
               onChangeText={handleLastName}
             />
             <TextInput
-              placeholder="Phone Number"
+              placeholder="Numéro de téléphone"
               style={[
                 styles.input,
                 isDark && {color: COLORS.light.backgroundSoft},
@@ -163,7 +162,6 @@ const Register = () => {
               placeholderTextColor={
                 isDark ? COLORS.dark.textSoft : COLORS.light.textSoft
               }
-              textContentType="telephoneNumber"
               inputMode="tel"
               onChangeText={handlePhone}
             />

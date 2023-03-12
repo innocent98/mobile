@@ -20,6 +20,7 @@ import Login from './components/settings/Login';
 import SingleSearch from './screens/SingleSearch';
 import VideoLists from './components/VideoLists';
 import Profile from './screens/Profile';
+import Bookmark from './components/Bookmark';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -65,7 +66,7 @@ const SettingsNavigator = () => {
       <Stack.Screen
         name="Profile"
         component={Profile}
-        options={{headerTitle: "", headerShown: false}}
+        options={{headerTitle: '', headerShown: false}}
       />
     </Stack.Navigator>
   );
@@ -99,6 +100,11 @@ const HomeNavigator = () => {
         name="NewsDetails"
         component={NewsDetails}
         options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Bookmark"
+        component={Bookmark}
+        options={{headerShown: true, headerTitle:'Bookmarks'}}
       />
       <Stack.Screen
         name="Abonnement"
@@ -259,8 +265,14 @@ const TabNavigator = () => {
         },
         tabBarInactiveBackgroundColor: 'transparent',
         tabBarActiveBackgroundColor: COLORS.dark.textSoft,
-        tabBarItemStyle: {height: '80%', borderRadius: 10, marginTop: 5},
-        // tabBarShowLabel: false,
+        tabBarItemStyle: {
+          height: '80%',
+          maxWidth: '50%',
+          borderRadius: 10,
+          marginTop: 5,
+          flexDirection: 'column',
+        },
+        tabBarShowLabel: true,
       })}>
       <Tab.Screen
         name="HomePage"

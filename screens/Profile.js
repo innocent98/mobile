@@ -10,11 +10,11 @@ import {userLogout, makePost} from '../redux/apiCalls';
 import {MotiView} from 'moti';
 import {Easing} from 'react-native-reanimated';
 import {useState} from 'react';
-import { Notification } from '../components/Notification';
+import {Notification} from '../components/Notification';
 
 const ChangePassword = ({setIsChangePassword, setMessage}) => {
   const {userProfile} = useSelector(state => state.user);
-  console.log(userProfile);
+  // console.log(userProfile);
   const isDark = useSelector(state => state.theme.isDark);
   const dispatch = useDispatch();
   const {isFetching} = useSelector(state => state.user);
@@ -44,7 +44,7 @@ const ChangePassword = ({setIsChangePassword, setMessage}) => {
     new_password,
     confirm_password,
   };
-  console.log(info);
+  // console.log(info);
 
   const handlechangePassword = () => {
     if (
@@ -102,7 +102,7 @@ const ChangePassword = ({setIsChangePassword, setMessage}) => {
             styles.compteText,
             {
               color: isDark
-                ? COLORS.light.backgroundSoft
+                ? COLORS.dark.backgroundSoft
                 : COLORS.light.textSoft,
               fontFamily: 'IBMPlexSans-Regular',
               paddingHorizontal: 10,
@@ -118,10 +118,10 @@ const ChangePassword = ({setIsChangePassword, setMessage}) => {
               placeholder="Ancien mot de passe"
               style={[
                 styles.input,
-                isDark && {color: COLORS.light.backgroundSoft},
+                isDark && {color: COLORS.dark.backgroundSoft},
               ]}
               placeholderTextColor={
-                isDark ? COLORS.dark.textSoft : COLORS.light.textSoft
+                isDark ? COLORS.dark.backgroundSoft : COLORS.light.textSoft
               }
               secureTextEntry={isVisible ? false : true}
               onChangeText={handleOldPassword}
@@ -129,7 +129,9 @@ const ChangePassword = ({setIsChangePassword, setMessage}) => {
             <Icon
               name={isVisible ? 'visibility-off' : 'visibility'}
               size={22}
-              color={isDark ? COLORS.dark.textSoft : COLORS.dark.background}
+              color={
+                isDark ? COLORS.dark.backgroundSoft : COLORS.dark.background
+              }
               style={styles.passwordIcon}
               onPress={handleVisibility}
             />
@@ -139,10 +141,10 @@ const ChangePassword = ({setIsChangePassword, setMessage}) => {
               placeholder="Nouveau mot de passe"
               style={[
                 styles.input,
-                isDark && {color: COLORS.light.backgroundSoft},
+                isDark && {color: COLORS.dark.backgroundSoft},
               ]}
               placeholderTextColor={
-                isDark ? COLORS.dark.textSoft : COLORS.light.textSoft
+                isDark ? COLORS.dark.backgroundSoft : COLORS.light.textSoft
               }
               secureTextEntry={isVisible ? false : true}
               onChangeText={handleNewPassword}
@@ -150,7 +152,9 @@ const ChangePassword = ({setIsChangePassword, setMessage}) => {
             <Icon
               name={isVisible ? 'visibility-off' : 'visibility'}
               size={22}
-              color={isDark ? COLORS.dark.textSoft : COLORS.dark.background}
+              color={
+                isDark ? COLORS.dark.backgroundSoft : COLORS.dark.background
+              }
               style={styles.passwordIcon}
               onPress={handleVisibility}
             />
@@ -160,10 +164,10 @@ const ChangePassword = ({setIsChangePassword, setMessage}) => {
               placeholder="Confirmer le mot de passe"
               style={[
                 styles.input,
-                isDark && {color: COLORS.light.backgroundSoft},
+                isDark && {color: COLORS.dark.backgroundSoft},
               ]}
               placeholderTextColor={
-                isDark ? COLORS.dark.textSoft : COLORS.light.textSoft
+                isDark ? COLORS.dark.backgroundSoft : COLORS.light.textSoft
               }
               secureTextEntry={isVisible ? false : true}
               onChangeText={handleConfirmPassword}
@@ -171,7 +175,9 @@ const ChangePassword = ({setIsChangePassword, setMessage}) => {
             <Icon
               name={isVisible ? 'visibility-off' : 'visibility'}
               size={22}
-              color={isDark ? COLORS.dark.textSoft : COLORS.dark.background}
+              color={
+                isDark ? COLORS.dark.backgroundSoft : COLORS.dark.background
+              }
               style={styles.passwordIcon}
               onPress={handleVisibility}
             />
@@ -207,7 +213,7 @@ const Profile = () => {
 
   const [isChangePassword, setIsChangePassword] = useState(false);
   const [message, setMessage] = useState('');
-  console.log(isChangePassword);
+  // console.log(isChangePassword);
 
   const handleLogout = () => {
     userLogout(dispatch, navigation);
@@ -243,30 +249,85 @@ const Profile = () => {
       </View>
 
       <View style={styles.container}>
-        <View style={styles.profileItems}>
-          <Icon name="person" color={COLORS.light.primary} size={24} />
-          <Text style={styles.profileItem}>
+        <View
+          style={[
+            styles.profileItems,
+            isDark && {borderBottomColor: COLORS.dark.textSoft},
+          ]}>
+          <Icon
+            name="person"
+            color={isDark ? COLORS.light.backgroundSoft : COLORS.light.primary}
+            size={24}
+          />
+          <Text
+            style={[
+              styles.profileItem,
+              isDark && {color: COLORS.light.backgroundSoft},
+            ]}>
             {userProfile?.lastname} {userProfile?.firstname}
           </Text>
         </View>
-        <View style={styles.profileItems}>
-          <Icon name="email" color={COLORS.light.primary} size={24} />
-          <Text style={styles.profileItem}>{userProfile?.email}</Text>
+        <View
+          style={[
+            styles.profileItems,
+            isDark && {borderBottomColor: COLORS.dark.textSoft},
+          ]}>
+          <Icon
+            name="email"
+            color={isDark ? COLORS.light.backgroundSoft : COLORS.light.primary}
+            size={24}
+          />
+          <Text
+            style={[
+              styles.profileItem,
+              isDark && {color: COLORS.light.backgroundSoft},
+            ]}>
+            {userProfile?.email}
+          </Text>
         </View>
-        <View style={styles.profileItems}>
-          <Icon name="phone-iphone" color={COLORS.light.primary} size={24} />
-          <Text style={styles.profileItem}>{userProfile?.phone}</Text>
+        <View
+          style={[
+            styles.profileItems,
+            isDark && {borderBottomColor: COLORS.dark.textSoft},
+          ]}>
+          <Icon
+            name="phone-iphone"
+            color={isDark ? COLORS.light.backgroundSoft : COLORS.light.primary}
+            size={24}
+          />
+          <Text
+            style={[
+              styles.profileItem,
+              isDark && {color: COLORS.light.backgroundSoft},
+            ]}>
+            {userProfile?.phone}
+          </Text>
         </View>
-        <View style={styles.profileItems}>
+        <View
+          style={[
+            styles.profileItems,
+            isDark && {borderBottomColor: COLORS.dark.textSoft},
+          ]}>
           <Icon name="lens" color="#46AC5E" size={16} />
-          <Text style={styles.profileItem}>
+          <Text
+            style={[
+              styles.profileItem,
+              isDark && {color: COLORS.light.backgroundSoft},
+            ]}>
             {userProfile?.active === '1' ? 'online' : 'offline'}
           </Text>
         </View>
-        <View style={styles.profileItems}>
+        <View
+          style={[
+            styles.profileItems,
+            isDark && {borderBottomColor: COLORS.dark.textSoft},
+          ]}>
           <Icon name="lock" color={COLORS.light.red} size={24} />
           <Text
-            style={styles.profileItem}
+            style={[
+              styles.profileItem,
+              isDark && {color: COLORS.light.backgroundSoft},
+            ]}
             onPress={() => setIsChangePassword(true)}>
             Changer le mot de passe
           </Text>

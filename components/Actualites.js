@@ -9,7 +9,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import moment from 'moment';
 import {makeGet} from '../redux/apiCalls';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { baseURL } from '../redux/config';
+import {baseURL} from '../redux/config';
 
 const Actualite = ({data}) => {
   const isDark = useSelector(state => state.theme.isDark);
@@ -20,7 +20,7 @@ const Actualite = ({data}) => {
       onPress={() =>
         navigation.navigate('NewsDetails', {detUrl: `/newscasts/${detUrl}`})
       }
-      style={styles.extraEconomie}>
+      style={[styles.extraEconomie, data.deleted !== '0' && {display: 'none'}]}>
       <FastImage
         style={styles.extraEconomieimg}
         source={{
@@ -57,7 +57,7 @@ const Actualite = ({data}) => {
               styles.newsListDetExtraRightView,
               isDark && {color: COLORS.light.backgroundSoft},
             ]}>
-            {`${data.duration} min de lecture`}
+            {data.duration !== '0' && `${data.duration} min de lecture`}
           </Text>
         </View>
       </View>
@@ -66,9 +66,9 @@ const Actualite = ({data}) => {
 };
 memo(Actualite);
 
-const Actualites = () => {
+const Actualites = ({route}) => {
   const isDark = useSelector(state => state.theme.isDark);
-  const navigation = useNavigation();
+  const {index} = route?.params;
   const dispatch = useDispatch();
   const [message, setMessage] = useState({});
   const [message2, setMessage2] = useState([]);
@@ -89,7 +89,7 @@ const Actualites = () => {
   }, [setMessage]);
 
   useEffect(() => {
-    message?.allnewscastsByModule?.slice(0, 1).map((item, index) => {
+    message?.allnewscastsByModule?.slice(index, index + 1).map(item => {
       return setMessage2(item);
     });
   }, [message]);

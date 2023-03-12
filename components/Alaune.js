@@ -14,11 +14,11 @@ import {useState} from 'react';
 import moment from 'moment';
 import 'moment/locale/fr';
 import {useNavigation} from '@react-navigation/native';
-import { baseURL } from '../redux/config';
+import {baseURL} from '../redux/config';
 
 moment.locale('fr');
 
-const News = ({data}) => {
+export const News = ({data}) => {
   const isDark = useSelector(state => state.theme.isDark);
   const navigation = useNavigation();
   const detUrl = `/newscasts/${data.id}`;
@@ -41,7 +41,9 @@ const News = ({data}) => {
             style={[
               styles.smallText,
               isDark && {color: COLORS.light.backgroundSoft},
-            ]}>
+            ]}
+            numberOfLines={2}
+            ellipsizeMode="tail">
             {data.title}
           </Text>
           <View style={styles.newsListDetExtra}>
