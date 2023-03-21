@@ -16,6 +16,7 @@ import onBoardReducer from './onBoardRedux';
 import userReducer from './userRedux';
 import processReducer from './processRedux';
 import topComponentReducer from './topComponentRedux';
+import fcmReducer from './fcmTokenRedux';
 
 const persistConfig = {
   key: 'root',
@@ -30,6 +31,7 @@ const rootReducer = combineReducers({
   user: userReducer,
   process: processReducer,
   slide: topComponentReducer,
+  fcmToken: fcmReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

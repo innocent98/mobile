@@ -10,7 +10,7 @@ import {useNavigation} from '@react-navigation/native';
 import {makeGet, makeGet2} from '../redux/apiCalls';
 import {useEffect} from 'react';
 import moment from 'moment';
-import { baseURL } from '../redux/config';
+import {baseURL} from '../redux/config';
 
 const NewsDetails = ({route}) => {
   const user = useSelector(state => state.user.currentUser);
@@ -20,6 +20,7 @@ const NewsDetails = ({route}) => {
   const fontSize = useSelector(state => state.font.fontSize);
   const navigation = useNavigation();
   const {detUrl} = route?.params;
+  // console.log(detUrl)
 
   const [inputValue, setInputValue] = useState('Hey! share me.');
   const [message, setMessage] = useState({});
@@ -40,15 +41,16 @@ const NewsDetails = ({route}) => {
   // console.log(message);
 
   // share news function
-  const shareMessage = () => {
-    //Here is the Share API
-    Share.share({
-      message: inputValue.toString(),
-    })
-      //after successful share return result
-      .then(result => console.log(result))
-      //If any thing goes wrong it comes here
-      .catch(errorMsg => console.log(errorMsg));
+  const shareMessage = async () => {
+    try {
+      await Share.share({
+        message: message.title + '\n\n' + 'http://onip.hopetvbenin.org/client' + detUrl,
+        url: 'http://onip.hopetvbenin.org/client',
+        // title: message.title,
+      })
+        .then(result => console.log(result))
+        .catch(errorMsg => console.log(errorMsg));
+    } catch (error) {}
   };
 
   return (
@@ -108,13 +110,15 @@ const NewsDetails = ({route}) => {
                 Le {moment(message.created_at).format('DD MMMM YYYY')} à{' '}
                 {moment(message.created_at).format('LT')}
               </Text>
-              <View style={styles.titleDetailTime}>
-                <Icon name="schedule" color={COLORS.dark.textSoft} />
-                <Text
-                  style={[styles.newsListDetExtraRightView, {marginLeft: 5}]}>
-                  Lecture de 5 Mins
-                </Text>
-              </View>
+              {message?.duration !== '0' && (
+                <View style={styles.titleDetailTime}>
+                  <Icon name="schedule" color={COLORS.dark.textSoft} />
+                  <Text
+                    style={[styles.newsListDetExtraRightView, {marginLeft: 5}]}>
+                    {`${message?.duration} min de lecture`}
+                  </Text>
+                </View>
+              )}
             </View>
           </View>
 
@@ -197,7 +201,8 @@ const NewsDetails = ({route}) => {
             onPress={() => navigation.goBack()}
           />
         </BorderlessButton>
-        <BorderlessButton onPress={()=>navigation.navigate('Bookmark', {message})}>
+        <BorderlessButton
+          onPress={() => navigation.navigate('Bookmark', {message})}>
           <Icon
             name="bookmark-border"
             color={COLORS.dark.backgroundSoft}

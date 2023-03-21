@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "842182780155",
+    "project_id": "lanationpushnotificationapp",
+    "storage_bucket": "lanationpushnotificationapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:842182780155:android:2bea8b881e4720a7dcbc5e",
+        "android_client_info": {
+          "package_name": "com.lanation"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "842182780155-10kj9oj6snv5bj1iqm0h4gc6pur6t9vd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.lanation",
+            "certificate_hash": "6a75f4c5771d3c54d492170cf65d625467a21670"
+          }
+        },
+        {
+          "client_id": "842182780155-vaal4o4lsmcpjvkkj8t7h94r0t0s73q9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJZdLWysM03JmP2qyXBJuv_qEFdq73VQY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "842182780155-vaal4o4lsmcpjvkkj8t7h94r0t0s73q9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

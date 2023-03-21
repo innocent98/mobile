@@ -57,7 +57,7 @@ const Economie = ({data}) => {
               styles.newsListDetExtraRightView,
               isDark && {color: COLORS.light.backgroundSoft},
             ]}>
-            {`${data.duration} min de lecture`}
+            {data.duration !== '0' && `${data.duration} min de lecture`}
           </Text>
         </View>
       </View>

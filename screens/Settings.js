@@ -1,6 +1,6 @@
 import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import {View, SafeAreaView, ScrollView, Text} from 'react-native';
 import {BorderlessButton, RectButton} from 'react-native-gesture-handler';
 import {Divider} from 'react-native-paper';
@@ -10,6 +10,7 @@ import {styles} from '../constants/styles';
 import {COLORS} from '../constants/theme';
 import {changeTheme, defaultTheme} from '../redux/themeRedux';
 import {setIsUser, setUserProfile} from '../redux/userRedux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Settings = () => {
   const user = useSelector(state => state.user.currentUser);
@@ -51,7 +52,58 @@ const Settings = () => {
     };
   }, [isUser]);
 
+  // handle send push notification
+  // Set up message payload
+  const payload = {
+    notification: {
+      title: 'New message',
+      body: 'You have a new message from John Doe',
+    },
+  };
 
+  // Set up options for sending the message
+  const options = {
+    priority: 'high',
+    timeToLive: 60 * 60 * 24, // 24 hours
+  };
+
+  // Set the target device registration token
+  const [registrationToken, setRegistrationToken] = useState('');
+  const fcm = async () => {
+    setRegistrationToken(await AsyncStorage.getItem('fcmToken'));
+    // console.log(registrationToken);
+  };
+  useEffect(() => {
+    fcm();
+  });
+
+  // Set up the request headers
+  const headers = {
+    'Content-Type': 'application/json',
+    Authorization:
+      'key=AAAAxBYBZPs:APA91bGcUKfAAVBo72v6g731ruOIMcwa1v7WjyeD8S8S3uBjjkTCrGw89wkBvL3ksHTIWxbf89Rx61Y5t_ImWhl7fkwYOotWV3fU53tOfmd0EDtlcWx6BFh9TCEYIjJOd8j0S_8xXjtj',
+  };
+
+  // Set up the request body
+  const body = {
+    notification: payload.notification,
+    to: registrationToken,
+    priority: options.priority,
+    time_to_live: options.timeToLive,
+  };
+
+  // Send the message to the FCM API
+
+  const handleNotification = async () => {
+    axios
+      .post('https://fcm.googleapis.com/fcm/send', body, {headers})
+      .then(response => {
+        // console.log('Successfully sent message:', response.data);
+      })
+      .catch(error => {
+        // console.log('Error sending message:', error.response.data);
+      });
+  };
 
   return (
     <SafeAreaView style={isDark ? styles.safeAreaDark : styles.safeArea}>
@@ -68,8 +120,21 @@ const Settings = () => {
               </Text>
               <RectButton
                 style={styles.settingsItem}
+                onPress={handleNotification}>
+                <Text
+                  style={[
+                    styles.settingsItemText,
+                    isDark && {color: COLORS.light.backgroundSoft},
+                  ]}>
+                  Push Notification
+                </Text>
+              </RectButton>
+              <RectButton
+                style={styles.settingsItem}
                 onPress={
-                  user ? () => navigation.navigate('Profile') : () => navigation.navigate('Login')
+                  user
+                    ? () => navigation.navigate('Profile')
+                    : () => navigation.navigate('Login')
                 }>
                 <Icon
                   name="person-outline"
@@ -88,26 +153,28 @@ const Settings = () => {
                   {user ? 'Profil' : 'Se connecter'}
                 </Text>
               </RectButton>
-              {!user && <RectButton
-                onPress={() => navigation.navigate('Register')}
-                style={styles.settingsItem}>
-                <Icon
-                  name="person-add-alt"
-                  color={
-                    isDark
-                      ? COLORS.light.backgroundSoft
-                      : COLORS.dark.background
-                  }
-                  size={18}
-                />
-                <Text
-                  style={[
-                    styles.settingsItemText,
-                    isDark && {color: COLORS.light.backgroundSoft},
-                  ]}>
-                  Créer un compte
-                </Text>
-              </RectButton>}
+              {!user && (
+                <RectButton
+                  onPress={() => navigation.navigate('Register')}
+                  style={styles.settingsItem}>
+                  <Icon
+                    name="person-add-alt"
+                    color={
+                      isDark
+                        ? COLORS.light.backgroundSoft
+                        : COLORS.dark.background
+                    }
+                    size={18}
+                  />
+                  <Text
+                    style={[
+                      styles.settingsItemText,
+                      isDark && {color: COLORS.light.backgroundSoft},
+                    ]}>
+                    Créer un compte
+                  </Text>
+                </RectButton>
+              )}
             </View>
             <Divider />
 
@@ -139,6 +206,26 @@ const Settings = () => {
                 ]}>
                 Réglages de l'application
               </Text>
+              <RectButton
+                onPress={() => navigation.navigate('CategoryPage')}
+                style={styles.settingsItem}>
+                <Icon
+                  name="menu"
+                  color={
+                    isDark
+                      ? COLORS.light.backgroundSoft
+                      : COLORS.dark.background
+                  }
+                  size={18}
+                />
+                <Text
+                  style={[
+                    styles.settingsItemText,
+                    isDark && {color: COLORS.light.backgroundSoft},
+                  ]}>
+                  Autre
+                </Text>
+              </RectButton>
               <RectButton style={styles.settingsItem}>
                 <Icon
                   name="notifications"

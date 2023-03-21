@@ -21,6 +21,9 @@ import SingleSearch from './screens/SingleSearch';
 import VideoLists from './components/VideoLists';
 import Profile from './screens/Profile';
 import Bookmark from './components/Bookmark';
+import Journal from './screens/Journal';
+import ReadPDF from './screens/PDF';
+import {useState} from 'react';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -68,6 +71,11 @@ const SettingsNavigator = () => {
         component={Profile}
         options={{headerTitle: '', headerShown: false}}
       />
+      <Stack.Screen
+        name="CategoryPage"
+        component={CategoryNavigator}
+        options={{headerShown: false, tabBarLabel: 'Autre'}}
+      />
     </Stack.Navigator>
   );
 };
@@ -104,7 +112,7 @@ const HomeNavigator = () => {
       <Stack.Screen
         name="Bookmark"
         component={Bookmark}
-        options={{headerShown: true, headerTitle:'Bookmarks'}}
+        options={{headerShown: true, headerTitle: 'Bookmarks'}}
       />
       <Stack.Screen
         name="Abonnement"
@@ -211,6 +219,67 @@ const CategoryNavigator = () => {
   );
 };
 
+const JournalNavigator = () => {
+  const isDark = useSelector(state => state.theme.isDark);
+  const [horizontal, setHorizontal] = useState(false);
+
+  const handleHorizontal = () => {
+    setHorizontal(!horizontal);
+  };
+  // console.log(horizontal);
+
+  return (
+    <Stack.Navigator
+      initialRouteName="Journal"
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: isDark
+            ? COLORS.dark.background
+            : COLORS.light.background,
+        },
+        headerTintColor: isDark
+          ? COLORS.light.background
+          : COLORS.dark.background,
+        headerTitleStyle: {
+          color: isDark ? COLORS.light.background : COLORS.dark.background,
+        },
+      }}>
+      <Tab.Screen
+        name="Journal"
+        component={Journal}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Abonnement"
+        component={Abonnement}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Settings"
+        component={SettingsNavigator}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="ReadPDF"
+        component={ReadPDF}
+        options={({route}) => ({
+          headerShown: false,
+          title: route?.params?.data?.title,
+          headerRight: () => (
+            <Icon
+              name={horizontal ? 'swap-vert' : 'swap-horiz'}
+              size={30}
+              style={{marginHorizontal: 5}}
+              onPress={handleHorizontal}
+            />
+          ),
+        })}
+        initialParams={{horizontal}}
+      />
+    </Stack.Navigator>
+  );
+};
+
 const TabNavigator = () => {
   const isDark = useSelector(state => state.theme.isDark);
 
@@ -240,8 +309,8 @@ const TabNavigator = () => {
             case 'SearchPage':
               iconName = 'search';
               break;
-            case 'CategoryPage':
-              iconName = 'menu';
+            case 'JournalPage':
+              iconName = 'menu-book';
               break;
 
             default:
@@ -288,9 +357,9 @@ const TabNavigator = () => {
         options={{headerShown: false, tabBarLabel: 'Recherche'}}
       />
       <Tab.Screen
-        name="CategoryPage"
-        component={CategoryNavigator}
-        options={{headerShown: false, tabBarLabel: 'Autre'}}
+        name="JournalPage"
+        component={JournalNavigator}
+        options={{headerShown: false, tabBarLabel: 'Journal'}}
       />
     </Tab.Navigator>
   );

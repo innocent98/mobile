@@ -47,8 +47,9 @@ const Actualites = ({data}) => {
               style={styles.actualitesSpan}
               numberOfLines={4}
               ellipsizeMode="tail">
-              {/* {data.content} */}
-              <RenderHtml
+              {data.content}
+            </Text>
+              {/* <RenderHtml
                 source={{html: source}}
                 contentWidth={width}
                 tagsStyles={{
@@ -59,8 +60,7 @@ const Actualites = ({data}) => {
                     marginTop: 15,
                   },
                 }}
-              />
-            </Text>
+              /> */}
           </View>
           <Icon
             name="bookmark-border"
@@ -145,7 +145,7 @@ const NewsExtra = ({data, data2}) => {
           EN DIRECT
         </Text>
         <FlatList
-          data={data?.inLiveNewscasts}
+          data={data?.inLiveNewscasts?.slice(1)}
           renderItem={renderActualites}
           keyExtractor={item => item.id}
           horizontal
