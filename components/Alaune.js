@@ -130,7 +130,7 @@ const Alaune = () => {
                 detUrl: `/newscasts/${message?.principalNewscats?.id}`,
               })
             }>
-            <View style={styles.featured}>
+            {message?.principalNewscats && <View style={styles.featured}>
               <FastImage
                 style={styles.featuredImg}
                 source={{
@@ -154,7 +154,7 @@ const Alaune = () => {
                   style={styles.featuredIcon}
                 />
               </View>
-            </View>
+            </View>}
           </RectButton>
         )}
         ListFooterComponent={() => (
