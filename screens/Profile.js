@@ -1,4 +1,4 @@
-import {View, Text, SafeAreaView, TextInput} from 'react-native';
+import {View, Text, SafeAreaView, TextInput, ScrollView} from 'react-native';
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {styles} from '../constants/styles';
@@ -221,6 +221,7 @@ const Profile = () => {
 
   return (
     <SafeAreaView style={isDark ? styles.safeAreaDark : styles.safeArea}>
+      <ScrollView>
       {message && (
         <Notification
           message={message}
@@ -248,6 +249,7 @@ const Profile = () => {
         </View>
       </View>
 
+          
       <View style={styles.container}>
         <View
           style={[
@@ -332,7 +334,7 @@ const Profile = () => {
             Changer le mot de passe
           </Text>
         </View>
-        <RectButton onPress={handleLogout} style={styles.logoutBtn}>
+        <RectButton onPress={handleLogout} style={styles.logoutBtn} rippleColor={isDark ? COLORS.dark.textSoft : COLORS.dark.textSoft}>
           <Text style={styles.logoutTxt}>Se déconnecter</Text>
         </RectButton>
       </View>
@@ -344,7 +346,7 @@ const Profile = () => {
           isChangePassword={isChangePassword}
           setMessage={setMessage}
         />
-      )}
+      )}</ScrollView>
     </SafeAreaView>
   );
 };

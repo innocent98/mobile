@@ -8,7 +8,7 @@ export default ForegroundHandler = () => {
     const unsubscribed = messaging().onMessage(async remoteMessage => {
         const {messageId, notification} = remoteMessage;
     //   Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
-      // console.log('foreground message received', remoteMessage);
+      console.log('foreground message received', remoteMessage);
 
       PushNotification.localNotification({
         channelId: 'channel-id',

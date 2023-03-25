@@ -118,7 +118,7 @@ const Settings = () => {
                 ]}>
                 Compte
               </Text>
-              <RectButton
+              {/* <RectButton
                 style={styles.settingsItem}
                 onPress={handleNotification}>
                 <Text
@@ -128,8 +128,8 @@ const Settings = () => {
                   ]}>
                   Push Notification
                 </Text>
-              </RectButton>
-              <RectButton
+              </RectButton> */}
+              <RectButton rippleColor={isDark ? COLORS.dark.textSoft : COLORS.dark.textSoft}
                 style={styles.settingsItem}
                 onPress={
                   user
@@ -154,7 +154,7 @@ const Settings = () => {
                 </Text>
               </RectButton>
               {!user && (
-                <RectButton
+                <RectButton rippleColor={isDark ? COLORS.dark.textSoft : COLORS.dark.textSoft}
                   onPress={() => navigation.navigate('Register')}
                   style={styles.settingsItem}>
                   <Icon
@@ -206,7 +206,7 @@ const Settings = () => {
                 ]}>
                 Réglages de l'application
               </Text>
-              <RectButton
+              <RectButton rippleColor={isDark ? COLORS.dark.textSoft : COLORS.dark.textSoft}
                 onPress={() => navigation.navigate('CategoryPage')}
                 style={styles.settingsItem}>
                 <Icon
@@ -226,7 +226,7 @@ const Settings = () => {
                   Autre
                 </Text>
               </RectButton>
-              <RectButton style={styles.settingsItem}>
+              <RectButton style={styles.settingsItem} rippleColor={isDark ? COLORS.dark.textSoft : COLORS.dark.textSoft}>
                 <Icon
                   name="notifications"
                   color={
@@ -244,7 +244,7 @@ const Settings = () => {
                   Notifications
                 </Text>
               </RectButton>
-              <RectButton
+              <RectButton rippleColor={isDark ? COLORS.dark.textSoft : COLORS.dark.textSoft}
                 onPress={() => navigation.navigate('FontResize')}
                 style={styles.settingsItem}>
                 <Icon
@@ -264,7 +264,7 @@ const Settings = () => {
                   Taile du texte
                 </Text>
               </RectButton>
-              <RectButton style={styles.settingsItem}>
+              <RectButton style={styles.settingsItem} rippleColor={isDark ? COLORS.dark.textSoft : COLORS.dark.textSoft}>
                 <Icon
                   name="settings-brightness"
                   color={
@@ -319,7 +319,7 @@ const Settings = () => {
                   Nouvelle Application
                 </Text>
               </RectButton> */}
-              <RectButton style={styles.settingsItem}>
+              <RectButton style={styles.settingsItem} rippleColor={isDark ? COLORS.dark.textSoft : COLORS.dark.textSoft}>
                 <Icon
                   name="question-answer"
                   color={
@@ -337,7 +337,7 @@ const Settings = () => {
                   FAQ et suggestions
                 </Text>
               </RectButton>
-              <RectButton style={styles.settingsItem}>
+              <RectButton style={styles.settingsItem} rippleColor={isDark ? COLORS.dark.textSoft : COLORS.dark.textSoft}>
                 <Icon
                   name="contact-support"
                   color={
@@ -355,7 +355,7 @@ const Settings = () => {
                   Nous contacter
                 </Text>
               </RectButton>
-              <RectButton style={styles.settingsItem}>
+              <RectButton style={styles.settingsItem} rippleColor={isDark ? COLORS.dark.textSoft : COLORS.dark.textSoft}>
                 <Icon
                   name="info"
                   color={
@@ -384,7 +384,7 @@ const Settings = () => {
                 ]}>
                 À propos
               </Text>
-              <RectButton style={styles.settingsItem}>
+              <RectButton style={styles.settingsItem} rippleColor={isDark ? COLORS.dark.textSoft : COLORS.dark.textSoft}>
                 <Icon
                   name="person-outline"
                   color={
@@ -402,7 +402,7 @@ const Settings = () => {
                   Conditions et confidentialité
                 </Text>
               </RectButton>
-              <RectButton style={styles.settingsItem}>
+              <RectButton style={styles.settingsItem} rippleColor={isDark ? COLORS.dark.textSoft : COLORS.dark.textSoft}>
                 <View>
                   <Text
                     style={[

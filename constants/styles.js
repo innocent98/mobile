@@ -783,7 +783,7 @@ export const styles = StyleSheet.create({
   },
   mediaText: {
     color: COLORS.dark.background,
-    fontSize: SIZES.large,
+    fontSize: SIZES.medium,
     fontFamily: 'IBMPlexSans-Regular',
     width: '70%',
   },
@@ -843,7 +843,7 @@ export const styles = StyleSheet.create({
     color: COLORS.light.textSoft,
     textAlign: 'left',
     fontFamily: 'IBMPlexSans-SemiBold',
-    fontSize: SIZES.medium,
+    fontSize: SIZES.font,
     marginTop: 15,
   },
   dejaContainer: {
