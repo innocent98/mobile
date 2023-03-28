@@ -6,6 +6,7 @@ import {
   TextInput,
   ActivityIndicator,
   Image,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
@@ -17,8 +18,62 @@ import {RectButton} from 'react-native-gesture-handler';
 import {Easing} from 'react-native-reanimated';
 import {COLORS} from '../constants/theme';
 import {makeGet} from '../redux/apiCalls';
+import {baseURL} from '../redux/config';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import {
+  processFailure,
+  processStart,
+  processSuccess,
+} from '../redux/processRedux';
+import {userRequest} from '../redux/requestMethod';
+import {Picker} from '@react-native-picker/picker';
+import {Notification} from '../components/Notification';
 
-const AbonnementDrop = ({setAbonne}) => {
+const AbonnementDrop = ({setAbonne, data, setIsSuccess}) => {
+  const user = useSelector(state => state.user.currentUser);
+  const {userProfile} = useSelector(state => state.user);
+  const {isFetching} = useSelector(state => state.process);
+  const dispatch = useDispatch();
+  // console.log(isFetching);
+
+  const [isSelected, setIsSelected] = useState(false);
+  const [mode, setMode] = useState('mtn');
+  const [optionId, setOptionId] = useState('');
+  const [phone, setPhone] = useState(userProfile.phone);
+  // console.log(phone);
+
+  const handlePhone = value => {
+    setPhone(value);
+  };
+
+  const headers = {
+    Authorization: `Bearer ${user.token}`,
+  };
+
+  const inputs = {
+    phone_number: phone,
+    option_id: optionId,
+    user_id: userProfile.id,
+    mode: mode,
+  };
+  console.log(inputs);
+
+  const handleSubscription = async () => {
+    dispatch(processStart());
+    try {
+      const res = await userRequest.post('/subcriptions', inputs, {headers});
+      // console.log(res.data);
+      setIsSuccess(true);
+      setTimeout(() => {
+        setIsSuccess(false);
+      }, 2000);
+      dispatch(processSuccess());
+    } catch (error) {
+      // console.log(error.response.data);
+      dispatch(processFailure());
+    }
+  };
+
   return (
     <MotiView
       from={{top: -10, opacity: 0.5}}
@@ -31,52 +86,78 @@ const AbonnementDrop = ({setAbonne}) => {
       style={styles.abonnementContainer}>
       <ScrollView>
         <View>
-          <Text style={styles.abonnementDropTitle}>
-            Abonnement journal en ligne
-          </Text>
-          <Text style={styles.abonnementDropSub}>
-            Choisissez la période de facturation de votre abonnement
-          </Text>
-          <TextInput
-            style={styles.abonnementEditInput}
-            placeholder="24 mois"
-            placeholderTextColor="#000"
-            mode="outlined"
-            activeOutlineColor={COLORS.secondary}
-          />
-          <TextInput
-            style={styles.abonnementEditInput}
-            placeholder="12 mois"
-            placeholderTextColor="#000"
-            mode="outlined"
-            activeOutlineColor={COLORS.secondary}
-          />
-          <TextInput
-            style={styles.abonnementEditInput}
-            placeholder="6 mois"
-            placeholderTextColor="#000"
-            mode="outlined"
-            activeOutlineColor={COLORS.secondary}
-          />
-          <TextInput
-            style={styles.abonnementEditInput}
-            placeholder="3 mois"
-            placeholderTextColor="#000"
-            mode="outlined"
-            activeOutlineColor={COLORS.secondary}
-          />
+          <Text style={styles.abonnementDropTitle}>{data?.modules?.name}</Text>
+          <Text style={styles.abonnementDropSub}>{data?.content}</Text>
+          {isSelected && (
+            <Icon
+              name="arrow-back"
+              size={20}
+              onPress={() => setIsSelected(false)}
+            />
+          )}
+          {!isSelected && (
+            <>
+              {data?.options?.map((item, index) => (
+                <RectButton
+                  onPress={() => {
+                    setIsSelected(true);
+                    setOptionId(item.id);
+                  }}
+                  key={index}
+                  style={{marginBottom: 10}}>
+                  <Text style={styles.abonnementEditOption}>
+                    {`${item.duration} ${item.duration_type}`}
+                  </Text>
+                </RectButton>
+              ))}
+            </>
+          )}
+
+          {isSelected && (
+            <>
+              <TextInput
+                style={styles.abonnementEditInput}
+                placeholder={userProfile.phone}
+                placeholderTextColor="#000"
+                mode="outlined"
+                activeOutlineColor={COLORS.secondary}
+                editable={true}
+                defaultValue={userProfile.phone}
+                value={phone}
+                onChangeText={handlePhone}
+              />
+              <View style={styles.abonnementEditInput}>
+                <Text
+                  style={[
+                    styles.smallText,
+                    {fontFamily: 'IBMPlexSans-Regular'},
+                  ]}>
+                  Sélectionnez l'option de réseau
+                </Text>
+                <Picker
+                  selectedValue={mode}
+                  onValueChange={(itemValue, itemIndex) => setMode(itemValue)}
+                  style={styles.abonnementEditInput}>
+                  <Picker.Item label="mtn" value="mtn" />
+                  <Picker.Item label="moov" value="moov" />
+                </Picker>
+              </View>
+            </>
+          )}
         </View>
 
         <View style={styles.abonneFlexBtn}>
-          {/* {isLoading ? (
-                <RectButton style={styles.indicator}>
-                  <ActivityIndicator size="large" color={COLORS.secondary} />
-                </RectButton>
-              ) : (
-              )} */}
-          <RectButton onPress={() => ''} style={styles.abonneButtonSave}>
-            <Text style={styles.abonneButtonSaveText}>je m'abonne</Text>
-          </RectButton>
+          {isFetching ? (
+            <RectButton style={styles.indicator}>
+              <ActivityIndicator size="large" color={COLORS.secondary} />
+            </RectButton>
+          ) : (
+            <RectButton
+              onPress={handleSubscription}
+              style={styles.abonneButtonSave}>
+              <Text style={styles.abonneButtonSaveText}>je m'abonne</Text>
+            </RectButton>
+          )}
           <RectButton
             onPress={() => setAbonne(false)}
             style={styles.abonneButtonExit}>
@@ -94,6 +175,8 @@ const Abonnement = () => {
 
   const [abonne, setAbonne] = useState(false);
   const [message, setMessage] = useState([]);
+  const [data, setData] = useState({});
+  const [isSuccess, setIsSuccess] = useState(false);
 
   const fetchNews = () => {
     makeGet(dispatch, '/pricings', setMessage);
@@ -112,10 +195,27 @@ const Abonnement = () => {
 
   return (
     <SafeAreaView style={isDark ? styles.safeAreaDark : styles.safeArea}>
-      <View style={abonne ? styles.abonnementConSha : styles.container}>
-        {abonne && <AbonnementDrop setAbonne={setAbonne} />}
-        <TopComp />
-        <ScrollView>
+      {isSuccess && (
+        <Notification
+          message="Succès"
+          backgroundColor={
+            isDark ? COLORS.light.background : COLORS.light.primary
+          }
+          color={isDark ? COLORS.light.primary : COLORS.light.white}
+          from={-50}
+          animate={0}
+        />
+      )}
+      <ScrollView>
+        <View style={abonne ? styles.abonnementConSha : styles.container}>
+          {abonne && (
+            <AbonnementDrop
+              setAbonne={setAbonne}
+              data={data}
+              setIsSuccess={setIsSuccess}
+            />
+          )}
+          <TopComp />
           <View style={styles.abonnement}>
             <Image
               source={require('../assets/subcription.png')}
@@ -130,35 +230,26 @@ const Abonnement = () => {
             <View style={styles.abonnementDown}>
               {message?.data?.map((item, index) => (
                 <View key={index}>
-                  <RectButton onPress={() => setAbonne(true)}>
+                  <RectButton
+                    onPress={() => {
+                      setAbonne(true);
+                      setData(item);
+                    }}>
                     <View style={styles.abonnementDownImgCon}>
                       <Image
-                        source={{uri: item?.fichier?.path}}
+                        source={{uri: baseURL + item?.fichier?.path}}
                         resizeMode="contain"
                         style={styles.abonnementDownImg}
                       />
                       <Text style={styles.abonnementText}>{item?.title}</Text>
                     </View>
                   </RectButton>
-
-                  {/* <RectButton onPress={() => setAbonne(true)}>
-                    <View style={styles.abonnementDownImgCon}>
-                      <Image
-                        source={require('../assets/draw.png')}
-                        resizeMode="contain"
-                        style={styles.abonnementDownImg}
-                      />
-                      <Text style={styles.abonnementText}>
-                        Recevoir le journal en papier
-                      </Text>
-                    </View>
-                  </RectButton> */}
                 </View>
               ))}
             </View>
           </View>
-        </ScrollView>
-      </View>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };

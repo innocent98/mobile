@@ -524,7 +524,7 @@ export const styles = StyleSheet.create({
   abbonementImg: {width: 400, height: 200},
   abonnementDown: {
     flexDirection: 'row',
-    marginLeft: 10,
+    // marginLeft: 10,
     marginTop: 40,
     flexWrap: 'wrap',
   },
@@ -588,6 +588,15 @@ export const styles = StyleSheet.create({
     borderRadius: 4,
     marginTop: 8,
     paddingHorizontal: 10,
+  },
+  abonnementEditOption: {
+    borderColor: COLORS.dark.textSoft,
+    borderWidth: 1,
+    borderRadius: 4,
+    paddingHorizontal: 10,
+    paddingVertical: 15,
+    fontFamily: 'IBMPlexSans-Regular',
+    fontSize: SIZES.font,
   },
   abonnementDropTitle: {
     color: COLORS.dark.background,
@@ -973,5 +982,14 @@ export const styles = StyleSheet.create({
     color: COLORS.light.background,
     fontFamily: 'IBMPlexSans-Regular',
     fontSize: SIZES.medium,
+  },
+
+  // no data
+  noData: {
+    color: COLORS.dark.background,
+    fontFamily: 'IBMPlexSans-Regular',
+    fontSize: SIZES.medium,
+    textAlign: 'center',
+    marginTop: '10%',
   },
 });

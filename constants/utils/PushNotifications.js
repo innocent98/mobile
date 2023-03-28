@@ -15,7 +15,7 @@ export async function requestUserPermission() {
 
 const getFcmToken = async () => {
   let fcmToken = await AsyncStorage.getItem('fcmToken');
-  console.log('old fmcToken:', fcmToken);
+  // console.log('old fmcToken:', fcmToken);
   if (!fcmToken) {
     try {
       const fcmToken = await messaging().getToken();
@@ -32,10 +32,10 @@ const getFcmToken = async () => {
 
 export const NotificationServices = () => {
   messaging().onNotificationOpenedApp(remoteMessage => {
-    console.log(
-      'Notification caused app to open from background state:',
-      remoteMessage.notification,
-    );
+    // console.log(
+    //   'Notification caused app to open from background state:',
+    //   remoteMessage.notification,
+    // );
     // navigation.navigate(remoteMessage.data.type);
   });
 
@@ -44,10 +44,10 @@ export const NotificationServices = () => {
     .getInitialNotification()
     .then(remoteMessage => {
       if (remoteMessage) {
-        console.log(
-          'Notification caused app to open from quit state:',
-          remoteMessage.notification,
-        );
+        // console.log(
+        //   'Notification caused app to open from quit state:',
+        //   remoteMessage.notification,
+        // );
       }
     });
 };

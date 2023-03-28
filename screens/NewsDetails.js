@@ -7,26 +7,55 @@ import {COLORS} from '../constants/theme';
 import {useDispatch, useSelector} from 'react-redux';
 import {BorderlessButton, RectButton} from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';
-import {makeGet, makeGet2} from '../redux/apiCalls';
+import {makeGet2} from '../redux/apiCalls';
 import {useEffect} from 'react';
 import moment from 'moment';
 import {baseURL} from '../redux/config';
+import {userRequest} from '../redux/requestMethod';
+import {
+  processFailure,
+  processStart,
+  processSuccess,
+} from '../redux/processRedux';
+import {Notification} from '../components/Notification';
 
 const NewsDetails = ({route}) => {
   const user = useSelector(state => state.user.currentUser);
+  const {userProfile} = useSelector(state => state.user);
 
   const dispatch = useDispatch();
   const isDark = useSelector(state => state.theme.isDark);
   const fontSize = useSelector(state => state.font.fontSize);
   const navigation = useNavigation();
   const {detUrl} = route?.params;
-  // console.log(detUrl)
 
   const [inputValue, setInputValue] = useState('Hey! share me.');
   const [message, setMessage] = useState({});
+  const [isBookmarked, setIsBookmarked] = useState(false);
 
   const fetchNewsDetails = () => {
     makeGet2(dispatch, detUrl, setMessage);
+  };
+
+  const headers = {
+    Authorization: `Bearer ${user.token}`,
+  };
+
+  const handleBookmark = async () => {
+    dispatch(processStart());
+    try {
+      const res = await userRequest.get(
+        `/addFavori/${message.id}/${userProfile.id}`,
+        {headers},
+      );
+      setIsBookmarked(true);
+      setTimeout(() => {
+        setIsBookmarked(false);
+      }, 2000);
+      dispatch(processSuccess());
+    } catch (error) {
+      dispatch(processFailure());
+    }
   };
 
   useEffect(() => {
@@ -44,7 +73,11 @@ const NewsDetails = ({route}) => {
   const shareMessage = async () => {
     try {
       await Share.share({
-        message: message.title + '\n\n' + 'http://onip.hopetvbenin.org/client' + detUrl,
+        message:
+          message.title +
+          '\n\n' +
+          'http://onip.hopetvbenin.org/client' +
+          detUrl,
         url: 'http://onip.hopetvbenin.org/client',
         // title: message.title,
       })
@@ -55,7 +88,18 @@ const NewsDetails = ({route}) => {
 
   return (
     <SafeAreaView style={isDark ? styles.safeAreaDark : styles.safeArea}>
-      <View style={styles.container}>
+      {isBookmarked && (
+        <Notification
+          message="Signet ajouté"
+          backgroundColor={
+            isDark ? COLORS.light.background : COLORS.light.primary
+          }
+          color={isDark ? COLORS.light.primary : COLORS.light.white}
+          from={-50}
+          animate={0}
+        />
+      )}
+      <View style={[styles.container, {}]}>
         <ScrollView style={styles.scrollView}>
           <View style={styles.newsDetailsTop}>
             <View style={styles.newsDetailsCat}>
@@ -172,23 +216,25 @@ const NewsDetails = ({route}) => {
             </View>
           ))}
 
-          <View style={styles.newsDetailsDown}>
-            <Text
-              style={[
-                styles.newsDetailsDownText,
-                isDark && {color: COLORS.light.background},
-              ]}>
-              Abonnez-vous Pour lire la suite
-            </Text>
-            <RectButton
-              onPress={() => navigation.navigate('Abonnement')}
-              style={styles.newsDetailsBtn}>
-              <Text style={styles.newsDetailsBtnText}>Abonnez vous</Text>
-            </RectButton>
-            <Text style={styles.newsListDetExtraRightView}>
-              Déjà abonné? Connecte vous
-            </Text>
-          </View>
+          {message?.for_subscriber === '1F' && (
+            <View style={styles.newsDetailsDown}>
+              <Text
+                style={[
+                  styles.newsDetailsDownText,
+                  isDark && {color: COLORS.light.background},
+                ]}>
+                Abonnez-vous Pour lire la suite
+              </Text>
+              <RectButton
+                onPress={() => navigation.navigate('Abonnement')}
+                style={styles.newsDetailsBtn}>
+                <Text style={styles.newsDetailsBtnText}>Abonnez vous</Text>
+              </RectButton>
+              <Text style={styles.newsListDetExtraRightView}>
+                Déjà abonné? Connecte vous
+              </Text>
+            </View>
+          )}
         </ScrollView>
       </View>
 
@@ -201,8 +247,7 @@ const NewsDetails = ({route}) => {
             onPress={() => navigation.goBack()}
           />
         </BorderlessButton>
-        <BorderlessButton
-          onPress={() => navigation.navigate('Bookmark', {message})}>
+        <BorderlessButton onPress={handleBookmark}>
           <Icon
             name="bookmark-border"
             color={COLORS.dark.backgroundSoft}

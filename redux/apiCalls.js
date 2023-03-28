@@ -33,7 +33,7 @@ export const userLogout = async (dispatch, navigation) => {
     dispatch(logout());
     navigation.navigate('Setting');
   } catch (err) {
-    console.log(err)
+    console.log(err);
     dispatch(logoutError());
   }
 };
@@ -56,6 +56,22 @@ export const makeGet2 = async (dispatch, url, setMessage) => {
   try {
     const res = await userRequest.get(url);
     setMessage(res.data);
+    dispatch(processSuccess());
+  } catch (err) {
+    dispatch(processFailure());
+    // console.log(err.response.data);
+  }
+};
+
+export const makeGetHeader = async (dispatch, url, headers, setMessage, setMessage2) => {
+  dispatch(processStart());
+  try {
+    const res = await userRequest.get(url, {headers});
+    setMessage(res.data);
+    setMessage2(true)
+    setTimeout(() => {
+      setMessage2(false);
+    }, 2000);
     dispatch(processSuccess());
   } catch (err) {
     dispatch(processFailure());

@@ -207,6 +207,26 @@ const Settings = () => {
                 Réglages de l'application
               </Text>
               <RectButton rippleColor={isDark ? COLORS.dark.textSoft : COLORS.dark.textSoft}
+                onPress={() => navigation.navigate('Bookmark')}
+                style={styles.settingsItem}>
+                <Icon
+                  name="bookmark-border"
+                  color={
+                    isDark
+                      ? COLORS.light.backgroundSoft
+                      : COLORS.dark.background
+                  }
+                  size={18}
+                />
+                <Text
+                  style={[
+                    styles.settingsItemText,
+                    isDark && {color: COLORS.light.backgroundSoft},
+                  ]}>
+                  Mis en signet
+                </Text>
+              </RectButton>
+              <RectButton rippleColor={isDark ? COLORS.dark.textSoft : COLORS.dark.textSoft}
                 onPress={() => navigation.navigate('CategoryPage')}
                 style={styles.settingsItem}>
                 <Icon
