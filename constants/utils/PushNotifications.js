@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import messaging from '@react-native-firebase/messaging';
+import {userRequest} from '../../redux/requestMethod';
 
 export async function requestUserPermission() {
   const authStatus = await messaging().requestPermission();
@@ -16,15 +17,23 @@ export async function requestUserPermission() {
 const getFcmToken = async () => {
   let fcmToken = await AsyncStorage.getItem('fcmToken');
   // console.log('old fmcToken:', fcmToken);
+  let device_name = await AsyncStorage.getItem('device_name');
+  // console.log(device_name)
   if (!fcmToken) {
     try {
       const fcmToken = await messaging().getToken();
       if (fcmToken) {
+        const info = {
+          fcm: fcmToken,
+          device_name,
+        };
         // console.log('generated fcmToken:', fcmToken);
         await AsyncStorage.setItem('fcmToken', fcmToken);
+        const res = await userRequest.post('/fcms', info);
+        // console.log(res.data)
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   }
   return fcmToken;
@@ -51,4 +60,3 @@ export const NotificationServices = () => {
       }
     });
 };
-

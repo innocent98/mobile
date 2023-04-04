@@ -52,59 +52,6 @@ const Settings = () => {
     };
   }, [isUser]);
 
-  // handle send push notification
-  // Set up message payload
-  const payload = {
-    notification: {
-      title: 'New message',
-      body: 'You have a new message from John Doe',
-    },
-  };
-
-  // Set up options for sending the message
-  const options = {
-    priority: 'high',
-    timeToLive: 60 * 60 * 24, // 24 hours
-  };
-
-  // Set the target device registration token
-  const [registrationToken, setRegistrationToken] = useState('');
-  const fcm = async () => {
-    setRegistrationToken(await AsyncStorage.getItem('fcmToken'));
-    // console.log(registrationToken);
-  };
-  useEffect(() => {
-    fcm();
-  });
-
-  // Set up the request headers
-  const headers = {
-    'Content-Type': 'application/json',
-    Authorization:
-      'key=AAAAxBYBZPs:APA91bGcUKfAAVBo72v6g731ruOIMcwa1v7WjyeD8S8S3uBjjkTCrGw89wkBvL3ksHTIWxbf89Rx61Y5t_ImWhl7fkwYOotWV3fU53tOfmd0EDtlcWx6BFh9TCEYIjJOd8j0S_8xXjtj',
-  };
-
-  // Set up the request body
-  const body = {
-    notification: payload.notification,
-    to: registrationToken,
-    priority: options.priority,
-    time_to_live: options.timeToLive,
-  };
-
-  // Send the message to the FCM API
-
-  const handleNotification = async () => {
-    axios
-      .post('https://fcm.googleapis.com/fcm/send', body, {headers})
-      .then(response => {
-        // console.log('Successfully sent message:', response.data);
-      })
-      .catch(error => {
-        // console.log('Error sending message:', error.response.data);
-      });
-  };
-
   return (
     <SafeAreaView style={isDark ? styles.safeAreaDark : styles.safeArea}>
       <View style={styles.container}>
@@ -129,7 +76,10 @@ const Settings = () => {
                   Push Notification
                 </Text>
               </RectButton> */}
-              <RectButton rippleColor={isDark ? COLORS.dark.textSoft : COLORS.dark.textSoft}
+              <RectButton
+                rippleColor={
+                  isDark ? COLORS.dark.textSoft : COLORS.dark.textSoft
+                }
                 style={styles.settingsItem}
                 onPress={
                   user
@@ -154,7 +104,10 @@ const Settings = () => {
                 </Text>
               </RectButton>
               {!user && (
-                <RectButton rippleColor={isDark ? COLORS.dark.textSoft : COLORS.dark.textSoft}
+                <RectButton
+                  rippleColor={
+                    isDark ? COLORS.dark.textSoft : COLORS.dark.textSoft
+                  }
                   onPress={() => navigation.navigate('Register')}
                   style={styles.settingsItem}>
                   <Icon
@@ -206,8 +159,15 @@ const Settings = () => {
                 ]}>
                 Réglages de l'application
               </Text>
-              <RectButton rippleColor={isDark ? COLORS.dark.textSoft : COLORS.dark.textSoft}
-                onPress={() => navigation.navigate('Bookmark')}
+              <RectButton
+                rippleColor={
+                  isDark ? COLORS.dark.textSoft : COLORS.dark.textSoft
+                }
+                onPress={() =>
+                  navigation.navigate(user ? 'Bookmark' : 'Settings', {
+                    screen: 'Login',
+                  })
+                }
                 style={styles.settingsItem}>
                 <Icon
                   name="bookmark-border"
@@ -226,7 +186,10 @@ const Settings = () => {
                   Mis en signet
                 </Text>
               </RectButton>
-              <RectButton rippleColor={isDark ? COLORS.dark.textSoft : COLORS.dark.textSoft}
+              <RectButton
+                rippleColor={
+                  isDark ? COLORS.dark.textSoft : COLORS.dark.textSoft
+                }
                 onPress={() => navigation.navigate('CategoryPage')}
                 style={styles.settingsItem}>
                 <Icon
@@ -246,7 +209,11 @@ const Settings = () => {
                   Autre
                 </Text>
               </RectButton>
-              <RectButton style={styles.settingsItem} rippleColor={isDark ? COLORS.dark.textSoft : COLORS.dark.textSoft}>
+              <RectButton
+                style={styles.settingsItem}
+                rippleColor={
+                  isDark ? COLORS.dark.textSoft : COLORS.dark.textSoft
+                }>
                 <Icon
                   name="notifications"
                   color={
@@ -264,7 +231,10 @@ const Settings = () => {
                   Notifications
                 </Text>
               </RectButton>
-              <RectButton rippleColor={isDark ? COLORS.dark.textSoft : COLORS.dark.textSoft}
+              <RectButton
+                rippleColor={
+                  isDark ? COLORS.dark.textSoft : COLORS.dark.textSoft
+                }
                 onPress={() => navigation.navigate('FontResize')}
                 style={styles.settingsItem}>
                 <Icon
@@ -284,7 +254,11 @@ const Settings = () => {
                   Taile du texte
                 </Text>
               </RectButton>
-              <RectButton style={styles.settingsItem} rippleColor={isDark ? COLORS.dark.textSoft : COLORS.dark.textSoft}>
+              <RectButton
+                style={styles.settingsItem}
+                rippleColor={
+                  isDark ? COLORS.dark.textSoft : COLORS.dark.textSoft
+                }>
                 <Icon
                   name="settings-brightness"
                   color={
@@ -339,7 +313,11 @@ const Settings = () => {
                   Nouvelle Application
                 </Text>
               </RectButton> */}
-              <RectButton style={styles.settingsItem} rippleColor={isDark ? COLORS.dark.textSoft : COLORS.dark.textSoft}>
+              <RectButton
+                style={styles.settingsItem}
+                rippleColor={
+                  isDark ? COLORS.dark.textSoft : COLORS.dark.textSoft
+                }>
                 <Icon
                   name="question-answer"
                   color={
@@ -357,7 +335,11 @@ const Settings = () => {
                   FAQ et suggestions
                 </Text>
               </RectButton>
-              <RectButton style={styles.settingsItem} rippleColor={isDark ? COLORS.dark.textSoft : COLORS.dark.textSoft}>
+              <RectButton
+                style={styles.settingsItem}
+                rippleColor={
+                  isDark ? COLORS.dark.textSoft : COLORS.dark.textSoft
+                }>
                 <Icon
                   name="contact-support"
                   color={
@@ -375,7 +357,11 @@ const Settings = () => {
                   Nous contacter
                 </Text>
               </RectButton>
-              <RectButton style={styles.settingsItem} rippleColor={isDark ? COLORS.dark.textSoft : COLORS.dark.textSoft}>
+              <RectButton
+                style={styles.settingsItem}
+                rippleColor={
+                  isDark ? COLORS.dark.textSoft : COLORS.dark.textSoft
+                }>
                 <Icon
                   name="info"
                   color={
@@ -404,7 +390,11 @@ const Settings = () => {
                 ]}>
                 À propos
               </Text>
-              <RectButton style={styles.settingsItem} rippleColor={isDark ? COLORS.dark.textSoft : COLORS.dark.textSoft}>
+              <RectButton
+                style={styles.settingsItem}
+                rippleColor={
+                  isDark ? COLORS.dark.textSoft : COLORS.dark.textSoft
+                }>
                 <Icon
                   name="person-outline"
                   color={
@@ -422,7 +412,11 @@ const Settings = () => {
                   Conditions et confidentialité
                 </Text>
               </RectButton>
-              <RectButton style={styles.settingsItem} rippleColor={isDark ? COLORS.dark.textSoft : COLORS.dark.textSoft}>
+              <RectButton
+                style={styles.settingsItem}
+                rippleColor={
+                  isDark ? COLORS.dark.textSoft : COLORS.dark.textSoft
+                }>
                 <View>
                   <Text
                     style={[

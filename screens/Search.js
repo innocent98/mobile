@@ -186,7 +186,7 @@ const Search = () => {
                               {data.categorie}
                             </Text>
                           </View>
-                          <View style={styles.newsListDetExtraRight}>
+                          {data?.view && <View style={styles.newsListDetExtraRight}>
                             <Icon
                               name="visibility"
                               color={COLORS.dark.textSoft}
@@ -197,7 +197,7 @@ const Search = () => {
                             {/* <Text style={styles.newsListDetExtraRightView}>
                         {moment(data.created_at).format('DD-MM-YYYY')}
                       </Text> */}
-                          </View>
+                          </View>}
                         </View>
                       </View>
                     </View>

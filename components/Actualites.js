@@ -37,7 +37,7 @@ const Actualite = ({data}) => {
               styles.economieText,
               isDark && {color: COLORS.light.backgroundSoft},
             ]}>
-            {data.title}
+            {data?.title}
           </Text>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <Icon name="visibility" color={COLORS.dark.textSoft} />
@@ -50,14 +50,14 @@ const Actualite = ({data}) => {
               styles.economieTextSpan,
               isDark && {color: COLORS.light.backgroundSoft},
             ]}>
-            {moment(data.created_at).format('DD, MMMM YYYY')}
+            {moment(data?.created_at).format('DD, MMMM YYYY')}
           </Text>
           <Text
             style={[
               styles.newsListDetExtraRightView,
               isDark && {color: COLORS.light.backgroundSoft},
             ]}>
-            {data.duration !== '0' && `${data.duration} min de lecture`}
+            {data?.duration !== '0' && `${data?.duration} min de lecture`}
           </Text>
         </View>
       </View>
@@ -108,6 +108,8 @@ const Actualites = ({route}) => {
             renderItem={renderItem}
             showsVerticalScrollIndicator={false}
             removeClippedSubviews
+            refreshing={false}
+            onRefresh={fetchNews}
           />
         </View>
       </View>

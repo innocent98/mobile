@@ -22,7 +22,7 @@ const Bookmark = () => {
   const [message2, setMessage2] = useState(false);
 
   const headers = {
-    Authorization: `Bearer ${user.token}`,
+    Authorization: `Bearer ${user?.token}`,
   };
 
   const fetchNewsDetails = () => {
@@ -55,7 +55,6 @@ const Bookmark = () => {
                   })
                 }
                 key={index}>
-                {console.log(item.pivot.newscast_id)}
                 <View style={[styles.newsList, {justifyContent: 'flex-start'}]}>
                   <FastImage
                     style={styles.newsListImg}
@@ -90,7 +89,7 @@ const Bookmark = () => {
                       </View>
                       <View style={[styles.newsListDetExtraRight, {}]}>
                         <Text
-                          style={styles.newsListDetExtraRightView}
+                          style={[styles.newsListDetExtraRightView, {color:COLORS.light.red, fontFamily: 'IBMPlexSans-Medium',}]}
                           onPress={() => {
                             makeGetHeader(
                               dispatch,

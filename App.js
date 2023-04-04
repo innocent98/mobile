@@ -20,8 +20,27 @@ import {
 import ForegroundHandler from './constants/utils/ForegroundHandler';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import DeviceInfo from 'react-native-device-info';
 
 const App = () => {
+  const [buildId, setBuildId] = useState('');
+
+  const brand = DeviceInfo.getBrand();
+  DeviceInfo.getBuildId().then(buildId => {
+    setBuildId(buildId);
+  });
+  const device_name = brand + '-' + buildId;
+
+  useEffect(() => {
+    const deviceName = async () => {
+      let get_device_name = await AsyncStorage.getItem('device_name');
+      if (!get_device_name) {
+        await AsyncStorage.setItem('device_name', device_name);
+      }
+    };
+    deviceName();
+  }, []);
+
   useEffect(() => {
     SplashScreen.hide();
   }, []);
@@ -59,7 +78,7 @@ const App = () => {
   const headers = {
     'Content-Type': 'application/json',
     Authorization:
-      'key=AAAAxBYBZPs:APA91bGcUKfAAVBo72v6g731ruOIMcwa1v7WjyeD8S8S3uBjjkTCrGw89wkBvL3ksHTIWxbf89Rx61Y5t_ImWhl7fkwYOotWV3fU53tOfmd0EDtlcWx6BFh9TCEYIjJOd8j0S_8xXjtj',
+      'AAAAbIHEGAM:APA91bFH6b7HRcgSzze4gZbx6kvjVi5JAGg1ZN3xXi01OUpe9CnFc2jDtEdzLn5D1sHrjr5ocLrOmhYrqYABTTf-0Xto5y_Q9YskvtPUZxi-tOvYUNXjG93bCC7euY4Qln-XmBkuxToq',
   };
 
   // Set up the request body
@@ -71,14 +90,14 @@ const App = () => {
   };
 
   // Send the message to the FCM API
-  axios
-    .post('https://fcm.googleapis.com/fcm/send', body, {headers})
-    .then(response => {
-      // console.log('Successfully sent message:', response.data);
-    })
-    .catch(error => {
-      // console.log('Error sending message:', error.response.data);
-    });
+  // axios
+  //   .post('https://fcm.googleapis.com/fcm/send', body, {headers})
+  //   .then(response => {
+  //     console.log('Successfully sent message:', response.data);
+  //   })
+  //   .catch(error => {
+  //     console.log('Error sending message:', error.response.data);
+  //   });
 
   return (
     <Provider store={store}>

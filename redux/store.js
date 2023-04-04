@@ -3,12 +3,6 @@ import themeReducer from './themeRedux';
 import {
   persistStore,
   persistReducer,
-  FLUSH,
-  REHYDRATE,
-  PAUSE,
-  PERSIST,
-  PURGE,
-  REGISTER,
 } from 'redux-persist';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import fontReducer from './fontRedux';
@@ -16,7 +10,7 @@ import onBoardReducer from './onBoardRedux';
 import userReducer from './userRedux';
 import processReducer from './processRedux';
 import topComponentReducer from './topComponentRedux';
-import fcmReducer from './fcmTokenRedux';
+import dataReducer from './data'
 
 const persistConfig = {
   key: 'root',
@@ -31,7 +25,7 @@ const rootReducer = combineReducers({
   user: userReducer,
   process: processReducer,
   slide: topComponentReducer,
-  fcmToken: fcmReducer,
+  data: dataReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

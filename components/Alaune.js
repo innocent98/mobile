@@ -15,6 +15,7 @@ import moment from 'moment';
 import 'moment/locale/fr';
 import {useNavigation} from '@react-navigation/native';
 import {baseURL} from '../redux/config';
+import {setData, setData2} from '../redux/data';
 
 moment.locale('fr');
 
@@ -22,7 +23,6 @@ export const News = ({data}) => {
   const isDark = useSelector(state => state.theme.isDark);
   const navigation = useNavigation();
   const detUrl = `/newscasts/${data.id}`;
-  // console.log(data.fichier.path);
 
   return (
     <RectButton onPress={() => navigation.navigate('NewsDetails', {detUrl})}>
@@ -79,6 +79,7 @@ memo(News);
 
 const Alaune = () => {
   const isDark = useSelector(state => state.theme.isDark);
+  const {data, data2} = useSelector(state => state.data);
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const [message, setMessage] = useState({});
@@ -103,11 +104,10 @@ const Alaune = () => {
     };
   }, [setMessage, setMessage2]);
 
-  // useEffect(() => {
-  //   message?.allnewscastsByModule?.slice(0, 1).map((item, index) => {
-  //     return setMessage2(item);
-  //   });
-  // }, [message]);
+  useEffect(() => {
+    dispatch(setData(message));
+    dispatch(setData2(message2));
+  }, [message]);
 
   return (
     <View
@@ -116,7 +116,7 @@ const Alaune = () => {
         isDark && {backgroundColor: COLORS.dark.background},
       ]}>
       <FlatList
-        data={message2?.data?.slice(0, 4)}
+        data={data2?.data?.slice(0, 4)}
         renderItem={renderItem}
         keyExtractor={item => item.id}
         showsVerticalScrollIndicator={false}
@@ -127,34 +127,36 @@ const Alaune = () => {
           <RectButton
             onPress={() =>
               navigation.navigate('NewsDetails', {
-                detUrl: `/newscasts/${message?.principalNewscats?.id}`,
+                detUrl: `/newscasts/${data?.principalNewscats?.id}`,
               })
             }>
-            {message?.principalNewscats && <View style={styles.featured}>
-              <FastImage
-                style={styles.featuredImg}
-                source={{
-                  uri: baseURL + message?.principalNewscats?.fichier?.path,
-                  headers: {Authorization: 'someAuthToken'},
-                  priority: FastImage.priority.normal,
-                }}
-                resizeMode={FastImage.resizeMode.cover}
-              />
-              <View style={styles.featuredText}>
-                <Text
-                  style={styles.bigText}
-                  numberOfLines={3}
-                  ellipsizeMode="tail">
-                  {message?.principalNewscats?.content}
-                </Text>
-                <Icon
-                  name="bookmark-border"
-                  size={22}
-                  color={COLORS.light.background}
-                  style={styles.featuredIcon}
+            {data?.principalNewscats && (
+              <View style={styles.featured}>
+                <FastImage
+                  style={styles.featuredImg}
+                  source={{
+                    uri: baseURL + data?.principalNewscats?.fichier?.path,
+                    headers: {Authorization: 'someAuthToken'},
+                    priority: FastImage.priority.normal,
+                  }}
+                  resizeMode={FastImage.resizeMode.cover}
                 />
+                <View style={styles.featuredText}>
+                  <Text
+                    style={styles.bigText}
+                    numberOfLines={3}
+                    ellipsizeMode="tail">
+                    {data?.principalNewscats?.title}
+                  </Text>
+                  <Icon
+                    name="bookmark-border"
+                    size={22}
+                    color={COLORS.light.background}
+                    style={styles.featuredIcon}
+                  />
+                </View>
               </View>
-            </View>}
+            )}
           </RectButton>
         )}
         ListFooterComponent={() => (

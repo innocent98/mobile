@@ -16,6 +16,8 @@ import {login} from '../../redux/apiCalls';
 import {useNavigation} from '@react-navigation/native';
 import {Notification} from '../Notification';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 const Login = () => {
   const isDark = useSelector(state => state.theme.isDark);
@@ -54,7 +56,7 @@ const Login = () => {
     setIsVisible(!isVisible);
   };
 
-  const handleLogin = () => {
+  const handleLogin = async() => {
     if (user.email === '' || user.password === '') {
       setMessage("L'identifiant ou le mot de passe est vide");
       setTimeout(() => {
@@ -62,6 +64,7 @@ const Login = () => {
       }, 2000);
       return;
     } else {
+      // await AsyncStorage.setItem('device_name', device_name);
       login(dispatch, user, setMessage, navigation);
     }
   };

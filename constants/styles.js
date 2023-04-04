@@ -15,7 +15,7 @@ export const styles = StyleSheet.create({
     paddingBottom: 30,
   },
   logo: {width: itemWidth * 0.4, height: itemHeight * 0.05},
-  menu: {width: itemWidth * 0.06, height: itemHeight * 0.03},
+  menu: {width: itemWidth * 0.062, height: itemHeight * 0.03},
   scrollView: {width: '100%', paddingHorizontal: 20},
   iconImg: {width: 30, height: 30},
   tabImg: {height: 20, width: 20},
@@ -105,7 +105,7 @@ export const styles = StyleSheet.create({
     borderRadius: SIZES.font,
     paddingHorizontal: 10,
     paddingVertical: 5,
-    marginRight: 8,
+    marginRight: 12,
   },
   topRightSpan: {flexDirection: 'row', alignItems: 'center'},
   buyText: {
@@ -135,7 +135,7 @@ export const styles = StyleSheet.create({
 
   //   alaune
   tabScreen: {
-    marginTop: 40,
+    marginTop: 30,
     width: '100%',
     backgroundColor: COLORS.light.background,
     paddingBottom: 60,
@@ -216,9 +216,10 @@ export const styles = StyleSheet.create({
   },
   newsListDetExtraRight: {flexDirection: 'row', alignItems: 'center'},
   newsListDetExtraRightView: {
-    color: COLORS.dark.textSoft,
-    fontSize: SIZES.small,
+    color: COLORS.dark.backgroundSoft,
+    fontSize: SIZES.font,
     marginLeft: 2,
+    fontFamily: 'IBMPlexSans-SemiBold',
   },
 
   //   news extra
@@ -492,7 +493,7 @@ export const styles = StyleSheet.create({
   newsDetailsDownText: {
     color: COLORS.light.primary,
     fontFamily: 'IBMPlexSans-SemiBold',
-    fontSize: SIZES.medium,
+    fontSize: SIZES.font,
     textAlign: 'center',
     marginBottom: 10,
     textTransform: 'uppercase',
@@ -589,12 +590,18 @@ export const styles = StyleSheet.create({
     marginTop: 8,
     paddingHorizontal: 10,
   },
-  abonnementEditOption: {
+  abonnementEditOptionCon: {
     borderColor: COLORS.dark.textSoft,
     borderWidth: 1,
     borderRadius: 4,
     paddingHorizontal: 10,
     paddingVertical: 15,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  abonnementEditOption: {
+    borderColor: COLORS.dark.textSoft,
     fontFamily: 'IBMPlexSans-Regular',
     fontSize: SIZES.font,
   },

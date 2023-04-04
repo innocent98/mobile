@@ -8,7 +8,7 @@ import NewsDetails from './screens/NewsDetails';
 import Abonnement from './screens/Abonnement';
 import Category from './screens/Category';
 import {COLORS} from './constants/theme';
-import {Image} from 'react-native';
+import {Dimensions, Image, Platform} from 'react-native';
 import {styles} from './constants/styles';
 import Search from './screens/Search';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -112,7 +112,7 @@ const HomeNavigator = () => {
       <Stack.Screen
         name="Bookmark"
         component={Bookmark}
-        options={{headerShown: true, headerTitle: 'Bookmarks'}}
+        options={{headerShown: true, headerTitle: 'Favoris'}}
       />
       <Stack.Screen
         name="Abonnement"
@@ -264,7 +264,7 @@ const JournalNavigator = () => {
         component={ReadPDF}
         options={({route}) => ({
           headerShown: false,
-          title: route?.params?.data?.title,
+          headerTitle: route?.params?.data?.title,
           headerRight: () => (
             <Icon
               name={horizontal ? 'swap-vert' : 'swap-horiz'}
@@ -276,12 +276,20 @@ const JournalNavigator = () => {
         })}
         initialParams={{horizontal}}
       />
+      <Stack.Screen
+        name="NewsDetails"
+        component={NewsDetails}
+        options={{headerShown: false}}
+      />
     </Stack.Navigator>
   );
 };
 
 const TabNavigator = () => {
+  const user = useSelector(state => state.user.currentUser);
   const isDark = useSelector(state => state.theme.isDark);
+  const itemWidth = Dimensions.get('window').width;
+  const itemHeight = Dimensions.get('window').height;
 
   return (
     <Tab.Navigator
@@ -329,7 +337,7 @@ const TabNavigator = () => {
             ? COLORS.dark.background
             : COLORS.light.primary,
           paddingHorizontal: 40,
-          height: 60,
+          height: itemHeight * 0.1,
           maxWidth: '100%',
         },
         tabBarInactiveBackgroundColor: 'transparent',
@@ -358,7 +366,7 @@ const TabNavigator = () => {
       />
       <Tab.Screen
         name="JournalPage"
-        component={JournalNavigator}
+        component={user ? JournalNavigator : SettingsNavigator}
         options={{headerShown: false, tabBarLabel: 'Journal'}}
       />
     </Tab.Navigator>

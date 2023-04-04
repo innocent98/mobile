@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   Dimensions,
@@ -14,13 +14,27 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import {COLORS, SHADOWS, SIZES} from '../constants/theme';
 import {useNavigation} from '@react-navigation/native';
 import {BorderlessButton, RectButton} from 'react-native-gesture-handler';
+import {useDispatch} from 'react-redux';
+import {makeGet2} from '../redux/apiCalls';
 
 const ReadPDF = ({route}) => {
   const {detUrl, data} = route.params;
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
+  const [message, setMessage] = useState({});
+
+  const fetchData = () => {
+    makeGet2(dispatch, detUrl, setMessage);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  // uri:'http://samples.leanpub.com/thereactnativebook-sample.pdf'
   const source = {
-    uri: 'http://samples.leanpub.com/thereactnativebook-sample.pdf',
+    uri: baseURL + message?.file_data?.path,
     cache: true,
   };
 
@@ -29,7 +43,6 @@ const ReadPDF = ({route}) => {
   const handleHorizontal = () => {
     setHorizontal(!horizontal);
   };
-//   console.log(horizontal);
 
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -44,7 +57,12 @@ const ReadPDF = ({route}) => {
               style={{marginHorizontal: 5}}
             />
           </BorderlessButton>
-          <Text style={styles.headerTitle}>{data?.title}</Text>
+          <Text
+            style={styles.headerTitle}
+            ellipsizeMode="tail"
+            numberOfLines={1}>
+            {data?.title}
+          </Text>
         </View>
         <View style={styles.headerRight}>
           <BorderlessButton onPress={handleHorizontal}>
@@ -117,5 +135,6 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     textAlign: 'center',
     marginLeft: 15,
+    maxWidth: '70%',
   },
 });

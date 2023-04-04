@@ -14,6 +14,7 @@ const Tab = createMaterialTopTabNavigator();
 
 export const TopComp = () => {
   const isDark = useSelector(state => state.theme.isDark);
+  const user = useSelector(state => state.user.currentUser);
   const navigation = useNavigation();
 
   return (
@@ -27,7 +28,11 @@ export const TopComp = () => {
       </View>
       <View style={styles.topRight}>
         <RectButton
-          onPress={() => navigation.navigate('Abonnement')}
+          onPress={() =>
+            navigation.navigate(user ? 'Abonnement' : 'Settings', {
+              screen: 'Login',
+            })
+          }
           style={styles.buyButton}>
           <View style={styles.topRightSpan}>
             <Text style={styles.buyText}>Abonnez vous</Text>
@@ -49,11 +54,6 @@ export const TopComp = () => {
             style={styles.menu}
             resizeMode="contain"
           />
-          {/* <FontAwesome
-            name="user-cog"
-            size={20}
-            color={isDark ? COLORS.light.background : COLORS.light.primary}
-          /> */}
         </BorderlessButton>
       </View>
     </View>

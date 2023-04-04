@@ -14,7 +14,7 @@ import {Notification} from '../components/Notification';
 
 const ChangePassword = ({setIsChangePassword, setMessage}) => {
   const {userProfile} = useSelector(state => state.user);
-  // console.log(userProfile);
+  console.log(userProfile);
   const isDark = useSelector(state => state.theme.isDark);
   const dispatch = useDispatch();
   const {isFetching} = useSelector(state => state.user);

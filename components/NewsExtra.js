@@ -3,7 +3,7 @@ import {memo} from 'react';
 import {styles} from '../constants/styles';
 import FastImage from 'react-native-fast-image';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {COLORS, SIZES} from '../constants/theme';
+import {COLORS} from '../constants/theme';
 import EconomieSection from './EconomieSection';
 import {RectButton} from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';
@@ -11,18 +11,12 @@ import {useDispatch, useSelector} from 'react-redux';
 import moment from 'moment';
 import 'moment/locale/fr';
 import {baseURL} from '../redux/config';
-import {useWindowDimensions} from 'react-native';
-import RenderHtml from 'react-native-render-html';
 
 moment.locale('fr');
 
 const Actualites = ({data}) => {
   const navigation = useNavigation();
   const detUrl = `/newscasts/${data.id}`;
-  const {width} = useWindowDimensions();
-
-  const source = data.content;
-  const htmlContent = '<p>Hello <strong>world</strong>!</p>';
 
   return (
     <RectButton
@@ -47,20 +41,8 @@ const Actualites = ({data}) => {
               style={styles.actualitesSpan}
               numberOfLines={4}
               ellipsizeMode="tail">
-              {data.content}
+              {data?.title}
             </Text>
-              {/* <RenderHtml
-                source={{html: source}}
-                contentWidth={width}
-                tagsStyles={{
-                  p: {
-                    color: COLORS.light.background,
-                    fontFamily: 'IBMPlexSans-SemiBold',
-                    fontSize: SIZES.extraLarge,
-                    marginTop: 15,
-                  },
-                }}
-              /> */}
           </View>
           <Icon
             name="bookmark-border"
@@ -99,7 +81,7 @@ const NewsExtra = ({data, data2}) => {
 
   return (
     <View style={styles.newsExtra}>
-      <FastImage
+      {/* <FastImage
         style={styles.featuredImg}
         source={{
           uri: 'https://i.ibb.co/nDC71N2/52031806704-806863a86c-c1-880x380-1.png',
@@ -117,7 +99,7 @@ const NewsExtra = ({data, data2}) => {
           banques et entreprises mises en garde
         </Text>
         <Text style={styles.newsExtraCardtxt4}>Lecture de 5 Mins </Text>
-      </View>
+      </View> */}
 
       <FastImage
         style={styles.publiciteImg}
@@ -145,7 +127,7 @@ const NewsExtra = ({data, data2}) => {
           EN DIRECT
         </Text>
         <FlatList
-          data={data?.inLiveNewscasts?.slice(1)}
+          data={data?.inLiveNewscasts}
           renderItem={renderActualites}
           keyExtractor={item => item.id}
           horizontal
