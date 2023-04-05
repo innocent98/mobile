@@ -45,7 +45,7 @@ export const NotificationServices = () => {
     //   'Notification caused app to open from background state:',
     //   remoteMessage.notification,
     // );
-    // navigation.navigate(remoteMessage.data.type);
+    navigation.navigate(remoteMessage.data.type);
   });
 
   // Check whether an initial notification is available

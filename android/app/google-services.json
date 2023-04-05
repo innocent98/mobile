@@ -1,20 +1,20 @@
 {
   "project_info": {
-    "project_number": "466033580035",
-    "project_id": "lanationbjwebmobile",
-    "storage_bucket": "lanationbjwebmobile.appspot.com"
+    "project_number": "228375105883",
+    "project_id": "newlanationbj",
+    "storage_bucket": "newlanationbj.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:466033580035:android:9e24d5edb6a778618fd636",
+        "mobilesdk_app_id": "1:228375105883:android:4757a78be101a941060a7e",
         "android_client_info": {
           "package_name": "com.lanation"
         }
       },
       "oauth_client": [
         {
-          "client_id": "466033580035-dcdlpd1rfugt7isbsq1t3rago9603tl0.apps.googleusercontent.com",
+          "client_id": "228375105883-29lfq3kjla24qdvgfuafrgr66m9g3l6d.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.lanation",
@@ -22,20 +22,20 @@
           }
         },
         {
-          "client_id": "466033580035-c4agu80vvinan98u0qbaf4i4k1crdl9k.apps.googleusercontent.com",
+          "client_id": "228375105883-h3f1uabbrlf5u4jsqh7l9l2di7ftgcvs.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB3y5H80qyxjStbkOOVT3Reon0EhAsdk1k"
+          "current_key": "AIzaSyAeQgbxQG6A9rAOrBdt5m4VxyoXTqI72M4"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "466033580035-c4agu80vvinan98u0qbaf4i4k1crdl9k.apps.googleusercontent.com",
+              "client_id": "228375105883-h3f1uabbrlf5u4jsqh7l9l2di7ftgcvs.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

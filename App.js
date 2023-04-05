@@ -72,13 +72,13 @@ const App = () => {
   };
   useEffect(() => {
     fcm();
-  });
+  }, []);
 
   // Set up the request headers
   const headers = {
     'Content-Type': 'application/json',
     Authorization:
-      'AAAAbIHEGAM:APA91bFH6b7HRcgSzze4gZbx6kvjVi5JAGg1ZN3xXi01OUpe9CnFc2jDtEdzLn5D1sHrjr5ocLrOmhYrqYABTTf-0Xto5y_Q9YskvtPUZxi-tOvYUNXjG93bCC7euY4Qln-XmBkuxToq',
+      'key=AAAANSw3kVs:APA91bFOWZqPBvQgBU-IIFjiS4_dH7kzFoGFQ9_epV3xxsPrFJN4kdUyQl04Ae06idSbeFCOSbal8zQTGsO0ScbpEM3ezmgZrqOsHFUT7cqmepQpxQhUNqfU3aGcs-yMB579LpXjzbo2',
   };
 
   // Set up the request body
@@ -90,14 +90,14 @@ const App = () => {
   };
 
   // Send the message to the FCM API
-  // axios
-  //   .post('https://fcm.googleapis.com/fcm/send', body, {headers})
-  //   .then(response => {
-  //     console.log('Successfully sent message:', response.data);
-  //   })
-  //   .catch(error => {
-  //     console.log('Error sending message:', error.response.data);
-  //   });
+  axios
+    .post('https://fcm.googleapis.com/fcm/send', body, {headers})
+    .then(response => {
+      // console.log('Successfully sent message:', response.data);
+    })
+    .catch(error => {
+      // console.log('Error sending message:', error.response.data);
+    });
 
   return (
     <Provider store={store}>

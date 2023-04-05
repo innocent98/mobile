@@ -28,6 +28,7 @@ const NewsDetails = ({route}) => {
   const {userProfile} = useSelector(state => state.user);
   const {isFetching} = useSelector(state => state.process);
   const scrollViewRef = useRef(null);
+  // console.log(userProfile)
 
   const dispatch = useDispatch();
   const isDark = useSelector(state => state.theme.isDark);

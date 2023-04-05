@@ -68,6 +68,7 @@ export const makeGetHeader = async (dispatch, url, headers, setMessage, setMessa
   try {
     const res = await userRequest.get(url, {headers});
     setMessage(res.data);
+    // console.log(res.data)
     setMessage2(true)
     setTimeout(() => {
       setMessage2(false);
@@ -75,7 +76,7 @@ export const makeGetHeader = async (dispatch, url, headers, setMessage, setMessa
     dispatch(processSuccess());
   } catch (err) {
     dispatch(processFailure());
-    // console.log(err.response.data);
+    // console.log(err);
   }
 };
 
