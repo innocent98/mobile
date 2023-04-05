@@ -29,7 +29,9 @@ const Home = () => {
 
   useEffect(() => {
     if (message && message?.allnewscastsByModule) {
-      const filteredNames = message?.allnewscastsByModule?.map(item => item.name);
+      const filteredNames = message?.allnewscastsByModule?.map(
+        item => item.name,
+      );
       dispatch(changeComponent(filteredNames));
     }
   }, [message]);

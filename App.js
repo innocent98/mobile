@@ -89,15 +89,15 @@ const App = () => {
     time_to_live: options.timeToLive,
   };
 
-  // Send the message to the FCM API
-  axios
-    .post('https://fcm.googleapis.com/fcm/send', body, {headers})
-    .then(response => {
-      // console.log('Successfully sent message:', response.data);
-    })
-    .catch(error => {
-      // console.log('Error sending message:', error.response.data);
-    });
+  // // Send the message to the FCM API
+  // axios
+  //   .post('https://fcm.googleapis.com/fcm/send', body, {headers})
+  //   .then(response => {
+  //     // console.log('Successfully sent message:', response.data);
+  //   })
+  //   .catch(error => {
+  //     // console.log('Error sending message:', error.response.data);
+  //   });
 
   return (
     <Provider store={store}>

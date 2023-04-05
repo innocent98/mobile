@@ -146,6 +146,61 @@ const NewsCasts = ({data, index, message}) => {
   );
 };
 
+const Subscriptions = ({data, index, message}) => {
+  return (
+    <RectButton key={index}>
+      {index === 0 && (
+        <Text
+          style={[
+            styles.rapidetxt,
+            {color: COLORS.light.primary},
+          ]}>{`${message?.length} Document(s)`}</Text>
+      )}
+      <View style={[styles.newsList2, {alignItems: 'center'}]}>
+        <Icon
+          name="payments"
+          size={30}
+          color={COLORS.light.primary}
+          style={styles.newsListImg2}
+        />
+        <View style={styles.newsListDet2}>
+          <Text
+            style={[
+              styles.smallText,
+              isDark && {color: COLORS.light.backgroundSoft},
+            ]}
+            numberOfLines={2}
+            ellipsizeMode="tail">
+            {data?.title}
+          </Text>
+          <View style={styles.newsListDetExtra}>
+            <View style={styles.newsListDetExtraLeft}>
+              <Icon
+                name="circle"
+                color={isDark ? COLORS.light.background : COLORS.light.primary}
+                size={8}
+              />
+              <Text
+                style={[
+                  styles.newsListDetExtraTxt,
+                  isDark && {color: COLORS.light.backgroundSoft},
+                ]}>
+                {data.categorie}
+              </Text>
+            </View>
+            <View style={[styles.newsListDetExtraRight, {marginHorizontal: 5}]}>
+              <Text style={styles.newsListDetExtraRightView}>
+                {moment(data?.created_at).format('DD-MM-YYYY')}
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+      <Divider />
+    </RectButton>
+  );
+};
+
 const Tab1 = () => {
   const isDark = useSelector(state => state.theme.isDark);
   const user = useSelector(state => state.user.currentUser);
@@ -273,12 +328,12 @@ const Tab3 = () => {
     Authorization: `Bearer ${user?.token}`,
   };
 
+  const fetchTags = () => {
+    makeGetHeader(dispatch, `/auth/subscriptions`, headers, setMessage);
+  };
   useEffect(() => {
     let unsubscribed = false;
     if (!unsubscribed) {
-      const fetchTags = () => {
-        makeGetHeader(dispatch, `/auth/subscriptions`, headers, setMessage);
-      };
       fetchTags();
     }
     return () => {
@@ -292,89 +347,27 @@ const Tab3 = () => {
       <View style={[styles.container, {paddingBottom: 0, paddingVertical: 0}]}>
         {/* <TopComp /> */}
 
-        <ScrollView style={{height: '100%', width: '100%'}}>
-          {message?.length === 0 ? (
-            <Text
-              style={[
-                styles.noData,
-                isDark && {color: COLORS.light.backgroundSoft},
-              ]}>
-              Aucune information disponible
-            </Text>
-          ) : (
-            <View>
-              {message?.map((data, index) => (
-                <View key={index}>
-                  <RectButton
-                    // onPress={() =>
-                    //   navigation.navigate('NewsDetails', {
-                    //     detUrl: `/newscasts/${data.id}`,
-                    //     data,
-                    //   })
-                    // }
-                    key={index}>
-                    {index === 0 && (
-                      <Text
-                        style={[
-                          styles.rapidetxt,
-                          {color: COLORS.light.primary},
-                        ]}>{`${message?.length} Document(s)`}</Text>
-                    )}
-                    <View style={[styles.newsList2, {alignItems: 'center'}]}>
-                      <Icon
-                        name="payments"
-                        size={30}
-                        color={COLORS.light.primary}
-                        style={styles.newsListImg2}
-                      />
-                      <View style={styles.newsListDet2}>
-                        <Text
-                          style={[
-                            styles.smallText,
-                            isDark && {color: COLORS.light.backgroundSoft},
-                          ]}
-                          numberOfLines={2}
-                          ellipsizeMode="tail">
-                          {data?.title}
-                        </Text>
-                        <View style={styles.newsListDetExtra}>
-                          <View style={styles.newsListDetExtraLeft}>
-                            <Icon
-                              name="circle"
-                              color={
-                                isDark
-                                  ? COLORS.light.background
-                                  : COLORS.light.primary
-                              }
-                              size={8}
-                            />
-                            <Text
-                              style={[
-                                styles.newsListDetExtraTxt,
-                                isDark && {color: COLORS.light.backgroundSoft},
-                              ]}>
-                              {data.categorie}
-                            </Text>
-                          </View>
-                          <View
-                            style={[
-                              styles.newsListDetExtraRight,
-                              {marginHorizontal: 5},
-                            ]}>
-                            <Text style={styles.newsListDetExtraRightView}>
-                              {moment(data?.created_at).format('DD-MM-YYYY')}
-                            </Text>
-                          </View>
-                        </View>
-                      </View>
-                    </View>
-                    <Divider />
-                  </RectButton>
-                </View>
-              ))}
-            </View>
-          )}
-        </ScrollView>
+        {message?.length === 0 ? (
+          <Text
+            style={[
+              styles.noData,
+              isDark && {color: COLORS.light.backgroundSoft},
+            ]}>
+            Aucune information disponible
+          </Text>
+        ) : (
+          <View>
+            <FlatList
+              data={message}
+              renderItem={({item, index}) => (
+                <Subscriptions data={item} index={index} message={message} />
+              )}
+              keyExtractor={(item, index) => index}
+              refreshing={false}
+              onRefresh={fetchTags}
+            />
+          </View>
+        )}
       </View>
     </SafeAreaView>
   );
