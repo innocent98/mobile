@@ -11,14 +11,26 @@ export const styles = StyleSheet.create({
   safeAreaDark: {flex: 1, backgroundColor: COLORS.dark.background},
   container: {
     alignItems: 'center',
-    paddingVertical: 20,
+    paddingVertical: 10,
     paddingBottom: 30,
   },
   logo: {width: itemWidth * 0.4, height: itemHeight * 0.05},
-  menu: {width: itemWidth * 0.062, height: itemHeight * 0.03},
+  menuBtn: {
+    width: SIZES.button,
+    height: SIZES.button,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  menu: {width: itemWidth * 0.073, height: itemHeight * 0.05},
   scrollView: {width: '100%', paddingHorizontal: 20},
   iconImg: {width: 30, height: 30},
   tabImg: {height: 20, width: 20},
+  iconsBtn: {
+    height: SIZES.button,
+    width: SIZES.button,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 
   // onboard
   welcomeContainer: {
@@ -27,22 +39,16 @@ export const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     flex: 1,
+    paddingBottom: 10,
   },
   welcomeImgCon: {
     width: itemWidth,
-    height: itemHeight * 0.42,
+    height: itemHeight * 0.55,
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
   },
-  welcomeImgCon2: {
-    width: itemWidth,
-    height: itemHeight * 0.32,
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    marginTop: -35,
-  },
-  welcomeImg: {width: '85%', height: '100%'},
+  welcomeImg: {width: '100%', height: '100%'},
   welcomeText: {
     color: COLORS.dark.backgroundSoft,
     fontFamily: 'IBMPlexSans-Medium',
@@ -50,7 +56,7 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     width: '95%',
   },
-  ditesCon: {width: itemWidth * 0.5, position: 'relative', overflow: 'hidden'},
+  ditesCon: {width: itemWidth * 0.6, position: 'relative', overflow: 'hidden'},
   ditesConActual: {
     backgroundColor: COLORS.light.secondary,
     padding: 8,
@@ -76,16 +82,20 @@ export const styles = StyleSheet.create({
   dites: {
     color: COLORS.light.white,
     textTransform: 'capitalize',
-    fontFamily: 'IBMPlexSans-Medium',
-    fontSize: SIZES.font,
+    fontFamily: 'IBMPlexSans-SemiBold',
+    fontSize: SIZES.medium,
     textAlign: 'center',
   },
-  welcomeIcon: {
-    backgroundColor: COLORS.light.background,
+  welcomeIconBtn: {
+    height: SIZES.button,
+    width: SIZES.button,
     borderRadius: 50,
+    backgroundColor: COLORS.light.background,
+    alignItems: 'center',
+    justifyContent: 'center',
     marginRight: 10,
-    padding: 5,
   },
+  welcomeIcon: {},
 
   //   top
   topContainer: {
@@ -106,17 +116,20 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 5,
     marginRight: 12,
+    height: SIZES.button,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   topRightSpan: {flexDirection: 'row', alignItems: 'center'},
   buyText: {
     color: COLORS.light.background,
     fontFamily: 'IBMPlexSans-Medium',
-    fontSize: SIZES.small,
+    fontSize: SIZES.font,
   },
   buyTextSpan: {
     color: COLORS.light.background,
-    fontFamily: 'IBMPlexSans-Regular',
-    fontSize: SIZES.base,
+    fontFamily: 'IBMPlexSans-Medium',
+    fontSize: SIZES.small,
     textAlign: 'center',
   },
   topRight: {flexDirection: 'row', alignItems: 'center'},
@@ -125,7 +138,7 @@ export const styles = StyleSheet.create({
     backgroundColor: COLORS.light.gray,
     height: 40,
     position: 'absolute',
-    top: 50,
+    top: 55,
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -179,12 +192,9 @@ export const styles = StyleSheet.create({
   newsList2: {
     flexDirection: 'row',
     padding: SIZES.base,
-    // justifyContent: 'space-around',
-    // alignItems: 'center',
   },
   newsListImg2: {
     width: Dimensions.get('window').width * 0.15,
-    // height: Dimensions.get('window').height * 0.1,
     borderRadius: SIZES.font,
   },
   newsListDet2: {
@@ -365,13 +375,11 @@ export const styles = StyleSheet.create({
   videoTextCon: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    // alignItems: 'center',
   },
   videoSeeAllTxt: {
     fontFamily: 'IBMPlexSans-SemiBold',
-    fontSize: SIZES.font,
-    color: COLORS.dark.textSoft,
-    // margin: 10,
+    fontSize: SIZES.medium,
+    color: COLORS.dark.backgroundSoft,
   },
   videosCon: {
     width: itemWidth * 0.85,
@@ -435,6 +443,7 @@ export const styles = StyleSheet.create({
     color: COLORS.dark.background,
     textAlign: 'center',
     marginTop: 20,
+    marginBottom: 15,
   },
 
   // news details
@@ -443,6 +452,7 @@ export const styles = StyleSheet.create({
     alignItems: 'flex-start',
     justifyContent: 'space-between',
     width: '100%',
+    marginTop: 15,
   },
   newsDetailsCat: {flexDirection: 'row', alignItems: 'center'},
   newsDetailsAuthor: {flexDirection: 'row', alignItems: 'center'},
@@ -512,6 +522,9 @@ export const styles = StyleSheet.create({
     paddingVertical: 8,
     marginBottom: 5,
     color: COLORS.light.background,
+    height: SIZES.button,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 
   // abonnement
@@ -525,7 +538,6 @@ export const styles = StyleSheet.create({
   abbonementImg: {width: 400, height: 200},
   abonnementDown: {
     flexDirection: 'row',
-    // marginLeft: 10,
     marginTop: 40,
     flexWrap: 'wrap',
   },
@@ -569,8 +581,9 @@ export const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
     width: 120,
+    height: SIZES.button,
   },
-  abonneButtonExit: {width: 120},
+  abonneButtonExit: {width: 120, height: SIZES.button, padding: 10},
   abonneButtonExitText: {
     color: COLORS.light.primary,
     textAlign: 'center',
@@ -604,6 +617,7 @@ export const styles = StyleSheet.create({
     borderColor: COLORS.dark.textSoft,
     fontFamily: 'IBMPlexSans-Regular',
     fontSize: SIZES.font,
+    color: COLORS.dark.backgroundSoft,
   },
   abonnementDropTitle: {
     color: COLORS.dark.background,
@@ -671,16 +685,19 @@ export const styles = StyleSheet.create({
   catBtn: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
     borderWidth: 2,
-    borderColor: COLORS.light.primary,
+    borderColor: COLORS.light.red,
     padding: 8,
     paddingHorizontal: 15,
     borderRadius: 10,
+    height: SIZES.button,
   },
   catBtnTxt: {
-    color: COLORS.light.red,
-    fontFamily: 'IBMPlexSans-Medium',
+    color: COLORS.light.primary,
+    fontFamily: 'IBMPlexSans-SemiBold',
     textTransform: 'capitalize',
+    fontSize: SIZES.medium,
   },
 
   // settings
@@ -732,7 +749,6 @@ export const styles = StyleSheet.create({
     borderColor: COLORS.dark.textSoft,
     marginTop: 20,
     fontFamily: 'IBMPlexSans-Regular',
-    // fontSize: SIZES.xxl,
     color: COLORS.dark.backgroundSoft,
   },
   fontSizeLabel: {
@@ -758,8 +774,8 @@ export const styles = StyleSheet.create({
   },
   searchText: {
     color: COLORS.dark.background,
-    fontFamily: 'IBMPlexSans-Regular',
-    fontSize: SIZES.small,
+    fontFamily: 'IBMPlexSans-Medium',
+    fontSize: SIZES.font,
     width: '90%',
   },
   recherceTags: {
@@ -771,7 +787,7 @@ export const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   rapidetxt: {
-    color: COLORS.dark.textSoft,
+    color: COLORS.dark.backgroundSoft,
     fontFamily: 'IBMPlexSans-Regular',
     fontSize: SIZES.font,
     paddingHorizontal: 10,
@@ -809,7 +825,7 @@ export const styles = StyleSheet.create({
     color: COLORS.light.textSoft,
     borderBottomWidth: 1,
     borderBottomColor: COLORS.dark.textSoft,
-    fontFamily: 'IBMPlexSans-Regular',
+    fontFamily: 'IBMPlexSans-Medium',
     fontSize: SIZES.font,
   },
   loginContainer: {
@@ -829,6 +845,7 @@ export const styles = StyleSheet.create({
   regButton: {
     backgroundColor: COLORS.dark.textSoft,
     padding: 13,
+    height: SIZES.button,
   },
   regText: {
     color: COLORS.light.textSoft,

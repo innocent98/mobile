@@ -1,11 +1,4 @@
-import {
-  View,
-  SafeAreaView,
-  TextInput,
-  Text,
-  ScrollView,
-  FlatList,
-} from 'react-native';
+import {View, SafeAreaView, TextInput, Text, ScrollView} from 'react-native';
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {styles} from '../constants/styles';
@@ -18,7 +11,6 @@ import {useEffect} from 'react';
 import {makeGet} from '../redux/apiCalls';
 import {useNavigation} from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
-import {memo} from 'react';
 import {Divider} from 'react-native-paper';
 import {baseURL} from '../redux/config';
 import moment from 'moment';
@@ -65,7 +57,7 @@ const Search = () => {
           <TextInput
             placeholder="Recherche..."
             placeholderTextColor={
-              isDark ? COLORS.light.backgroundSoft : COLORS.dark.textSoft
+              isDark ? COLORS.light.backgroundSoft : COLORS.dark.backgroundSoft
             }
             onChangeText={handleSearch}
             value={query}
@@ -80,7 +72,7 @@ const Search = () => {
           />
           <Icon
             name={query === '' ? 'search' : 'close'}
-            color={COLORS.dark.textSoft}
+            color={isDark ? COLORS.dark.textSoft : COLORS.dark.backgroundSoft}
             size={18}
             style={styles.searchIcon}
             onPress={handleQuery}
@@ -89,7 +81,13 @@ const Search = () => {
 
         <ScrollView style={{height: '89%', width: '100%'}}>
           <View>
-            <Text style={styles.rapidetxt}>Recherche rapide</Text>
+            <Text
+              style={[
+                styles.rapidetxt,
+                isDark && {color: COLORS.dark.textSoft},
+              ]}>
+              Recherche rapide
+            </Text>
             <View style={styles.recherceTags}>
               {message?.map((item, index) => (
                 <RectButton
@@ -186,18 +184,17 @@ const Search = () => {
                               {data.categorie}
                             </Text>
                           </View>
-                          {data?.view && <View style={styles.newsListDetExtraRight}>
-                            <Icon
-                              name="visibility"
-                              color={COLORS.dark.textSoft}
-                            />
-                            <Text style={styles.newsListDetExtraRightView}>
-                              {data.view}
-                            </Text>
-                            {/* <Text style={styles.newsListDetExtraRightView}>
-                        {moment(data.created_at).format('DD-MM-YYYY')}
-                      </Text> */}
-                          </View>}
+                          {data?.view && (
+                            <View style={styles.newsListDetExtraRight}>
+                              <Icon
+                                name="visibility"
+                                color={COLORS.dark.textSoft}
+                              />
+                              <Text style={styles.newsListDetExtraRightView}>
+                                {data.view}
+                              </Text>
+                            </View>
+                          )}
                         </View>
                       </View>
                     </View>

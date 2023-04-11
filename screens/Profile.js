@@ -14,7 +14,6 @@ import {Notification} from '../components/Notification';
 
 const ChangePassword = ({setIsChangePassword, setMessage}) => {
   const {userProfile} = useSelector(state => state.user);
-  console.log(userProfile);
   const isDark = useSelector(state => state.theme.isDark);
   const dispatch = useDispatch();
   const {isFetching} = useSelector(state => state.user);
@@ -44,7 +43,6 @@ const ChangePassword = ({setIsChangePassword, setMessage}) => {
     new_password,
     confirm_password,
   };
-  // console.log(info);
 
   const handlechangePassword = () => {
     if (
@@ -213,7 +211,6 @@ const Profile = () => {
 
   const [isChangePassword, setIsChangePassword] = useState(false);
   const [message, setMessage] = useState('');
-  // console.log(isChangePassword);
 
   const handleLogout = () => {
     userLogout(dispatch, navigation);

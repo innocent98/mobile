@@ -1,9 +1,8 @@
-import {View, Text, SafeAreaView, ScrollView, Image, useWindowDimensions} from 'react-native';
+import {View, Text, SafeAreaView, ScrollView, Image} from 'react-native';
 import React from 'react';
 import {useSelector} from 'react-redux';
 import {styles} from '../constants/styles';
 import {TopComp} from '../components/Top';
-import {category} from '../constants/dummy';
 import {RectButton} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {COLORS} from '../constants/theme';
@@ -23,11 +22,6 @@ const Category = () => {
             <View style={styles.catCon}>
               {components?.map((item, index) => (
                 <View style={styles.catItem} key={index}>
-                  {/* <Image
-                    source={{uri: item.img}}
-                    resizeMode="cover"
-                    style={styles.catImg}
-                  /> */}
                   <View style={styles.catExtraCom}>
                     <Image
                       source={{uri: 'https://i.ibb.co/Dp79tZf/icon.png'}}
@@ -45,9 +39,9 @@ const Category = () => {
               ))}
             </View>
             <RectButton>
-              <View style={styles.catBtn}>
+              <View style={[styles.catBtn, isDark && {color: COLORS.light.background}]}>
                 <Text style={[styles.catBtnTxt, isDark && {color: COLORS.light.background}]}>voir Plus</Text>
-                <Icon name="add" size={18} color={isDark ? COLORS.light.background : COLORS.light.red} />
+                <Icon name="add" size={20} color={isDark ? COLORS.light.background : COLORS.light.primary} />
               </View>
             </RectButton>
             <Text style={[styles.footerText, isDark && {color: COLORS.light.background}]}>© 2023 La Nation Benin.</Text>

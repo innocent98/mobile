@@ -1,6 +1,6 @@
 import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
-import {useEffect, useState} from 'react';
+import {useEffect} from 'react';
 import {View, SafeAreaView, ScrollView, Text} from 'react-native';
 import {BorderlessButton, RectButton} from 'react-native-gesture-handler';
 import {Divider} from 'react-native-paper';
@@ -10,7 +10,6 @@ import {styles} from '../constants/styles';
 import {COLORS} from '../constants/theme';
 import {changeTheme, defaultTheme} from '../redux/themeRedux';
 import {setIsUser, setUserProfile} from '../redux/userRedux';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Settings = () => {
   const user = useSelector(state => state.user.currentUser);
@@ -54,7 +53,7 @@ const Settings = () => {
 
   return (
     <SafeAreaView style={isDark ? styles.safeAreaDark : styles.safeArea}>
-      <View style={styles.container}>
+      <View style={[styles.container, {paddingBottom: 0, paddingVertical: 0}]}>
         <View style={styles.settingsCon}>
           <ScrollView>
             <View style={styles.settingsItems}>
@@ -65,17 +64,6 @@ const Settings = () => {
                 ]}>
                 Compte
               </Text>
-              {/* <RectButton
-                style={styles.settingsItem}
-                onPress={handleNotification}>
-                <Text
-                  style={[
-                    styles.settingsItemText,
-                    isDark && {color: COLORS.light.backgroundSoft},
-                  ]}>
-                  Push Notification
-                </Text>
-              </RectButton> */}
               <RectButton
                 rippleColor={
                   isDark ? COLORS.dark.textSoft : COLORS.dark.textSoft
@@ -130,27 +118,6 @@ const Settings = () => {
               )}
             </View>
             <Divider />
-
-            {/* <View style={styles.settingsItems}>
-              <Text style={[styles.settingsItemLabel, isDark && {color: COLORS.light.background}]}>Édition Abonnés</Text>
-              <RectButton style={styles.settingsItem}>
-                <Image
-                  source={isDark ? require('../assets/tab1w.png') : require('../assets/tab1.png')}
-                  style={styles.tabImg}
-                />
-                <Text style={[styles.settingsItemText, isDark && {color: COLORS.light.backgroundSoft}]}>S'abonner</Text>
-              </RectButton>
-              <RectButton style={styles.settingsItem}>
-                <Icon name="refresh" color={isDark
-                    ? COLORS.light.backgroundSoft
-                    : COLORS.dark.background} size={18} />
-                <Text style={[styles.settingsItemText, isDark && {color: COLORS.light.backgroundSoft}]}>
-                  Restaurer un abonnement
-                </Text>
-              </RectButton>
-            </View>
-            <Divider /> */}
-
             <View style={styles.settingsItems}>
               <Text
                 style={[
@@ -277,7 +244,15 @@ const Settings = () => {
                       ]}>
                       Apparence
                     </Text>
-                    <Text style={styles.settingsItemTextSpan}>
+                    <Text
+                      style={[
+                        styles.settingsItemTextSpan,
+                        {
+                          color: isDark
+                            ? COLORS.light.backgroundSoft
+                            : COLORS.light.textSoft,
+                        },
+                      ]}>
                       {isDark ? 'Mode sombre' : 'Mode clair'}
                     </Text>
                   </View>
@@ -289,7 +264,7 @@ const Settings = () => {
                           ? COLORS.light.backgroundSoft
                           : COLORS.dark.background
                       }
-                      size={40}
+                      size={48}
                     />
                   </BorderlessButton>
                 </View>
@@ -305,14 +280,6 @@ const Settings = () => {
                 ]}>
                 Aide & Support
               </Text>
-              {/* <RectButton style={styles.settingsItem}>
-                <Icon name="apps" color={isDark
-                    ? COLORS.light.background
-                    : COLORS.dark.background} size={18} />
-                <Text style={[styles.settingsItemText, isDark && {color: COLORS.light.backgroundSoft}]}>
-                  Nouvelle Application
-                </Text>
-              </RectButton> */}
               <RectButton
                 style={styles.settingsItem}
                 rippleColor={
@@ -425,7 +392,13 @@ const Settings = () => {
                     ]}>
                     Version
                   </Text>
-                  <Text style={styles.settingsItemTextSpan}>1.0.0</Text>
+                  <Text
+                    style={[
+                      styles.settingsItemTextSpan,
+                      isDark && {color: COLORS.light.backgroundSoft},
+                    ]}>
+                    1.0.0
+                  </Text>
                 </View>
               </RectButton>
             </View>

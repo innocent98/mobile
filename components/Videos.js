@@ -1,5 +1,5 @@
 import {View, Text, FlatList, Linking} from 'react-native';
-import React, {memo} from 'react';
+import React, {memo, useEffect, useCallback, useState} from 'react';
 import {styles} from '../constants/styles';
 import FastImage from 'react-native-fast-image';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -7,15 +7,16 @@ import {services} from '../constants/dummy';
 import {Divider} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
 import {RectButton} from 'react-native-gesture-handler';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {COLORS} from '../constants/theme';
+import {makeGet, makeGet2} from '../redux/apiCalls';
+import {baseURL} from '../redux/config';
 
 const VideosList = ({data}) => {
   const isDark = useSelector(state => state.theme.isDark);
-  const navigation = useNavigation();
 
   const handleLinkPress = () => {
-    Linking.openURL(data.link);
+    Linking.openURL('https://www.youtube.com/watch?v=' + data?.link);
   };
 
   return (
@@ -50,17 +51,15 @@ const VideosList = ({data}) => {
 memo(VideosList);
 
 const Services = ({data}) => {
-  const isDark = useSelector(state => state.theme.isDark);
   const navigation = useNavigation();
 
   return (
-    <RectButton
-    // onPress={() => navigation.navigate('NewsDetails')}
-    >
+    <RectButton onPress={() => navigation.navigate('ServiceDet', {data})}>
       <FastImage
+        accessibilityLabel="This is e-commerce products"
         style={styles.serviceImg}
         source={{
-          uri: data.img,
+          uri: baseURL + data?.fichier?.path,
           headers: {Authorization: 'someAuthToken'},
           priority: FastImage.priority.normal,
         }}
@@ -77,18 +76,41 @@ const Videos = ({data}) => {
   const renderVideos = ({item}) => <VideosList data={item} />;
   const renderServices = ({item}) => <Services data={item} />;
 
+  const dispatch = useDispatch();
+
+  const [message, setMessage] = useState([]);
+
+  const fetchService = useCallback(() => {
+    makeGet(dispatch, '/articles', setMessage);
+  }, [dispatch, setMessage]);
+
+  useEffect(() => {
+    let unsubscribed = false;
+    if (!unsubscribed) {
+      fetchService();
+    }
+    return () => {
+      unsubscribed = true;
+    };
+  }, [setMessage]);
+
   return (
     <View style={styles.videos}>
       <View style={styles.videoTextCon}>
         <Text style={[styles.text, isDark && {color: COLORS.light.background}]}>
           nos videos
         </Text>
-        <Text onPress={()=>navigation.navigate('VideoLists', {data})} style={[styles.videoSeeAllTxt, isDark && {color: COLORS.light.background}]}>
-        Voir plus
+        <Text
+          onPress={() => navigation.navigate('VideoLists', {data})}
+          style={[
+            styles.videoSeeAllTxt,
+            isDark && {color: COLORS.light.background},
+          ]}>
+          Voir plus
         </Text>
       </View>
       <FlatList
-        data={data?.latestVideos?.slice(0,3)}
+        data={data?.latestVideos?.slice(0, 3)}
         keyExtractor={item => item.id}
         renderItem={renderVideos}
         horizontal
@@ -127,17 +149,19 @@ const Videos = ({data}) => {
           </RectButton>
         ))}
       </View>
-      
+
       <View style={styles.servicesFooter}>
-        <Text
-          style={[
-            styles.serviceText,
-            isDark && {color: COLORS.light.background},
-          ]}>
-          NOS SERVICES
-        </Text>
+        <View style={styles.videoTextCon}>
+          <Text
+            style={[
+              styles.serviceText,
+              isDark && {color: COLORS.light.background},
+            ]}>
+            NOS SERVICES
+          </Text>
+        </View>
         <FlatList
-          data={services}
+          data={message}
           keyExtractor={item => item.id}
           renderItem={renderServices}
           horizontal

@@ -16,7 +16,6 @@ import {login} from '../../redux/apiCalls';
 import {useNavigation} from '@react-navigation/native';
 import {Notification} from '../Notification';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const Login = () => {
@@ -32,7 +31,6 @@ const Login = () => {
   const [isVisible, setIsVisible] = useState(false);
 
   const brand = DeviceInfo.getBrand();
-  const buildNumber = DeviceInfo.getBuildNumber();
   DeviceInfo.getBuildId().then(buildId => {
     setBuildId(buildId);
   });
@@ -64,7 +62,6 @@ const Login = () => {
       }, 2000);
       return;
     } else {
-      // await AsyncStorage.setItem('device_name', device_name);
       login(dispatch, user, setMessage, navigation);
     }
   };
@@ -98,7 +95,6 @@ const Login = () => {
             <FastImage
               style={[
                 styles.mediaImg,
-                //   isDark && {borderWidth: 1, borderColor: COLORS.light.background},
               ]}
               source={{
                 uri: isDark
@@ -119,7 +115,7 @@ const Login = () => {
                 isDark && {color: COLORS.light.backgroundSoft},
               ]}
               placeholderTextColor={
-                isDark ? COLORS.dark.textSoft : COLORS.light.textSoft
+                isDark ? COLORS.light.backgroundSoft : COLORS.light.textSoft
               }
               onChangeText={handleEmail}
             />
@@ -131,7 +127,7 @@ const Login = () => {
                   isDark && {color: COLORS.light.backgroundSoft},
                 ]}
                 placeholderTextColor={
-                  isDark ? COLORS.dark.textSoft : COLORS.light.textSoft
+                  isDark ? COLORS.light.backgroundSoft : COLORS.light.textSoft
                 }
                 secureTextEntry={isVisible ? false : true}
                 onChangeText={handlePassword}
@@ -145,7 +141,7 @@ const Login = () => {
               />
             </View>
             <View style={styles.loginContainer}>
-              <Text style={[styles.forgetText, {marginTop: 10}]}>
+              <Text style={[styles.forgetText, {marginTop: 10, color:isDark ? COLORS.light.background : COLORS.light.primary,}]}>
                 Mot de passe oublié?
               </Text>
               <RectButton
@@ -167,43 +163,6 @@ const Login = () => {
                 )}
               </RectButton>
             </View>
-            {/* <RectButton>
-              <View style={styles.authButton}>
-                <FastImage
-                  style={[
-                    styles.authImg,
-                    //   isDark && {borderWidth: 1, borderColor: COLORS.light.background},
-                  ]}
-                  source={{
-                    uri: 'https://cdn-icons-png.flaticon.com/512/300/300221.png',
-                    headers: {Authorization: 'someAuthToken'},
-                    priority: FastImage.priority.normal,
-                  }}
-                  resizeMode={FastImage.resizeMode.contain}
-                />
-                <Text style={styles.authText}>Se connecter avec google</Text>
-              </View>
-            </RectButton>
-            <RectButton>
-              <View
-                style={[
-                  styles.authButton,
-                  {justifyContent: 'center', paddingHorizontal: 10},
-                ]}>
-                <Image
-                  source={require('../../assets/apple.png')}
-                  style={[
-                    styles.authImgApple,
-                    {marginLeft: -40},
-                    //   isDark && {borderWidth: 1, borderColor: COLORS.light.background},
-                  ]}
-                  resizeMode="contain"
-                />
-                <Text style={[styles.authText, {marginLeft: 20}]}>
-                  Se connecter avec apple
-                </Text>
-              </View>
-            </RectButton> */}
             <Text
               style={[
                 styles.compteText,

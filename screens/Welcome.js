@@ -44,16 +44,9 @@ const Welcome = () => {
         <View style={styles.welcomeContainer}>
           <View style={styles.welcomeImgCon}>
             <Image
-              source={require('../assets/1.png')}
+              source={require('../assets/lanationsplash.png')}
               resizeMode="contain"
-              style={[styles.welcomeImg, {marginLeft: -20}]}
-            />
-          </View>
-          <View style={styles.welcomeImgCon2}>
-            <Image
-              source={require('../assets/2.png')}
-              resizeMode="contain"
-              style={[styles.welcomeImg, {marginRight: -50}]}
+              style={[styles.welcomeImg, {marginLeft: 45}]}
             />
           </View>
           <Image
@@ -82,27 +75,34 @@ const Welcome = () => {
                       easing: Easing.out(Easing.ease),
                       delay: 0,
                     }}
-                    style={styles.ditesConOverlay}>
-                    <Icon
-                      name="arrow-forward"
-                      color={COLORS.light.primary}
-                      size={25}
-                      style={[styles.welcomeIcon, {marginRight: 0}]}
-                    />
+                    style={styles.ditesConOverlay}
+                    accessibilityLabel="Commencer">
+                    <View style={[styles.welcomeIconBtn, {marginRight: 0}]}>
+                      <Icon
+                        name="arrow-forward"
+                        color={COLORS.light.primary}
+                        size={35}
+                        style={styles.welcomeIcon}
+                      />
+                    </View>
                     <Text style={[styles.dites, {width: '80%'}]}>
-                      dites-moi tout
+                      Commencer
                     </Text>
                   </MotiView>
                 )}
               </>
             )}
             {!indicator && (
-              <View style={styles.ditesConActual}>
-                <BorderlessButton onPress={handleSlide}>
+              <View
+                style={styles.ditesConActual}
+                accessibilityLabel="dites-moi tout">
+                <BorderlessButton
+                  onPress={handleSlide}
+                  style={styles.welcomeIconBtn}>
                   <Icon
                     name="arrow-forward"
                     color={COLORS.light.secondary}
-                    size={25}
+                    size={35}
                     style={styles.welcomeIcon}
                   />
                 </BorderlessButton>

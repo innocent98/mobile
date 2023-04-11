@@ -1,8 +1,7 @@
 import {createStackNavigator} from '@react-navigation/stack';
-import {useNavigationState} from '@react-navigation/native';
+import {useNavigation, useNavigationState} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {changeTheme, defaultTheme} from './redux/themeRedux';
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector} from 'react-redux';
 import Home from './screens/Home';
 import NewsDetails from './screens/NewsDetails';
 import Abonnement from './screens/Abonnement';
@@ -24,12 +23,26 @@ import Bookmark from './components/Bookmark';
 import Journal from './screens/Journal';
 import ReadPDF from './screens/PDF';
 import {useState} from 'react';
+import ServiceLists from './components/ServiceLists';
+import {BorderlessButton} from 'react-native-gesture-handler';
+import ServiceDet from './components/ServiceDet';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
+const CustomBackIcon = ({color, navigation}) => {
+  return (
+    <BorderlessButton
+      style={styles.iconsBtn}
+      onPress={() => navigation.goBack()}>
+      <Icon name="arrow-back" size={35} color={color} />
+    </BorderlessButton>
+  );
+};
+
 const SettingsNavigator = () => {
   const isDark = useSelector(state => state.theme.isDark);
+  const navigation = useNavigation();
   return (
     <Stack.Navigator
       initialRouteName="Setting"
@@ -38,6 +51,8 @@ const SettingsNavigator = () => {
           backgroundColor: isDark
             ? COLORS.dark.background
             : COLORS.light.background,
+          borderBottomColor: COLORS.light.backgroundSoft,
+          borderBottomWidth: 1,
         },
         headerTintColor: isDark
           ? COLORS.light.background
@@ -45,6 +60,13 @@ const SettingsNavigator = () => {
         headerTitleStyle: {
           color: isDark ? COLORS.light.background : COLORS.dark.background,
         },
+        headerLeft: () =>
+          Platform.OS === 'android' ? (
+            <CustomBackIcon
+              navigation={navigation}
+              color={isDark ? COLORS.light.background : COLORS.dark.background}
+            />
+          ) : null,
       }}>
       <Stack.Screen
         name="Setting"
@@ -82,6 +104,7 @@ const SettingsNavigator = () => {
 
 const HomeNavigator = () => {
   const isDark = useSelector(state => state.theme.isDark);
+  const navigation = useNavigation();
 
   return (
     <Stack.Navigator
@@ -91,6 +114,8 @@ const HomeNavigator = () => {
           backgroundColor: isDark
             ? COLORS.dark.background
             : COLORS.light.background,
+            borderBottomColor: COLORS.light.backgroundSoft,
+            borderBottomWidth: 1,
         },
         headerTintColor: isDark
           ? COLORS.light.background
@@ -98,6 +123,13 @@ const HomeNavigator = () => {
         headerTitleStyle: {
           color: isDark ? COLORS.light.background : COLORS.dark.background,
         },
+        headerLeft: () =>
+          Platform.OS === 'android' ? (
+            <CustomBackIcon
+              navigation={navigation}
+              color={isDark ? COLORS.light.background : COLORS.dark.background}
+            />
+          ) : null,
       }}>
       <Stack.Screen
         name="Home"
@@ -125,6 +157,16 @@ const HomeNavigator = () => {
         options={{headerShown: true, headerTitle: 'Nos Videos'}}
       />
       <Stack.Screen
+        name="ServiceLists"
+        component={ServiceLists}
+        options={{headerShown: true, headerTitle: 'Nos Services'}}
+      />
+      <Stack.Screen
+        name="ServiceDet"
+        component={ServiceDet}
+        options={{headerShown: false, headerTitle: 'Services'}}
+      />
+      <Stack.Screen
         name="Settings"
         component={SettingsNavigator}
         options={{headerShown: false}}
@@ -135,6 +177,7 @@ const HomeNavigator = () => {
 
 const SearchNavigator = () => {
   const isDark = useSelector(state => state.theme.isDark);
+  const navigation = useNavigation();
 
   return (
     <Stack.Navigator
@@ -144,6 +187,8 @@ const SearchNavigator = () => {
           backgroundColor: isDark
             ? COLORS.dark.background
             : COLORS.light.background,
+            borderBottomColor: COLORS.light.backgroundSoft,
+            borderBottomWidth: 1,
         },
         headerTintColor: isDark
           ? COLORS.light.background
@@ -151,6 +196,13 @@ const SearchNavigator = () => {
         headerTitleStyle: {
           color: isDark ? COLORS.light.background : COLORS.dark.background,
         },
+        headerLeft: () =>
+          Platform.OS === 'android' ? (
+            <CustomBackIcon
+              navigation={navigation}
+              color={isDark ? COLORS.light.background : COLORS.dark.background}
+            />
+          ) : null,
       }}>
       <Tab.Screen
         name="Search"
@@ -183,6 +235,7 @@ const SearchNavigator = () => {
 
 const CategoryNavigator = () => {
   const isDark = useSelector(state => state.theme.isDark);
+  const navigation = useNavigation();
 
   return (
     <Stack.Navigator
@@ -192,6 +245,8 @@ const CategoryNavigator = () => {
           backgroundColor: isDark
             ? COLORS.dark.background
             : COLORS.light.background,
+            borderBottomColor: COLORS.light.backgroundSoft,
+            borderBottomWidth: 1,
         },
         headerTintColor: isDark
           ? COLORS.light.background
@@ -199,6 +254,13 @@ const CategoryNavigator = () => {
         headerTitleStyle: {
           color: isDark ? COLORS.light.background : COLORS.dark.background,
         },
+        headerLeft: () =>
+          Platform.OS === 'android' ? (
+            <CustomBackIcon
+              navigation={navigation}
+              color={isDark ? COLORS.light.background : COLORS.dark.background}
+            />
+          ) : null,
       }}>
       <Tab.Screen
         name="Category"
@@ -222,11 +284,11 @@ const CategoryNavigator = () => {
 const JournalNavigator = () => {
   const isDark = useSelector(state => state.theme.isDark);
   const [horizontal, setHorizontal] = useState(false);
+  const navigation = useNavigation();
 
   const handleHorizontal = () => {
     setHorizontal(!horizontal);
   };
-  // console.log(horizontal);
 
   return (
     <Stack.Navigator
@@ -236,6 +298,8 @@ const JournalNavigator = () => {
           backgroundColor: isDark
             ? COLORS.dark.background
             : COLORS.light.background,
+            borderBottomColor: COLORS.light.backgroundSoft,
+            borderBottomWidth: 1,
         },
         headerTintColor: isDark
           ? COLORS.light.background
@@ -243,6 +307,13 @@ const JournalNavigator = () => {
         headerTitleStyle: {
           color: isDark ? COLORS.light.background : COLORS.dark.background,
         },
+        headerLeft: () =>
+          Platform.OS === 'android' ? (
+            <CustomBackIcon
+              navigation={navigation}
+              color={isDark ? COLORS.light.background : COLORS.dark.background}
+            />
+          ) : null,
       }}>
       <Tab.Screen
         name="Journal"
@@ -288,14 +359,13 @@ const JournalNavigator = () => {
 const TabNavigator = () => {
   const user = useSelector(state => state.user.currentUser);
   const isDark = useSelector(state => state.theme.isDark);
-  const itemWidth = Dimensions.get('window').width;
   const itemHeight = Dimensions.get('window').height;
 
   return (
     <Tab.Navigator
       initialRouteName="HomePage"
       screenOptions={({route}) => ({
-        tabBarIcon: ({focused, color, size}) => {
+        tabBarIcon: ({color, size}) => {
           let iconName;
 
           const state = useNavigationState(state => state);
@@ -326,7 +396,6 @@ const TabNavigator = () => {
               break;
           }
 
-          // You can return any component that you like here!
           return <Icon name={iconName} size={size} color={color} />;
         },
 
@@ -339,6 +408,8 @@ const TabNavigator = () => {
           paddingHorizontal: 40,
           height: itemHeight * 0.1,
           maxWidth: '100%',
+          borderTopColor: COLORS.light.backgroundSoft,
+          borderTopWidth: 1,
         },
         tabBarInactiveBackgroundColor: 'transparent',
         tabBarActiveBackgroundColor: COLORS.dark.textSoft,
@@ -384,18 +455,7 @@ const OnBoard = () => {
 };
 
 const MainApp = () => {
-  const isDark = useSelector(state => state.theme.isDark);
   const isBoarded = useSelector(state => state.onBoard.isBoarded);
-
-  const dispatch = useDispatch();
-
-  const handleTheme = () => {
-    if (isDark) {
-      dispatch(defaultTheme(false));
-    } else {
-      dispatch(changeTheme(true));
-    }
-  };
 
   if (isBoarded) return <TabNavigator />;
   return <OnBoard />;

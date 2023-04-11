@@ -4,7 +4,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import {Divider, RadioButton} from 'react-native-paper';
 import {useState} from 'react';
 import {styles} from '../../constants/styles';
-import {COLORS} from '../../constants/theme';
+import {COLORS, SIZES} from '../../constants/theme';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {RectButton} from 'react-native-gesture-handler';
 import {changeFont, changeSettings} from '../../redux/fontRedux';
@@ -58,49 +58,77 @@ const FontResize = () => {
             </View>
             <Divider />
 
-            <View style={styles.settingsItems}>
+            <View
+              style={[styles.settingsItems, {paddingVertical: 0}]}
+              accessibilityLabel="This is a button that enables and disable font size rescalling">
               <RectButton
                 onPress={handleSettingsTrue}
-                style={styles.fontResizeSlide}>
-                <RadioButton
+                style={[styles.fontResizeSlide, {padding: 0}]}
+                rippleColor={COLORS.dark.textSoft}>
+                <RadioButton.Item
                   value={true}
                   status={keepSettings === true ? 'checked' : 'unchecked'}
-                  onPress={handleSettingsTrue}
                   color={
                     isDark ? COLORS.light.background : COLORS.light.primary
                   }
-                />
-                <Text
                   style={[
                     styles.settingsItemTextSpan,
-                    isDark && {color: COLORS.light.backgroundSoft},
-                  ]}>
-                  Conserver le réglage de votre appareil
-                </Text>
+                    {
+                      color: isDark
+                        ? COLORS.light.backgroundSoft
+                        : COLORS.light.textSoft,
+                      marginLeft: -10,
+                      height: SIZES.button,
+                    },
+                  ]}
+                  label={'Conserver le réglage de votre appareil'}
+                  labelStyle={{
+                    color: isDark
+                      ? COLORS.light.backgroundSoft
+                      : COLORS.light.textSoft,
+                  }}
+                  labelVariant={'bodyLarge'}
+                  position="leading"
+                  accessibilityLabel="Conserver le réglage de votre appareil"
+                />
               </RectButton>
               <RectButton
                 onPress={handleSettingsFalse}
-                style={styles.fontResizeSlide}>
-                <RadioButton
+                style={[styles.fontResizeSlide, {padding: 0}]}
+                rippleColor={COLORS.dark.textSoft}>
+                <RadioButton.Item
                   value={false}
                   status={keepSettings === false ? 'checked' : 'unchecked'}
-                  onPress={handleSettingsFalse}
                   color={
                     isDark ? COLORS.light.background : COLORS.light.primary
                   }
-                />
-                <Text
                   style={[
                     styles.settingsItemTextSpan,
-                    isDark && {color: COLORS.light.backgroundSoft},
-                  ]}>
-                  Personnaliser la taille de la police
-                </Text>
+                    {
+                      color: isDark
+                        ? COLORS.light.backgroundSoft
+                        : COLORS.light.textSoft,
+                      marginLeft: -10,
+                      height: SIZES.button,
+                    },
+                  ]}
+                  label={'Personnaliser la taille de la police'}
+                  labelStyle={{
+                    color: isDark
+                      ? COLORS.light.backgroundSoft
+                      : COLORS.light.textSoft,
+                  }}
+                  labelVariant={'bodyLarge'}
+                  position="leading"
+                  accessibilityLabel="Conserver le réglage de votre appareil"
+                />
               </RectButton>
             </View>
             <Divider />
 
-            <View style={styles.fontResizeSlide}>
+            <View
+              style={styles.fontResizeSlide}
+              accessibilityLabel="This is a view that helps to determine the range of text font size">
               <Icon
                 name="text-fields"
                 color={
@@ -109,6 +137,7 @@ const FontResize = () => {
                 size={18}
               />
               <Slider
+                accessibilityLabel="This is a slide that helps to determine the range of text font size and rescale"
                 style={{width: 200, height: 40}}
                 minimumValue={0}
                 value={value}

@@ -5,14 +5,16 @@ import {
   ScrollView,
   TextInput,
   ActivityIndicator,
-  Image,KeyboardAvoidingView, Platform,
+  Image,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import React, {useEffect, useState, useRef} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {styles} from '../constants/styles';
 import {TopComp} from '../components/Top';
 import {MotiView} from 'moti';
-import {RectButton} from 'react-native-gesture-handler';
+import {BorderlessButton, RectButton} from 'react-native-gesture-handler';
 import {Easing} from 'react-native-reanimated';
 import {COLORS, SIZES} from '../constants/theme';
 import {makeGet} from '../redux/apiCalls';
@@ -34,6 +36,8 @@ export const AbonnementDrop = ({
   model,
   model_id,
   type,
+  setPaymentRes,
+  price,
 }) => {
   const user = useSelector(state => state.user.currentUser);
   const {userProfile} = useSelector(state => state.user);
@@ -70,7 +74,6 @@ export const AbonnementDrop = ({
     model_id: model_id,
     type: type,
   };
-  // console.log(inputs2, type, model, model_id);
 
   const handleSubscription = async () => {
     if (mode === '' || phone === '') {
@@ -85,7 +88,7 @@ export const AbonnementDrop = ({
           type ? inputs2 : inputs,
           {headers},
         );
-        // console.log(res.data);
+        setPaymentRes(res.data);
         setIsSelected(false);
         setIsSuccess(true);
         setTimeout(() => {
@@ -94,13 +97,9 @@ export const AbonnementDrop = ({
         dispatch(processSuccess());
       } catch (error) {
         dispatch(processFailure());
-        // console.log(error.response.data);
       }
     }
   };
-
-  const mtnLogo = require('../assets/mtn.jpg');
-  const moovLogo = require('../assets/moov.jpg');
 
   return (
     <MotiView
@@ -119,58 +118,74 @@ export const AbonnementDrop = ({
           </Text>
           <Text style={styles.abonnementDropSub}>{data?.content}</Text>
           {isSelected && (
-            <Icon
-              name="arrow-back"
-              size={20}
-              onPress={() => setIsSelected(false)}
-            />
+            <BorderlessButton
+              style={styles.iconsBtn}
+              onPress={() => setIsSelected(false)}>
+              <Icon name="arrow-back" size={20} />
+            </BorderlessButton>
           )}
           {!isSelected && (
             <>
-              {!type
-                ? data?.options?.map((item, index) => (
-                    <RectButton
-                      onPress={() => {
-                        setIsSelected(true);
-                        setOptionId(item?.id);
-                      }}
-                      key={index}
-                      style={{marginBottom: 10}}>
-                      <View style={styles.abonnementEditOptionCon}>
-                        <Text style={styles.abonnementEditOption}>
-                          {`${item?.duration} ${item?.duration_type}`}
-                        </Text>
-                        <Text style={styles.abonnementEditOption}>
-                          {`FCFA ${item?.price}`}
-                        </Text>
-                      </View>
-                    </RectButton>
-                  ))
-                : data?.options?.slice(0, 1).map((item, index) => (
-                    <RectButton
-                      onPress={() => {
-                        setIsSelected(true);
-                        setOptionId(item?.id);
-                      }}
-                      key={index}
-                      style={{marginBottom: 10}}>
-                      <View style={styles.abonnementEditOptionCon}>
-                        <Text style={styles.abonnementEditOption}>
-                          {`${item?.duration} ${item?.duration_type}`}
-                        </Text>
-                        <Text style={styles.abonnementEditOption}>
-                          {`FCFA ${item?.price}`}
-                        </Text>
-                      </View>
-                    </RectButton>
-                  ))}
+              {!type ? (
+                data?.options?.map((item, index) => (
+                  <RectButton
+                    onPress={() => {
+                      setIsSelected(true);
+                      setOptionId(item?.id);
+                    }}
+                    key={index}
+                    style={{marginBottom: 10}}>
+                    <View style={styles.abonnementEditOptionCon}>
+                      <Text style={styles.abonnementEditOption}>
+                        {`${item?.duration} ${item?.duration_type}`}
+                      </Text>
+                      <Text style={styles.abonnementEditOption}>
+                        {`FCFA ${item?.price}`}
+                      </Text>
+                    </View>
+                  </RectButton>
+                ))
+              ) : data?.options ? (
+                data?.options?.slice(0, 1).map((item, index) => (
+                  <RectButton
+                    onPress={() => {
+                      setIsSelected(true);
+                      setOptionId(item?.id);
+                    }}
+                    key={index}
+                    style={{marginBottom: 10}}>
+                    <View style={styles.abonnementEditOptionCon}>
+                      <Text style={styles.abonnementEditOption}>
+                        {`${item?.duration} ${item?.duration_type}`}
+                      </Text>
+                      <Text style={styles.abonnementEditOption}>
+                        {`FCFA ${item?.price}`}
+                      </Text>
+                    </View>
+                  </RectButton>
+                ))
+              ) : (
+                <RectButton
+                  onPress={() => {
+                    setIsSelected(true);
+                    setOptionId(data?.id);
+                  }}
+                  style={{marginBottom: 10}}>
+                  <View style={styles.abonnementEditOptionCon}>
+                    <Text style={styles.abonnementEditOption}>
+                      {`FCFA ${price}`}
+                    </Text>
+                  </View>
+                </RectButton>
+              )}
             </>
           )}
 
           {isSelected && (
-            <KeyboardAvoidingView style={{ flex: 1 }}
-            behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-            keyboardVerticalOffset={Platform.OS === 'ios' ? 64 : 0}>
+            <KeyboardAvoidingView
+              style={{flex: 1}}
+              behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+              keyboardVerticalOffset={Platform.OS === 'ios' ? 64 : 0}>
               <TextInput
                 style={styles.abonnementEditInput}
                 placeholder={userProfile?.phone}
@@ -249,6 +264,8 @@ const Abonnement = () => {
   const [message, setMessage] = useState([]);
   const [data, setData] = useState({});
   const [isSuccess, setIsSuccess] = useState(false);
+  const [paymentRes, setPaymentRes] = useState({});
+  console.log(paymentRes);
 
   const fetchNews = () => {
     makeGet(dispatch, '/pricings', setMessage);
@@ -263,7 +280,6 @@ const Abonnement = () => {
       unsubscribed = true;
     };
   }, [setMessage]);
-  // console.log(message);
 
   return (
     <SafeAreaView style={isDark ? styles.safeAreaDark : styles.safeArea}>
@@ -284,6 +300,7 @@ const Abonnement = () => {
             setAbonne={setAbonne}
             data={data}
             setIsSuccess={setIsSuccess}
+            setPaymentRes={setPaymentRes}
           />
         )}
         <ScrollView style={[styles.scrollView, {paddingHorizontal: 0}]}>

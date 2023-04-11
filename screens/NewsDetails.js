@@ -3,15 +3,14 @@ import React, {useState, useRef} from 'react';
 import {styles} from '../constants/styles';
 import FastImage from 'react-native-fast-image';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {COLORS, SIZES} from '../constants/theme';
-import {useDispatch, useSelector} from 'react-redux';
+import {COLORS} from '../constants/theme';
+import {useDispatch, useSelector} from 'react-redux'; 
 import {BorderlessButton, RectButton} from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';
 import {makeGet, makeGet2} from '../redux/apiCalls';
 import {useEffect} from 'react';
 import moment from 'moment';
 import {baseURL} from '../redux/config';
-import {userRequest} from '../redux/requestMethod';
 import {
   processFailure,
   processStart,
@@ -21,15 +20,13 @@ import {Notification} from '../components/Notification';
 import RenderHtml from 'react-native-render-html';
 import {useWindowDimensions} from 'react-native';
 import {AbonnementDrop} from './Abonnement';
+import {userRequest} from '../redux/requestMethod';
 
 const NewsDetails = ({route}) => {
   const {width} = useWindowDimensions();
   const user = useSelector(state => state.user.currentUser);
   const {userProfile} = useSelector(state => state.user);
-  const {isFetching} = useSelector(state => state.process);
   const scrollViewRef = useRef(null);
-  // console.log(userProfile)
-
   const dispatch = useDispatch();
   const isDark = useSelector(state => state.theme.isDark);
   const fontSize = useSelector(state => state.font.fontSize);
@@ -43,6 +40,7 @@ const NewsDetails = ({route}) => {
   const [abonne, setAbonne] = useState(false);
   const [data, setData] = useState({});
   const [isSuccess, setIsSuccess] = useState(false);
+  const [paymentRes, setPaymentRes] = useState({});
 
   const fetchNewsDetails = () => {
     makeGet2(dispatch, detUrl, setMessage);
@@ -58,10 +56,9 @@ const NewsDetails = ({route}) => {
   const handleBookmark = async () => {
     dispatch(processStart());
     try {
-      const res = await userRequest.get(
-        `/addFavori/${message?.id}/${userProfile?.id}`,
-        {headers},
-      );
+      await userRequest.get(`/addFavori/${message?.id}/${userProfile?.id}`, {
+        headers,
+      });
       setIsBookmarked(true);
       setTimeout(() => {
         setIsBookmarked(false);
@@ -84,7 +81,7 @@ const NewsDetails = ({route}) => {
   }, [setMessage, setMessage2]);
 
   useEffect(() => {
-    const mappedData = message2?.data?.slice(1, 2)?.map((item, index) => {
+    const mappedData = message2?.data?.slice(1, 2)?.map(item => {
       return item;
     });
     setPricing(mappedData);
@@ -100,14 +97,11 @@ const NewsDetails = ({route}) => {
           'http://onip.hopetvbenin.org/client' +
           detUrl,
         url: 'http://onip.hopetvbenin.org/client',
-        // title: message.title,
       })
         .then(result => console.log(result))
         .catch(errorMsg => console.log(errorMsg));
     } catch (error) {}
   };
-
-  // console.log(message)
 
   return (
     <SafeAreaView style={isDark ? styles.safeAreaDark : styles.safeArea}>
@@ -138,7 +132,10 @@ const NewsDetails = ({route}) => {
         <View
           style={[
             styles.container,
-            abonne && {backgroundColor: 'rgba(0, 0, 0.20, 0.20)'},
+            {
+              backgroundColor: abonne ? 'rgba(0, 0, 0.20, 0.20)' : null,
+              paddingVertical: 0,
+            },
           ]}>
           {abonne && (
             <AbonnementDrop
@@ -148,6 +145,7 @@ const NewsDetails = ({route}) => {
               type={'paiement'}
               model={'App\\Models\\Newscast'}
               model_id={message?.id}
+              setPaymentRes={setPaymentRes}
             />
           )}
           <ScrollView style={styles.scrollView}>
@@ -168,21 +166,6 @@ const NewsDetails = ({route}) => {
                 </Text>
               </View>
               <View style={styles.newsDetailsAuthor}>
-                {/* <FastImage
-                style={[
-                  styles.profileImg,
-                  isDark && {
-                    borderWidth: 1,
-                    borderColor: COLORS.light.background,
-                  },
-                ]}
-                source={{
-                  uri: 'https://i.ibb.co/8c3xKmX/profilepic.png',
-                  headers: {Authorization: 'someAuthToken'},
-                  priority: FastImage.priority.normal,
-                }}
-                resizeMode={FastImage.resizeMode.cover}
-              /> */}
                 <Text
                   style={[
                     styles.profileText,
@@ -256,18 +239,6 @@ const NewsDetails = ({route}) => {
                 marginVertical: 20,
               }}
             />
-            {/* <Text
-              style={[
-                styles.newsDetailsParagraph,
-                {
-                  color: isDark
-                    ? COLORS.light.backgroundSoft
-                    : COLORS.dark.background,
-                  fontSize: fontSize,
-                },
-              ]}>
-              {content}
-            </Text> */}
             <FastImage
               style={styles.paragraphImg}
               source={{
@@ -281,7 +252,7 @@ const NewsDetails = ({route}) => {
             {/* paragraphs */}
             {message?.paragraphs?.map((paragraph, index) => {
               return (
-                <View key={index} style={{marginBottom:15}}>
+                <View key={index} style={{marginBottom: 15}}>
                   {message?.for_subscriber !== '1' && (
                     <RenderHtml
                       contentWidth={width}
@@ -298,18 +269,6 @@ const NewsDetails = ({route}) => {
                       }}
                     />
                   )}
-                  {/* <Text
-                style={[
-                  styles.newsDetailsParagraph,
-                  {
-                    color: isDark
-                      ? COLORS.light.backgroundSoft
-                      : COLORS.dark.background,
-                    fontSize: fontSize,
-                  },
-                ]}>
-                {paragraph.content}
-              </Text> */}
                   {paragraph?.insertion?.fichier?.path && (
                     <FastImage
                       style={styles.paragraphImg}
@@ -353,7 +312,7 @@ const NewsDetails = ({route}) => {
                     }}
                     style={styles.newsDetailsBtn}
                     key={index}
-                    enabled={!abonne}>
+                    enabled={!abonne || !user}>
                     <Text style={styles.newsDetailsBtnText}>
                       Débloquer l'article
                     </Text>
@@ -361,7 +320,10 @@ const NewsDetails = ({route}) => {
                 ))}
                 {!user && (
                   <Text
-                    style={styles.newsListDetExtraRightView}
+                    style={[
+                      styles.newsListDetExtraRightView,
+                      isDark && {color: COLORS.light.backgroundSoft},
+                    ]}
                     onPress={() =>
                       navigation.navigate('Settings', {screen: 'Login'})
                     }>
@@ -375,28 +337,30 @@ const NewsDetails = ({route}) => {
       )}
 
       <View style={styles.newsDetailsFooterCom}>
-        <BorderlessButton>
+        <BorderlessButton
+          onPress={() => navigation.goBack()}
+          style={styles.iconsBtn}>
           <Icon
             name="arrow-back"
             color={COLORS.dark.backgroundSoft}
             size={24}
-            onPress={() => navigation.goBack()}
           />
         </BorderlessButton>
-        <BorderlessButton onPress={handleBookmark}>
+        <BorderlessButton onPress={handleBookmark} style={styles.iconsBtn}>
           <Icon
             name="bookmark-border"
             color={COLORS.dark.backgroundSoft}
             size={24}
           />
         </BorderlessButton>
-        <BorderlessButton onPress={shareMessage}>
+        <BorderlessButton onPress={shareMessage} style={styles.iconsBtn}>
           <Icon name="share" color={COLORS.dark.backgroundSoft} size={24} />
         </BorderlessButton>
         <BorderlessButton
           onPress={() =>
             navigation.navigate('Settings', {screen: 'FontResize'})
-          }>
+          }
+          style={styles.iconsBtn}>
           <Icon name="tune" color={COLORS.dark.backgroundSoft} size={24} />
         </BorderlessButton>
       </View>

@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import {COLORS} from '../constants/theme';
 import {Divider} from 'react-native-paper';
 import NewsExtra from './NewsExtra';
-import {RectButton} from 'react-native-gesture-handler';
+import {BorderlessButton, RectButton} from 'react-native-gesture-handler';
 import {useDispatch, useSelector} from 'react-redux';
 import {useEffect} from 'react';
 import {makeGet} from '../redux/apiCalls';
@@ -64,9 +64,6 @@ export const News = ({data}) => {
             <View style={styles.newsListDetExtraRight}>
               <Icon name="visibility" color={COLORS.dark.textSoft} />
               <Text style={styles.newsListDetExtraRightView}>{data.view}</Text>
-              {/* <Text style={styles.newsListDetExtraRightView}>
-                {moment(data.created_at).format('DD-MM-YYYY')}
-              </Text> */}
             </View>
           </View>
         </View>
@@ -105,8 +102,11 @@ const Alaune = () => {
   }, [setMessage, setMessage2]);
 
   useEffect(() => {
-    dispatch(setData(message));
-    dispatch(setData2(message2));
+    const timeout = setTimeout(() => {
+      dispatch(setData(message));
+      dispatch(setData2(message2));
+    }, 2000);
+    return () => clearInterval(timeout);
   }, [message]);
 
   return (
@@ -116,7 +116,9 @@ const Alaune = () => {
         isDark && {backgroundColor: COLORS.dark.background},
       ]}>
       <FlatList
-        data={data2?.data?.slice(0, 4)}
+        data={
+          data2?.data ? data2?.data?.slice(0, 4) : message2?.data?.slice(0, 4)
+        }
         renderItem={renderItem}
         keyExtractor={item => item.id}
         showsVerticalScrollIndicator={false}
@@ -148,12 +150,14 @@ const Alaune = () => {
                     ellipsizeMode="tail">
                     {data?.principalNewscats?.title}
                   </Text>
-                  <Icon
-                    name="bookmark-border"
-                    size={22}
-                    color={COLORS.light.background}
-                    style={styles.featuredIcon}
-                  />
+                  <BorderlessButton
+                    style={[styles.iconsBtn, {marginLeft: 15, marginTop: 5}]}>
+                    <Icon
+                      name="bookmark-border"
+                      size={22}
+                      color={COLORS.light.background}
+                    />
+                  </BorderlessButton>
                 </View>
               </View>
             )}

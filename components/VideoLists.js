@@ -11,7 +11,7 @@ const VideosList = ({data}) => {
   const isDark = useSelector(state => state.theme.isDark);
 
   const handleLinkPress = () => {
-    Linking.openURL('https://www.example.com');
+    Linking.openURL('https://www.youtube.com/watch?v=' + data?.link);
   };
 
   return (
@@ -54,11 +54,6 @@ const VideoLists = ({route}) => {
     <SafeAreaView style={isDark ? styles.safeAreaDark : styles.safeArea}>
       <View style={[styles.container, {paddingVertical: 0, paddingBottom: 0}]}>
         <View style={[styles.videos, {marginTop: 0}]}>
-          {/* <View style={styles.videoTextCon}>
-        <Text style={[styles.text, isDark && {color: COLORS.light.background}]}>
-          nos videos
-        </Text>
-      </View> */}
           <FlatList
             data={data?.latestVideos}
             keyExtractor={item => item.id}

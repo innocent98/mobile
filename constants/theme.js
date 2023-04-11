@@ -31,6 +31,7 @@ export const SIZES = {
   extraLarge: 20,
   xxl: 24,
   xxxl: 28,
+  button: 48
 };
 
 export const SHADOWS = {

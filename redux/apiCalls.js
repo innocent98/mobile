@@ -43,6 +43,7 @@ export const makeGet = async (dispatch, url, setMessage, setMessage2) => {
   try {
     const res = await userRequest.get(url);
     setMessage(res.data.data);
+    // console.log(res.data.data);
     setMessage2(res.data.data);
     dispatch(processSuccess());
   } catch (err) {

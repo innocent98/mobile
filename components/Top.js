@@ -38,14 +38,17 @@ export const TopComp = () => {
             <Text style={styles.buyText}>Abonnez vous</Text>
             <Icon
               name="shopping-cart"
-              size={10}
+              size={15}
               color={COLORS.light.background}
             />
           </View>
           <Text style={styles.buyTextSpan}>A partir de 200f</Text>
         </RectButton>
-        <BorderlessButton onPress={() => navigation.navigate('Settings')}>
+        <BorderlessButton
+          onPress={() => navigation.navigate('Settings')}
+          style={styles.menuBtn}>
           <Image
+            accessibilityLabel="This is menu icon that takes user to the settings menu page"
             source={
               isDark
                 ? require('../assets/menuw.png')
@@ -60,7 +63,7 @@ export const TopComp = () => {
   );
 };
 
-export const MyTabs = ({data}) => {
+export const MyTabs = () => {
   const isDark = useSelector(state => state.theme.isDark);
   const components = useSelector(state => state.slide.components);
 
@@ -95,7 +98,6 @@ export const MyTabs = ({data}) => {
             component={Actualites}
             key={index}
             initialParams={{index}}
-            // options={{title: 'VERO CUM'}}
           />
         );
       })}
@@ -108,9 +110,9 @@ const Top = ({message}) => {
     <View style={styles.topContainer}>
       <TopComp />
       <View style={styles.tabBarView}>
-        <MyTabs data={message} />
+        <MyTabs />
         <View style={styles.broadcast}>
-          <Icon name="campaign" size={28} color={COLORS.light.red} />
+          <Icon name="campaign" size={28} color={COLORS.light.backgroundSoft} />
           <TextTicker
             style={{fontSize: 14, color: COLORS.light.background}}
             loop

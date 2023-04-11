@@ -68,7 +68,6 @@ const App = () => {
   const [registrationToken, setRegistrationToken] = useState('');
   const fcm = async () => {
     setRegistrationToken(await AsyncStorage.getItem('fcmToken'));
-    // console.log(registrationToken);
   };
   useEffect(() => {
     fcm();
