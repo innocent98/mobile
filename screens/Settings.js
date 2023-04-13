@@ -1,7 +1,7 @@
 import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
 import {useEffect} from 'react';
-import {View, SafeAreaView, ScrollView, Text} from 'react-native';
+import {View, SafeAreaView, ScrollView, Text, Linking} from 'react-native';
 import {BorderlessButton, RectButton} from 'react-native-gesture-handler';
 import {Divider} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -180,9 +180,14 @@ const Settings = () => {
                 style={styles.settingsItem}
                 rippleColor={
                   isDark ? COLORS.dark.textSoft : COLORS.dark.textSoft
-                }>
+                }
+                onPress={() => {
+                  Linking.openURL(
+                    'http://api.onip.hopetvbenin.org/client/pages/2',
+                  );
+                }}>
                 <Icon
-                  name="notifications"
+                  name="info"
                   color={
                     isDark
                       ? COLORS.light.backgroundSoft
@@ -195,7 +200,7 @@ const Settings = () => {
                     styles.settingsItemText,
                     isDark && {color: COLORS.light.backgroundSoft},
                   ]}>
-                  Notifications
+                  Apropo de nous
                 </Text>
               </RectButton>
               <RectButton
@@ -284,29 +289,7 @@ const Settings = () => {
                 style={styles.settingsItem}
                 rippleColor={
                   isDark ? COLORS.dark.textSoft : COLORS.dark.textSoft
-                }>
-                <Icon
-                  name="question-answer"
-                  color={
-                    isDark
-                      ? COLORS.light.backgroundSoft
-                      : COLORS.dark.background
-                  }
-                  size={18}
-                />
-                <Text
-                  style={[
-                    styles.settingsItemText,
-                    isDark && {color: COLORS.light.backgroundSoft},
-                  ]}>
-                  FAQ et suggestions
-                </Text>
-              </RectButton>
-              <RectButton
-                style={styles.settingsItem}
-                rippleColor={
-                  isDark ? COLORS.dark.textSoft : COLORS.dark.textSoft
-                }>
+                } onPress={()=> navigation.navigate('Contact')} >
                 <Icon
                   name="contact-support"
                   color={
@@ -328,9 +311,14 @@ const Settings = () => {
                 style={styles.settingsItem}
                 rippleColor={
                   isDark ? COLORS.dark.textSoft : COLORS.dark.textSoft
-                }>
+                }
+                onPress={() => {
+                  Linking.openURL(
+                    'http://api.onip.hopetvbenin.org/client/pages/5',
+                  );
+                }}>
                 <Icon
-                  name="info"
+                  name="privacy-tip"
                   color={
                     isDark
                       ? COLORS.light.backgroundSoft
@@ -361,7 +349,7 @@ const Settings = () => {
                 style={styles.settingsItem}
                 rippleColor={
                   isDark ? COLORS.dark.textSoft : COLORS.dark.textSoft
-                }>
+                } onPress={()=>{Linking.openURL('http://api.onip.hopetvbenin.org/client/pages/6')}} >
                 <Icon
                   name="person-outline"
                   color={

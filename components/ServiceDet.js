@@ -75,10 +75,11 @@ const ServiceDet = ({route}) => {
             data={data}
             setIsSuccess={setIsSuccess}
             type={'paiement'}
-            model={'App\\Models\\Newscast'}
+            model={'App\\Models\\Article'}
             model_id={data?.id}
             setPaymentRes={setPaymentRes}
-            price={price}
+            amount={price}
+            nbre={item}
           />
         )}
         <ScrollView>

@@ -389,9 +389,9 @@ export const styles = StyleSheet.create({
   },
   videosCon2: {
     width: itemWidth,
-    height: itemHeight * 0.3,
+    height: itemHeight * 0.35,
     backgroundColor: COLORS.dark.background,
-    marginBottom: 5,
+    marginBottom: 10,
   },
   videoText: {
     fontFamily: 'IBMPlexSans-Regular',
@@ -408,7 +408,7 @@ export const styles = StyleSheet.create({
     position: 'absolute',
     flexDirection: 'row',
     alignItems: 'center',
-    top: 130,
+    top: 120,
     left: 20,
   },
   videosPlayText: {

@@ -26,6 +26,7 @@ import {useState} from 'react';
 import ServiceLists from './components/ServiceLists';
 import {BorderlessButton} from 'react-native-gesture-handler';
 import ServiceDet from './components/ServiceDet';
+import Contact from './components/settings/Contact';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -96,7 +97,12 @@ const SettingsNavigator = () => {
       <Stack.Screen
         name="CategoryPage"
         component={CategoryNavigator}
-        options={{headerShown: false, tabBarLabel: 'Autre'}}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Contact"
+        component={Contact}
+        options={{headerShown: false}}
       />
     </Stack.Navigator>
   );
@@ -114,8 +120,8 @@ const HomeNavigator = () => {
           backgroundColor: isDark
             ? COLORS.dark.background
             : COLORS.light.background,
-            borderBottomColor: COLORS.light.backgroundSoft,
-            borderBottomWidth: 1,
+          borderBottomColor: COLORS.light.backgroundSoft,
+          borderBottomWidth: 1,
         },
         headerTintColor: isDark
           ? COLORS.light.background
@@ -187,8 +193,8 @@ const SearchNavigator = () => {
           backgroundColor: isDark
             ? COLORS.dark.background
             : COLORS.light.background,
-            borderBottomColor: COLORS.light.backgroundSoft,
-            borderBottomWidth: 1,
+          borderBottomColor: COLORS.light.backgroundSoft,
+          borderBottomWidth: 1,
         },
         headerTintColor: isDark
           ? COLORS.light.background
@@ -245,8 +251,8 @@ const CategoryNavigator = () => {
           backgroundColor: isDark
             ? COLORS.dark.background
             : COLORS.light.background,
-            borderBottomColor: COLORS.light.backgroundSoft,
-            borderBottomWidth: 1,
+          borderBottomColor: COLORS.light.backgroundSoft,
+          borderBottomWidth: 1,
         },
         headerTintColor: isDark
           ? COLORS.light.background
@@ -298,8 +304,8 @@ const JournalNavigator = () => {
           backgroundColor: isDark
             ? COLORS.dark.background
             : COLORS.light.background,
-            borderBottomColor: COLORS.light.backgroundSoft,
-            borderBottomWidth: 1,
+          borderBottomColor: COLORS.light.backgroundSoft,
+          borderBottomWidth: 1,
         },
         headerTintColor: isDark
           ? COLORS.light.background

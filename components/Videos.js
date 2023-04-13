@@ -3,13 +3,12 @@ import React, {memo, useEffect, useCallback, useState} from 'react';
 import {styles} from '../constants/styles';
 import FastImage from 'react-native-fast-image';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {services} from '../constants/dummy';
 import {Divider} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
 import {RectButton} from 'react-native-gesture-handler';
 import {useDispatch, useSelector} from 'react-redux';
 import {COLORS} from '../constants/theme';
-import {makeGet, makeGet2} from '../redux/apiCalls';
+import {makeGet} from '../redux/apiCalls';
 import {baseURL} from '../redux/config';
 
 const VideosList = ({data}) => {

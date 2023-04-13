@@ -22,7 +22,7 @@ export const styles2 = StyleSheet.create({
     fontFamily: 'IBMPlexSans-Bold',
     fontSize: SIZES.xxl,
     paddingHorizontal: 10,
-    paddingTop: 15
+    paddingTop: 15,
   },
   productSubTitle: {
     color: COLORS.dark.backgroundSoft,
@@ -35,14 +35,14 @@ export const styles2 = StyleSheet.create({
     fontFamily: 'IBMPlexSans-Regular',
     fontSize: SIZES.font,
     color: COLORS.dark.backgroundSoft,
-    marginBottom:15
+    marginBottom: 15,
   },
   qtyCon: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 5,
-    marginBottom:0
+    marginBottom: 0,
   },
   qtyBtnCon: {borderWidth: 1, borderColor: COLORS.light.primary, margin: 10},
   qtyBtn: {
@@ -92,5 +92,49 @@ export const styles2 = StyleSheet.create({
     fontFamily: 'IBMPlexSans-SemiBold',
     fontSize: SIZES.medium,
     color: COLORS.light.backgroundSoft,
+  },
+
+  // contact us
+  contactImg: {
+    width: itemWidth,
+    height: itemHeight * 0.4,
+    backgroundColor: COLORS.light.background,
+  },
+  contactTitle: {
+    color: COLORS.dark.background,
+    fontFamily: 'IBMPlexSans-Bold',
+    fontSize: SIZES.xxl,
+    paddingHorizontal: 10,
+    textAlign: 'center',
+    marginBottom: 10,
+    marginTop: 10,
+  },
+  contactCard: {
+    margin: 10,
+    ...SHADOWS.light,
+    backgroundColor: COLORS.light.backgroundSoft,
+    padding: 15,
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  contactCardTitle: {
+    color: COLORS.dark.background,
+    fontFamily: 'IBMPlexSans-SemiBold',
+    fontSize: SIZES.medium,
+    textAlign: 'center',
+    marginBottom: 10,
+  },
+  contactCardText: {
+    color: COLORS.dark.background,
+    fontFamily: 'IBMPlexSans-Regular',
+    fontSize: SIZES.font,
+  },
+  learnMore: {
+    color: COLORS.light.link,
+    fontFamily: 'IBMPlexSans-Medium',
+    fontSize: SIZES.font,
+    textAlign: 'center',
+    paddingVertical: 10,
+    marginBottom: 15,
   },
 });

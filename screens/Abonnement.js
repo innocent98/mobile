@@ -16,7 +16,7 @@ import {TopComp} from '../components/Top';
 import {MotiView} from 'moti';
 import {BorderlessButton, RectButton} from 'react-native-gesture-handler';
 import {Easing} from 'react-native-reanimated';
-import {COLORS, SIZES} from '../constants/theme';
+import {COLORS} from '../constants/theme';
 import {makeGet} from '../redux/apiCalls';
 import {baseURL} from '../redux/config';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -37,7 +37,8 @@ export const AbonnementDrop = ({
   model_id,
   type,
   setPaymentRes,
-  price,
+  amount,
+  nbre,
 }) => {
   const user = useSelector(state => state.user.currentUser);
   const {userProfile} = useSelector(state => state.user);
@@ -47,11 +48,16 @@ export const AbonnementDrop = ({
   const [isSelected, setIsSelected] = useState(false);
   const [mode, setMode] = useState('');
   const [optionId, setOptionId] = useState('');
+  const [address, setAddress] = useState('');
   const [phone, setPhone] = useState(userProfile?.phone);
   const [errTxt, seterrTxt] = useState('');
 
   const handlePhone = value => {
     setPhone(value);
+    seterrTxt('');
+  };
+  const handleAddress = value => {
+    setAddress(value);
     seterrTxt('');
   };
 
@@ -65,7 +71,7 @@ export const AbonnementDrop = ({
     user_id: userProfile?.id,
     mode: mode,
   };
-  const inputs2 = {
+  const inputs2 = { 
     phone_number: phone,
     option_id: optionId,
     user_id: userProfile?.id,
@@ -73,30 +79,57 @@ export const AbonnementDrop = ({
     model: model,
     model_id: model_id,
     type: type,
+    nbre: nbre,
+    // address: address,
+    // amount: amount,
   };
 
   const handleSubscription = async () => {
-    if (mode === '' || phone === '') {
-      seterrTxt("S'il vous plaît remplir toutes les entrées");
-    } else if (phone.length < 8) {
-      seterrTxt("L'entrée téléphonique n'est pas valide");
+    if (!nbre) {
+      if (mode === '' || phone === '') {
+        seterrTxt("S'il vous plaît remplir toutes les entrées");
+      } else if (phone.length < 8) {
+        seterrTxt("L'entrée téléphonique n'est pas valide");
+      } else {
+        dispatch(processStart());
+        try {
+          const res = await userRequest.post(
+            '/subscriptions',
+            type ? inputs2 : inputs,
+            {headers},
+          );
+          setPaymentRes(res.data);
+          setIsSelected(false);
+          setIsSuccess(true);
+          setTimeout(() => {
+            setIsSuccess(false);
+          }, 2000);
+          dispatch(processSuccess());
+        } catch (error) {
+          dispatch(processFailure());
+        }
+      }
     } else {
-      dispatch(processStart());
-      try {
-        const res = await userRequest.post(
-          '/subscriptions',
-          type ? inputs2 : inputs,
-          {headers},
-        );
-        setPaymentRes(res.data);
-        setIsSelected(false);
-        setIsSuccess(true);
-        setTimeout(() => {
-          setIsSuccess(false);
-        }, 2000);
-        dispatch(processSuccess());
-      } catch (error) {
-        dispatch(processFailure());
+      if (mode === '' || phone === '' || address === '') {
+        seterrTxt("S'il vous plaît remplir toutes les entrées");
+      } else if (phone.length < 8) {
+        seterrTxt("L'entrée téléphonique n'est pas valide");
+      } else {
+        dispatch(processStart());
+        try {
+          const res = await userRequest.post('/subscriptions', inputs2, {
+            headers,
+          });
+          setPaymentRes(res.data);
+          setIsSelected(false);
+          setIsSuccess(true);
+          setTimeout(() => {
+            setIsSuccess(false);
+          }, 2000);
+          dispatch(processSuccess());
+        } catch (error) {
+          dispatch(processFailure());
+        }
       }
     }
   };
@@ -168,12 +201,14 @@ export const AbonnementDrop = ({
                 <RectButton
                   onPress={() => {
                     setIsSelected(true);
-                    setOptionId(data?.id);
                   }}
                   style={{marginBottom: 10}}>
                   <View style={styles.abonnementEditOptionCon}>
                     <Text style={styles.abonnementEditOption}>
-                      {`FCFA ${price}`}
+                      {`${nbre} Quantite`}
+                    </Text>
+                    <Text style={styles.abonnementEditOption}>
+                      {`FCFA ${amount}`}
                     </Text>
                   </View>
                 </RectButton>
@@ -197,6 +232,18 @@ export const AbonnementDrop = ({
                 value={phone}
                 onChangeText={handlePhone}
               />
+              {nbre && (
+                <TextInput
+                  style={styles.abonnementEditInput}
+                  placeholder={"Entrer l'adresse"}
+                  placeholderTextColor="#000"
+                  mode="outlined"
+                  activeOutlineColor={COLORS.secondary}
+                  editable={true}
+                  value={address}
+                  onChangeText={handleAddress}
+                />
+              )}
               <View style={styles.abonnementEditInput}>
                 <Picker
                   selectedValue={mode}
@@ -265,7 +312,6 @@ const Abonnement = () => {
   const [data, setData] = useState({});
   const [isSuccess, setIsSuccess] = useState(false);
   const [paymentRes, setPaymentRes] = useState({});
-  console.log(paymentRes);
 
   const fetchNews = () => {
     makeGet(dispatch, '/pricings', setMessage);
