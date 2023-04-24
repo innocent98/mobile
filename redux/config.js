@@ -1,1 +1,1 @@
-export const baseURL = 'http://api.onip.hopetvbenin.org/storage/';
+export const baseURL = 'https://lanation.bj/storage/';

@@ -102,11 +102,13 @@ const Alaune = () => {
   }, [setMessage, setMessage2]);
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      dispatch(setData(message));
-      dispatch(setData2(message2));
-    }, 2000);
-    return () => clearInterval(timeout);
+    if (message2?.data?.length > 0) {
+      const timeout = setTimeout(() => {
+        dispatch(setData(message));
+        dispatch(setData2(message2));
+      }, 2000);
+      return () => clearInterval(timeout);
+    }
   }, [message]);
 
   return (

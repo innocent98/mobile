@@ -24,12 +24,6 @@ const Contact = () => {
           {paddingBottom: 0, paddingVertical: 0, width: '100%'},
         ]}>
         <ScrollView>
-          <Image
-            source={require('../../assets/logo.png')}
-            resizeMode="contain"
-            style={styles2.contactImg}
-          />
-          <Divider />
           <Text
             style={[
               styles2.contactTitle,
@@ -37,6 +31,12 @@ const Contact = () => {
             ]}>
             Contactez-nous
           </Text>
+          <Image
+            source={require('../../assets/logo.png')}
+            resizeMode="contain"
+            style={styles2.contactImg}
+          />
+          <Divider />
           <View style={styles2.contactCard}>
             <Text style={styles2.contactCardTitle}>
               Direction Office National d’Imprimerie et de Presse

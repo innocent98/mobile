@@ -109,7 +109,7 @@ const ServiceDet = ({route}) => {
               ]}>
               Prix unitaire:{' '}
               <Text style={[styles2.productTitle, {fontSize: SIZES.medium}]}>
-                FCFA{data?.price}
+                FCFA {data?.price}
               </Text>
             </Text>
           </View>
@@ -214,34 +214,6 @@ const ServiceDet = ({route}) => {
                 </Text>
               </RectButton>
             </View>
-
-            <Text
-              style={[
-                styles2.productDesc,
-                {
-                  color: isDark
-                    ? COLORS.light.backgroundSoft
-                    : COLORS.dark.backgroundSoft,
-                  textDecorationLine: 'underline',
-                  textDecorationColor: isDark
-                    ? COLORS.light.backgroundSoft
-                    : COLORS.dark.backgroundSoft,
-                  marginBottom: 5,
-                },
-              ]}>
-              Description du produit
-            </Text>
-            <Text
-              style={[
-                styles2.productDesc,
-                isDark && {color: COLORS.light.backgroundSoft},
-              ]}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Suspendisse convallis, neque quis tempor suscipit, lorem sapien
-              dictum odio, id vestibulum nisl augue ut leo. Nullam commodo
-              sapien at tortor faucibus lobortis. Proin eget auctor nisl. Ut
-              congue feugiat tellus.
-            </Text>
           </View>
         </ScrollView>
       </View>

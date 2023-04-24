@@ -137,4 +137,55 @@ export const styles2 = StyleSheet.create({
     paddingVertical: 10,
     marginBottom: 15,
   },
+
+  // internet
+  internetCon: {
+    position: 'absolute',
+    bottom: '9%',
+    backgroundColor: COLORS.light.background,
+    width: '100%',
+  },
+  internetTxt: {
+    color: COLORS.light.red,
+    textAlign: 'center',
+    fontFamily: 'IBMPlexSans-Regular',
+    padding: 8,
+  },
+
+  // sucess modal
+  successContainer: {
+    padding: 10,
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: itemHeight,
+  },
+  successImg: {
+    height: itemHeight * 0.35,
+    width: itemWidth,
+    marginTop: -30,
+  },
+  successTxt: {
+    color: COLORS.dark.backgroundSoft,
+    textAlign: 'center',
+    fontFamily: 'IBMPlexSans-Regular',
+    fontSize: SIZES.medium,
+    marginTop: 20,
+  },
+  errorTxt: {
+    color: COLORS.light.red,
+    textAlign: 'center',
+    fontFamily: 'IBMPlexSans-Regular',
+    fontSize: SIZES.medium,
+    marginTop: 20,
+  },
+  closeBtn: {
+    position: 'absolute',
+    top: 10,
+    right: 30,
+    fontFamily: 'IBMPlexSans-Medium',
+    color: COLORS.light.primary,
+    fontSize: SIZES.medium,
+    textDecorationLine: 'underline',
+  },
 });

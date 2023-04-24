@@ -112,7 +112,12 @@ const Top = ({message}) => {
       <View style={styles.tabBarView}>
         <MyTabs />
         <View style={styles.broadcast}>
-          <Icon name="campaign" size={28} color={COLORS.light.backgroundSoft} />
+          <Icon
+            name="campaign"
+            size={24}
+            color={COLORS.light.backgroundSoft}
+            style={{marginRight: 5}}
+          />
           <TextTicker
             style={{fontSize: 14, color: COLORS.light.background}}
             loop

@@ -33,7 +33,7 @@ const Settings = () => {
   const handleUserProfile = async () => {
     try {
       const res = await axios.get(
-        'http://api.onip.hopetvbenin.org/api/auth/profile',
+        'https://lanation.bj/api/auth/profile',
         config,
       );
       dispatch(setUserProfile(res.data));
@@ -183,7 +183,7 @@ const Settings = () => {
                 }
                 onPress={() => {
                   Linking.openURL(
-                    'http://api.onip.hopetvbenin.org/client/pages/2',
+                    'http://lanation.bj/client/pages/2',
                   );
                 }}>
                 <Icon
@@ -314,7 +314,7 @@ const Settings = () => {
                 }
                 onPress={() => {
                   Linking.openURL(
-                    'http://api.onip.hopetvbenin.org/client/pages/5',
+                    'https://lanation.bj/client/pages/6',
                   );
                 }}>
                 <Icon
@@ -349,7 +349,7 @@ const Settings = () => {
                 style={styles.settingsItem}
                 rippleColor={
                   isDark ? COLORS.dark.textSoft : COLORS.dark.textSoft
-                } onPress={()=>{Linking.openURL('http://api.onip.hopetvbenin.org/client/pages/6')}} >
+                } onPress={()=>{Linking.openURL('https://lanation.bj/client/pages/6')}} >
                 <Icon
                   name="person-outline"
                   color={

@@ -14,7 +14,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {MotiView} from 'moti';
 import {Easing} from 'react-native-reanimated';
-import {BorderlessButton} from 'react-native-gesture-handler';
+import {BorderlessButton, RectButton} from 'react-native-gesture-handler';
 import {changeBoard} from '../redux/onBoardRedux';
 
 const Welcome = () => {
@@ -54,8 +54,8 @@ const Welcome = () => {
             style={[styles.logo, {marginTop: 25}]}
           />
           <Text style={styles.welcomeText}>
-            Avec nous, vous êtes toujours informé des nouvelles les plus
-            récentes de l’Afrique de l'Ouest.
+            Avec nous, vous êtes informé des nouvelles les plus récentes du
+            BÉNIN, de l'Afrique et du monde
           </Text>
           <View style={styles.ditesCon}>
             {isSlide && (
@@ -93,21 +93,22 @@ const Welcome = () => {
               </>
             )}
             {!indicator && (
-              <View
+              <RectButton
                 style={styles.ditesConActual}
-                accessibilityLabel="dites-moi tout">
+                accessibilityLabel="dites-moi tout"
+                onPress={handleSlide}>
                 <BorderlessButton
                   onPress={handleSlide}
                   style={styles.welcomeIconBtn}>
                   <Icon
                     name="arrow-forward"
                     color={COLORS.light.secondary}
-                    size={35}
+                    size={30}
                     style={styles.welcomeIcon}
                   />
                 </BorderlessButton>
                 <Text style={styles.dites}>dites-moi tout</Text>
-              </View>
+              </RectButton>
             )}
           </View>
           <Text style={[styles.footerText]}>© 2023 La Nation Benin.</Text>

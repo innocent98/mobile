@@ -27,6 +27,8 @@ import ServiceLists from './components/ServiceLists';
 import {BorderlessButton} from 'react-native-gesture-handler';
 import ServiceDet from './components/ServiceDet';
 import Contact from './components/settings/Contact';
+import Success from './components/Success';
+import Error from './components/Error';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -36,7 +38,7 @@ const CustomBackIcon = ({color, navigation}) => {
     <BorderlessButton
       style={styles.iconsBtn}
       onPress={() => navigation.goBack()}>
-      <Icon name="arrow-back" size={35} color={color} />
+      <Icon name="arrow-back" size={24} color={color} />
     </BorderlessButton>
   );
 };
@@ -155,6 +157,16 @@ const HomeNavigator = () => {
       <Stack.Screen
         name="Abonnement"
         component={Abonnement}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Success"
+        component={Success}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Error"
+        component={Error}
         options={{headerShown: false}}
       />
       <Stack.Screen

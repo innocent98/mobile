@@ -39,11 +39,11 @@ export const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     flex: 1,
-    paddingBottom: 10,
+    paddingBottom: 5,
   },
   welcomeImgCon: {
     width: itemWidth,
-    height: itemHeight * 0.55,
+    height: itemHeight * 0.58,
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
@@ -59,7 +59,7 @@ export const styles = StyleSheet.create({
   ditesCon: {width: itemWidth * 0.6, position: 'relative', overflow: 'hidden'},
   ditesConActual: {
     backgroundColor: COLORS.light.secondary,
-    padding: 8,
+    padding: 6,
     borderRadius: 50,
     width: '100%',
     alignItems: 'center',
@@ -69,7 +69,7 @@ export const styles = StyleSheet.create({
   ditesConOverlay: {
     backgroundColor: COLORS.light.primary,
     position: 'absolute',
-    padding: 8,
+    padding: 6,
     borderRadius: 50,
     width: '100%',
     alignItems: 'center',
@@ -141,9 +141,9 @@ export const styles = StyleSheet.create({
     top: 55,
     width: '100%',
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    // justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 10,
+    paddingLeft: 10,
   },
 
   //   alaune
@@ -368,7 +368,7 @@ export const styles = StyleSheet.create({
     width: '100%',
     height: 180,
   },
-  extraEconomie: {marginTop: 30},
+  extraEconomie: {marginTop: 30, ...SHADOWS.dark},
 
   // videos
   videos: {marginTop: 50},
@@ -550,7 +550,7 @@ export const styles = StyleSheet.create({
     borderColor: COLORS.dark.textSoft,
     borderWidth: 1,
     borderRadius: 20,
-    margin: 5,
+    margin: 6,
   },
   abonnementDownImg: {width: '70%', height: '70%'},
   abonnementText: {
@@ -825,7 +825,7 @@ export const styles = StyleSheet.create({
     color: COLORS.light.textSoft,
     borderBottomWidth: 1,
     borderBottomColor: COLORS.dark.textSoft,
-    fontFamily: 'IBMPlexSans-Medium',
+    fontFamily: 'IBMPlexSans-Regular',
     fontSize: SIZES.font,
   },
   loginContainer: {

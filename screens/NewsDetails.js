@@ -4,7 +4,7 @@ import {styles} from '../constants/styles';
 import FastImage from 'react-native-fast-image';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {COLORS} from '../constants/theme';
-import {useDispatch, useSelector} from 'react-redux'; 
+import {useDispatch, useSelector} from 'react-redux';
 import {BorderlessButton, RectButton} from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';
 import {makeGet, makeGet2} from '../redux/apiCalls';
@@ -91,12 +91,8 @@ const NewsDetails = ({route}) => {
   const shareMessage = async () => {
     try {
       await Share.share({
-        message:
-          message.title +
-          '\n\n' +
-          'http://onip.hopetvbenin.org/client' +
-          detUrl,
-        url: 'http://onip.hopetvbenin.org/client',
+        message: message.title + '\n\n' + 'http://lanation.bj/client' + detUrl,
+        url: 'http://lanation.bj/client' + detUrl,
       })
         .then(result => console.log(result))
         .catch(errorMsg => console.log(errorMsg));
@@ -171,7 +167,7 @@ const NewsDetails = ({route}) => {
                     styles.profileText,
                     isDark && {color: COLORS.light.backgroundSoft},
                   ]}>
-                  {message.author}
+                  Auteur: {message.author}
                 </Text>
               </View>
             </View>
@@ -237,6 +233,7 @@ const NewsDetails = ({route}) => {
                   : COLORS.dark.background,
                 fontSize: fontSize,
                 marginVertical: 20,
+                lineHeight: 24,
               }}
             />
             <FastImage
@@ -260,12 +257,14 @@ const NewsDetails = ({route}) => {
                         html: `${paragraph?.content}`,
                       }}
                       baseStyle={{
-                        fontFamily: 'IBMPlexSans-Medium',
+                        fontFamily: 'IBMPlexSans-Regular',
                         color: isDark
                           ? COLORS.light.backgroundSoft
                           : COLORS.dark.background,
                         fontSize: fontSize,
                         marginVertical: 20,
+                        lineHeight: 24,
+                        fontStyle: 'normal',
                       }}
                     />
                   )}

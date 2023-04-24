@@ -28,6 +28,7 @@ import {
 import {userRequest} from '../redux/requestMethod';
 import {Picker} from '@react-native-picker/picker';
 import {Notification} from '../components/Notification';
+import {useNavigation} from '@react-navigation/native';
 
 export const AbonnementDrop = ({
   setAbonne,
@@ -44,6 +45,7 @@ export const AbonnementDrop = ({
   const {userProfile} = useSelector(state => state.user);
   const {isFetching} = useSelector(state => state.process);
   const dispatch = useDispatch();
+  const navigation = useNavigation();
 
   const [isSelected, setIsSelected] = useState(false);
   const [mode, setMode] = useState('');
@@ -71,7 +73,7 @@ export const AbonnementDrop = ({
     user_id: userProfile?.id,
     mode: mode,
   };
-  const inputs2 = { 
+  const inputs2 = {
     phone_number: phone,
     option_id: optionId,
     user_id: userProfile?.id,
@@ -105,8 +107,10 @@ export const AbonnementDrop = ({
             setIsSuccess(false);
           }, 2000);
           dispatch(processSuccess());
+          navigation.navigate('Success');
         } catch (error) {
           dispatch(processFailure());
+          navigation.navigate('Error');
         }
       }
     } else {
@@ -127,8 +131,10 @@ export const AbonnementDrop = ({
             setIsSuccess(false);
           }, 2000);
           dispatch(processSuccess());
+          navigation.navigate('Success');
         } catch (error) {
           dispatch(processFailure());
+          navigation.navigate('Error');
         }
       }
     }
@@ -340,7 +346,13 @@ const Abonnement = () => {
           animate={0}
         />
       )}
-      <View style={abonne ? styles.abonnementConSha : styles.container}>
+
+      <View
+        style={
+          abonne
+            ? [styles.abonnementConSha, {paddingBottom: 0}]
+            : [styles.container, {paddingBottom: 0}]
+        }>
         {abonne && (
           <AbonnementDrop
             setAbonne={setAbonne}
@@ -365,26 +377,28 @@ const Abonnement = () => {
             <View style={styles.abonnementDown}>
               {message?.data?.map((item, index) => (
                 <View key={index}>
-                  <RectButton
-                    onPress={() => {
-                      setAbonne(true);
-                      setData(item);
-                      scrollViewRef.current?.scrollTo({
-                        x: 0,
-                        y: 0,
-                        animated: true,
-                      });
-                    }}
-                    enabled={!abonne}>
-                    <View style={styles.abonnementDownImgCon}>
-                      <Image
-                        source={{uri: baseURL + item?.fichier?.path}}
-                        resizeMode="contain"
-                        style={styles.abonnementDownImg}
-                      />
-                      <Text style={styles.abonnementText}>{item?.title}</Text>
-                    </View>
-                  </RectButton>
+                  {item?.type === 'newspapers' || item?.type === 'newscasts' ? (
+                    <RectButton
+                      onPress={() => {
+                        setAbonne(true);
+                        setData(item);
+                        scrollViewRef.current?.scrollTo({
+                          x: 0,
+                          y: 0,
+                          animated: true,
+                        });
+                      }}
+                      enabled={!abonne}>
+                      <View style={styles.abonnementDownImgCon}>
+                        <Image
+                          source={{uri: baseURL + item?.fichier?.path}}
+                          resizeMode="contain"
+                          style={styles.abonnementDownImg}
+                        />
+                        <Text style={styles.abonnementText}>{item?.title}</Text>
+                      </View>
+                    </RectButton>
+                  ) : null}
                 </View>
               ))}
             </View>

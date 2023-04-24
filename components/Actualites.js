@@ -15,12 +15,13 @@ const Actualite = ({data}) => {
   const isDark = useSelector(state => state.theme.isDark);
   const navigation = useNavigation();
   const detUrl = data.id;
+
   return (
     <RectButton
       onPress={() =>
         navigation.navigate('NewsDetails', {detUrl: `/newscasts/${detUrl}`})
       }
-      style={[styles.extraEconomie, data.deleted !== '0' && {display: 'none'}]}>
+      style={[styles.extraEconomie, data.deleted !== 0 && {display: 'none'}]}>
       <FastImage
         style={styles.extraEconomieimg}
         source={{
@@ -57,7 +58,7 @@ const Actualite = ({data}) => {
               styles.newsListDetExtraRightView,
               isDark && {color: COLORS.light.backgroundSoft},
             ]}>
-            {data?.duration !== '0' && `${data?.duration} min de lecture`}
+            {data?.duration !== 0 && `${data?.duration} min de lecture`}
           </Text>
         </View>
       </View>
