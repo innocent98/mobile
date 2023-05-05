@@ -16,7 +16,7 @@ moment.locale('fr');
 
 const Actualites = ({data}) => {
   const navigation = useNavigation();
-  const detUrl = `/newscasts/${data.id}`;
+  const detUrl = `/newscasts/${data.permalink}`;
 
   return (
     <RectButton

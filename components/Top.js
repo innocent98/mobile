@@ -106,6 +106,9 @@ export const MyTabs = () => {
 };
 
 const Top = ({message}) => {
+  const navigation = useNavigation();
+  // const detUrl = `/newscasts/${data.permalink}`;
+
   return (
     <View style={styles.topContainer}>
       <TopComp />
@@ -127,7 +130,7 @@ const Top = ({message}) => {
             repeatSpacer={10}
             marqueeDelay={0}>
             {message?.alertInfoNewscasts?.map((item, index) => (
-              <Text key={index}>{`${item.title} *** `} </Text>
+              <Text onPress={() => navigation.navigate('NewsDetails', {detUrl: `/newscasts/${item.permalink}`})} key={index}>{`${item.title} *** `} </Text>
             ))}
           </TextTicker>
         </View>

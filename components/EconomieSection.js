@@ -14,7 +14,8 @@ import { baseURL } from '../redux/config';
 const Economie = ({data}) => {
   const isDark = useSelector(state => state.theme.isDark);
   const navigation = useNavigation();
-  const detUrl = data.id;
+  const detUrl = data.permalink;
+
   return (
     <RectButton
       onPress={() =>
@@ -107,7 +108,7 @@ const EconomieSection = ({data, data2}) => {
               <RectButton
                 onPress={() =>
                   navigation.navigate('NewsDetails', {
-                    detUrl: `/newscasts/${item.id}`,
+                    detUrl: `/newscasts/${item.permalink}`,
                   })
                 }
                 style={styles.extraEconomie}

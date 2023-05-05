@@ -125,7 +125,7 @@ const Videos = ({data}) => {
             key={index}
             onPress={() =>
               navigation.navigate('NewsDetails', {
-                detUrl: `/newscasts/${item.id}`,
+                detUrl: `/newscasts/${item.permalink}`,
               })
             }>
             <View style={styles.videosFooterCon}>

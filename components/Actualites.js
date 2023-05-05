@@ -14,7 +14,7 @@ import {baseURL} from '../redux/config';
 const Actualite = ({data}) => {
   const isDark = useSelector(state => state.theme.isDark);
   const navigation = useNavigation();
-  const detUrl = data.id;
+  const detUrl = data.permalink;
 
   return (
     <RectButton

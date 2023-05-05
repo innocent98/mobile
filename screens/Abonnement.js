@@ -16,7 +16,7 @@ import {TopComp} from '../components/Top';
 import {MotiView} from 'moti';
 import {BorderlessButton, RectButton} from 'react-native-gesture-handler';
 import {Easing} from 'react-native-reanimated';
-import {COLORS} from '../constants/theme';
+import {COLORS, SIZES} from '../constants/theme';
 import {makeGet} from '../redux/apiCalls';
 import {baseURL} from '../redux/config';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -29,6 +29,8 @@ import {userRequest} from '../redux/requestMethod';
 import {Picker} from '@react-native-picker/picker';
 import {Notification} from '../components/Notification';
 import {useNavigation} from '@react-navigation/native';
+import RenderHtml from 'react-native-render-html';
+import {useWindowDimensions} from 'react-native';
 
 export const AbonnementDrop = ({
   setAbonne,
@@ -46,6 +48,7 @@ export const AbonnementDrop = ({
   const {isFetching} = useSelector(state => state.process);
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const {width} = useWindowDimensions();
 
   const [isSelected, setIsSelected] = useState(false);
   const [mode, setMode] = useState('');
@@ -155,7 +158,20 @@ export const AbonnementDrop = ({
           <Text style={styles.abonnementDropTitle}>
             Les options {data?.modules?.name}
           </Text>
-          <Text style={styles.abonnementDropSub}>{data?.content}</Text>
+          <RenderHtml
+            contentWidth={width}
+            source={{
+              html: `${data?.content}`,
+            }}
+            baseStyle={{
+              fontFamily: 'IBMPlexSans-Regular',
+              color: COLORS.dark.background,
+              fontSize: SIZES.base,
+              textTransform: 'uppercase',
+              textAlign: 'center',
+            }}
+          />
+          {/* <Text style={styles.abonnementDropSub}>{data?.content}</Text> */}
           {isSelected && (
             <BorderlessButton
               style={styles.iconsBtn}

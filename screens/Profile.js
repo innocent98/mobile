@@ -307,20 +307,6 @@ const Profile = () => {
             styles.profileItems,
             isDark && {borderBottomColor: COLORS.dark.textSoft},
           ]}>
-          <Icon name="lens" color="#46AC5E" size={16} />
-          <Text
-            style={[
-              styles.profileItem,
-              isDark && {color: COLORS.light.backgroundSoft},
-            ]}>
-            {userProfile?.active === '1' ? 'online' : 'offline'}
-          </Text>
-        </View>
-        <View
-          style={[
-            styles.profileItems,
-            isDark && {borderBottomColor: COLORS.dark.textSoft},
-          ]}>
           <Icon name="lock" color={COLORS.light.red} size={24} />
           <Text
             style={[

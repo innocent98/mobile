@@ -22,7 +22,7 @@ moment.locale('fr');
 export const News = ({data}) => {
   const isDark = useSelector(state => state.theme.isDark);
   const navigation = useNavigation();
-  const detUrl = `/newscasts/${data.id}`;
+  const detUrl = `/newscasts/${data.permalink}`;
 
   return (
     <RectButton onPress={() => navigation.navigate('NewsDetails', {detUrl})}>
@@ -131,7 +131,7 @@ const Alaune = () => {
           <RectButton
             onPress={() =>
               navigation.navigate('NewsDetails', {
-                detUrl: `/newscasts/${data?.principalNewscats?.id}`,
+                detUrl: `/newscasts/${data?.principalNewscats?.permalink}`,
               })
             }>
             {data?.principalNewscats && (

@@ -89,7 +89,7 @@ const NewsCasts = ({data, index, message}) => {
     <RectButton
       onPress={() =>
         navigation.navigate('NewsDetails', {
-          detUrl: `/newscasts/${data.id}`,
+          detUrl: `/newscasts/${data.permalink}`,
           data,
         })
       }
