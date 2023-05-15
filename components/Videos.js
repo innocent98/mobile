@@ -1,4 +1,4 @@
-import {View, Text, FlatList, Linking} from 'react-native';
+import {View, Text, FlatList, Linking, Image} from 'react-native';
 import React, {memo, useEffect, useCallback, useState} from 'react';
 import {styles} from '../constants/styles';
 import FastImage from 'react-native-fast-image';
@@ -25,14 +25,10 @@ const VideosList = ({data}) => {
         styles.videosCon,
         isDark && {backgroundColor: COLORS.dark.backgroundSoft},
       ]}>
-      <FastImage
+      <Image
         style={styles.videosConImg}
-        source={{
-          uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Picture_%E2%80%93_Heathen_Rock_Festival_2016_08.jpg/1200px-Picture_%E2%80%93_Heathen_Rock_Festival_2016_08.jpg',
-          headers: {Authorization: 'someAuthToken'},
-          priority: FastImage.priority.normal,
-        }}
-        resizeMode={FastImage.resizeMode.cover}
+        source={require('../assets/videoicon.png')}
+        resizeMode="cover"
       />
       <Text style={styles.videoText}>{data?.title}</Text>
       <View style={styles.videosPlayCon}>

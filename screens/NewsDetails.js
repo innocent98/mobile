@@ -1,23 +1,19 @@
-import {View, Text, SafeAreaView, ScrollView, Share} from 'react-native';
+import {View, SafeAreaView, ScrollView, Share} from 'react-native';
 import React, {useState, useRef} from 'react';
 import {styles} from '../constants/styles';
-import FastImage from 'react-native-fast-image';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {COLORS} from '../constants/theme';
 import {useDispatch, useSelector} from 'react-redux';
-import {BorderlessButton, RectButton} from 'react-native-gesture-handler';
+import {BorderlessButton} from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';
 import {makeGet, makeGet2} from '../redux/apiCalls';
 import {useEffect} from 'react';
-import moment from 'moment';
-import {baseURL} from '../redux/config';
 import {
   processFailure,
   processStart,
   processSuccess,
 } from '../redux/processRedux';
 import {Notification} from '../components/Notification';
-import RenderHtml from 'react-native-render-html';
 import {useWindowDimensions} from 'react-native';
 import {AbonnementDrop} from './Abonnement';
 import {userRequest} from '../redux/requestMethod';
@@ -30,7 +26,6 @@ const NewsDetails = ({route}) => {
   const {userProfile} = useSelector(state => state.user);
   const scrollViewRef = useRef(null);
   const dispatch = useDispatch();
-  const fontSize = useSelector(state => state.font.fontSize);
   const navigation = useNavigation();
   const {detUrl} = route?.params;
 
@@ -90,9 +85,10 @@ const NewsDetails = ({route}) => {
 
   // share news function
   const shareMessage = async () => {
+    const messageTitle = message?.map((item) => item.title)
     try {
       await Share.share({
-        message: message.title + '\n\n' + 'http://lanation.bj/client' + detUrl,
+        message: messageTitle && messageTitle[0] + '\n\n' + 'http://lanation.bj/client' + detUrl,
         url: 'http://lanation.bj/client' + detUrl,
       })
         .then(result => console.log(result))

@@ -58,7 +58,7 @@ export const News = ({data}) => {
                   styles.newsListDetExtraTxt,
                   isDark && {color: COLORS.light.backgroundSoft},
                 ]}>
-                {data.type}
+                {data?.modules?.name}
               </Text>
             </View>
             <View style={styles.newsListDetExtraRight}>
