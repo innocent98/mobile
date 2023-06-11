@@ -314,7 +314,7 @@ const Settings = () => {
                 }
                 onPress={() => {
                   Linking.openURL(
-                    'https://lanation.bj/client/pages/6',
+                    'https://lanation.bj/client/pages/mentions-legales',
                   );
                 }}>
                 <Icon
@@ -331,7 +331,7 @@ const Settings = () => {
                     styles.settingsItemText,
                     isDark && {color: COLORS.light.backgroundSoft},
                   ]}>
-                  Gérer vos données personnelles
+                  Mention legales
                 </Text>
               </RectButton>
             </View>
@@ -349,7 +349,7 @@ const Settings = () => {
                 style={styles.settingsItem}
                 rippleColor={
                   isDark ? COLORS.dark.textSoft : COLORS.dark.textSoft
-                } onPress={()=>{Linking.openURL('https://lanation.bj/client/pages/6')}} >
+                } onPress={()=>{Linking.openURL('https://lanation.bj/client/pages/politiques-de-confidentialite')}} >
                 <Icon
                   name="person-outline"
                   color={
@@ -385,7 +385,7 @@ const Settings = () => {
                       styles.settingsItemTextSpan,
                       isDark && {color: COLORS.light.backgroundSoft},
                     ]}>
-                    1.0.0
+                    1.1.2
                   </Text>
                 </View>
               </RectButton>

@@ -13,9 +13,7 @@ import React, {useEffect, useState, useRef} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {styles} from '../constants/styles';
 import {TopComp} from '../components/Top';
-import {MotiView} from 'moti';
 import {BorderlessButton, RectButton} from 'react-native-gesture-handler';
-import {Easing} from 'react-native-reanimated';
 import {COLORS, SIZES} from '../constants/theme';
 import {makeGet} from '../redux/apiCalls';
 import {baseURL} from '../redux/config';
@@ -31,6 +29,7 @@ import {Notification} from '../components/Notification';
 import {useNavigation} from '@react-navigation/native';
 import RenderHtml from 'react-native-render-html';
 import {useWindowDimensions} from 'react-native';
+import AlauneSkeleton from '../components/skeleton/AlauneSkeleton';
 
 export const AbonnementDrop = ({
   setAbonne,
@@ -144,188 +143,180 @@ export const AbonnementDrop = ({
   };
 
   return (
-    <MotiView
-      from={{top: -10, opacity: 0.5}}
-      animate={{top: 30, opacity: 1}}
-      transition={{
-        type: 'timing',
-        duration: 1000,
-        easing: Easing.out(Easing.ease),
-      }}
-      style={styles.abonnementContainer}>
-      <ScrollView>
-        <View>
-          <Text style={styles.abonnementDropTitle}>
-            Les options {data?.modules?.name}
-          </Text>
-          <RenderHtml
-            contentWidth={width}
-            source={{
-              html: `${data?.content}`,
-            }}
-            baseStyle={{
-              fontFamily: 'IBMPlexSans-Regular',
-              color: COLORS.dark.background,
-              fontSize: SIZES.base,
-              textTransform: 'uppercase',
-              textAlign: 'center',
-            }}
-          />
-          {/* <Text style={styles.abonnementDropSub}>{data?.content}</Text> */}
-          {isSelected && (
-            <BorderlessButton
-              style={styles.iconsBtn}
-              onPress={() => setIsSelected(false)}>
-              <Icon name="arrow-back" size={20} />
-            </BorderlessButton>
-          )}
-          {!isSelected && (
-            <>
-              {!type ? (
-                data?.options?.map((item, index) => (
-                  <RectButton
-                    onPress={() => {
-                      setIsSelected(true);
-                      setOptionId(item?.id);
-                    }}
-                    key={index}
-                    style={{marginBottom: 10}}>
-                    <View style={styles.abonnementEditOptionCon}>
-                      <Text style={styles.abonnementEditOption}>
-                        {`${item?.duration} ${item?.duration_type}`}
-                      </Text>
-                      <Text style={styles.abonnementEditOption}>
-                        {`FCFA ${item?.price}`}
-                      </Text>
-                    </View>
-                  </RectButton>
-                ))
-              ) : data?.options ? (
-                data?.options?.slice(0, 1).map((item, index) => (
-                  <RectButton
-                    onPress={() => {
-                      setIsSelected(true);
-                      setOptionId(item?.id);
-                    }}
-                    key={index}
-                    style={{marginBottom: 10}}>
-                    <View style={styles.abonnementEditOptionCon}>
-                      <Text style={styles.abonnementEditOption}>
-                        {`${item?.duration} ${item?.duration_type}`}
-                      </Text>
-                      <Text style={styles.abonnementEditOption}>
-                        {`FCFA ${item?.price}`}
-                      </Text>
-                    </View>
-                  </RectButton>
-                ))
-              ) : (
+    <ScrollView
+      style={[styles.abonnementContainer, {height: '95%'}]}
+      contentContainerStyle={{paddingBottom: 50}}>
+      <View>
+        <Text style={styles.abonnementDropTitle}>
+          Les options {data?.modules?.name}
+        </Text>
+        <RenderHtml
+          contentWidth={width}
+          source={{
+            html: `${
+              data?.content ? data?.content : "Pas d'option disponible"
+            }`,
+          }}
+          baseStyle={{
+            fontFamily: 'IBMPlexSans-Regular',
+            color: COLORS.dark.background,
+            fontSize: SIZES.base,
+            textTransform: 'uppercase',
+            textAlign: 'center',
+          }}
+        />
+        {/* <Text style={styles.abonnementDropSub}>{data?.content}</Text> */}
+        {isSelected && (
+          <BorderlessButton
+            style={styles.iconsBtn}
+            onPress={() => setIsSelected(false)}>
+            <Icon name="arrow-back" size={20} />
+          </BorderlessButton>
+        )}
+        {!isSelected && (
+          <>
+            {!type ? (
+              data?.options?.map((item, index) => (
                 <RectButton
                   onPress={() => {
                     setIsSelected(true);
+                    setOptionId(item?.id);
                   }}
+                  key={index}
                   style={{marginBottom: 10}}>
                   <View style={styles.abonnementEditOptionCon}>
                     <Text style={styles.abonnementEditOption}>
-                      {`${nbre} Quantite`}
+                      {`${item?.duration} ${item?.duration_type}`}
                     </Text>
                     <Text style={styles.abonnementEditOption}>
-                      {`FCFA ${amount}`}
+                      {`FCFA ${item?.price}`}
                     </Text>
                   </View>
                 </RectButton>
-              )}
-            </>
-          )}
+              ))
+            ) : data?.options ? (
+              data?.options?.slice(0, 1).map((item, index) => (
+                <RectButton
+                  onPress={() => {
+                    setIsSelected(true);
+                    setOptionId(item?.id);
+                  }}
+                  key={index}
+                  style={{marginBottom: 10}}>
+                  <View style={styles.abonnementEditOptionCon}>
+                    <Text style={styles.abonnementEditOption}>
+                      {`${item?.duration} ${item?.duration_type}`}
+                    </Text>
+                    <Text style={styles.abonnementEditOption}>
+                      {`FCFA ${item?.price}`}
+                    </Text>
+                  </View>
+                </RectButton>
+              ))
+            ) : (
+              <RectButton
+                onPress={() => {
+                  setIsSelected(true);
+                }}
+                style={{marginBottom: 10}}>
+                <View style={styles.abonnementEditOptionCon}>
+                  <Text style={styles.abonnementEditOption}>
+                    {`${nbre} Quantite`}
+                  </Text>
+                  <Text style={styles.abonnementEditOption}>
+                    {`FCFA ${amount}`}
+                  </Text>
+                </View>
+              </RectButton>
+            )}
+          </>
+        )}
 
-          {isSelected && (
-            <KeyboardAvoidingView
-              style={{flex: 1}}
-              behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-              keyboardVerticalOffset={Platform.OS === 'ios' ? 64 : 0}>
+        {isSelected && (
+          <KeyboardAvoidingView
+            style={{flex: 1}}
+            behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+            keyboardVerticalOffset={Platform.OS === 'ios' ? 64 : 0}>
+            <TextInput
+              style={styles.abonnementEditInput}
+              placeholder={userProfile?.phone}
+              placeholderTextColor="#000"
+              mode="outlined"
+              activeOutlineColor={COLORS.secondary}
+              editable={true}
+              defaultValue={userProfile?.phone}
+              value={phone}
+              onChangeText={handlePhone}
+            />
+            {nbre && (
               <TextInput
                 style={styles.abonnementEditInput}
-                placeholder={userProfile?.phone}
+                placeholder={"Entrer l'adresse"}
                 placeholderTextColor="#000"
                 mode="outlined"
                 activeOutlineColor={COLORS.secondary}
                 editable={true}
-                defaultValue={userProfile?.phone}
-                value={phone}
-                onChangeText={handlePhone}
+                value={address}
+                onChangeText={handleAddress}
               />
-              {nbre && (
-                <TextInput
-                  style={styles.abonnementEditInput}
-                  placeholder={"Entrer l'adresse"}
-                  placeholderTextColor="#000"
-                  mode="outlined"
-                  activeOutlineColor={COLORS.secondary}
-                  editable={true}
-                  value={address}
-                  onChangeText={handleAddress}
-                />
-              )}
-              <View style={styles.abonnementEditInput}>
-                <Picker
-                  selectedValue={mode}
-                  onValueChange={(itemValue, itemIndex) => {
-                    setMode(itemValue);
-                    seterrTxt('');
-                  }}>
-                  <Picker.Item
-                    label="Sélectionnez l'option de réseau"
-                    value=""
-                  />
-                  <Picker.Item label="MTN" value="mtn" />
-                  <Picker.Item label="MOOV" value="moov" />
-                </Picker>
-              </View>
-              {errTxt && (
-                <Text
-                  style={[
-                    styles.smallText,
-                    {
-                      fontFamily: 'IBMPlexSans-Regular',
-                      color: COLORS.light.red,
-                    },
-                  ]}>
-                  {errTxt}
-                </Text>
-              )}
-            </KeyboardAvoidingView>
-          )}
-        </View>
+            )}
+            <View style={styles.abonnementEditInput}>
+              <Picker
+                selectedValue={mode}
+                onValueChange={(itemValue, itemIndex) => {
+                  setMode(itemValue);
+                  seterrTxt('');
+                }}>
+                <Picker.Item label="Sélectionnez l'option de réseau" value="" />
+                <Picker.Item label="MTN" value="mtn" />
+                <Picker.Item label="MOOV" value="moov" />
+              </Picker>
+            </View>
+            {errTxt && (
+              <Text
+                style={[
+                  styles.smallText,
+                  {
+                    fontFamily: 'IBMPlexSans-Regular',
+                    color: COLORS.light.red,
+                  },
+                ]}>
+                {errTxt}
+              </Text>
+            )}
+          </KeyboardAvoidingView>
+        )}
+      </View>
 
-        <View style={styles.abonneFlexBtn}>
-          {isFetching ? (
-            <RectButton style={styles.indicator}>
-              <ActivityIndicator size="large" color={COLORS.secondary} />
-            </RectButton>
-          ) : (
-            <>
-              {isSelected && (
-                <RectButton
-                  onPress={handleSubscription}
-                  style={styles.abonneButtonSave}>
-                  <Text style={styles.abonneButtonSaveText}>je m'abonne</Text>
-                </RectButton>
-              )}
-            </>
-          )}
-          <RectButton
-            onPress={() => setAbonne(false)}
-            style={styles.abonneButtonExit}>
-            <Text style={styles.abonneButtonExitText}>annuler</Text>
+      <View style={styles.abonneFlexBtn}>
+        {isFetching ? (
+          <RectButton style={styles.indicator}>
+            <ActivityIndicator size="large" color={COLORS.secondary} />
           </RectButton>
-        </View>
-      </ScrollView>
-    </MotiView>
+        ) : (
+          <>
+            {isSelected && (
+              <RectButton
+                onPress={handleSubscription}
+                style={styles.abonneButtonSave}>
+                <Text style={styles.abonneButtonSaveText}>je m'abonne</Text>
+              </RectButton>
+            )}
+          </>
+        )}
+        <RectButton
+          onPress={() => setAbonne(false)}
+          style={styles.abonneButtonExit}>
+          <Text style={styles.abonneButtonExitText}>annuler</Text>
+        </RectButton>
+      </View>
+    </ScrollView>
   );
 };
 
 const Abonnement = () => {
   const isDark = useSelector(state => state.theme.isDark);
+  const isFetching = useSelector(state => state.process.isFetching);
   const dispatch = useDispatch();
   const scrollViewRef = useRef(null);
 
@@ -391,6 +382,8 @@ const Abonnement = () => {
             </Text>
 
             <View style={styles.abonnementDown}>
+              {isFetching && <AlauneSkeleton />}
+
               {message?.data?.map((item, index) => (
                 <View key={index}>
                   {item?.type === 'newspapers' || item?.type === 'newscasts' ? (
@@ -405,14 +398,18 @@ const Abonnement = () => {
                         });
                       }}
                       enabled={!abonne}>
-                      <View style={styles.abonnementDownImgCon}>
-                        <Image
-                          source={{uri: baseURL + item?.fichier?.path}}
-                          resizeMode="contain"
-                          style={styles.abonnementDownImg}
-                        />
-                        <Text style={styles.abonnementText}>{item?.title}</Text>
-                      </View>
+                      {!isFetching && (
+                        <View style={styles.abonnementDownImgCon}>
+                          <Image
+                            source={{uri: baseURL + item?.fichier?.path}}
+                            resizeMode="contain"
+                            style={styles.abonnementDownImg}
+                          />
+                          <Text style={styles.abonnementText}>
+                            {item?.title}
+                          </Text>
+                        </View>
+                      )}
                     </RectButton>
                   ) : null}
                 </View>

@@ -903,38 +903,6 @@ export const styles = StyleSheet.create({
     textTransform: 'capitalize',
   },
 
-  // change password
-  changePasswordOverlay: {
-    backgroundColor: COLORS.dark.backgroundSoft,
-    opacity: 0.4,
-    width: itemWidth,
-    height: itemHeight,
-    position: 'absolute',
-    top: 0,
-  },
-  changePasswordCon: {
-    backgroundColor: 'white',
-    width: '100%',
-    // height: 80,
-    position: 'absolute',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    zIndex: 9,
-    ...SHADOWS.dark,
-    bottom: 0,
-    paddingBottom: 25,
-  },
-  mobileDivider: {
-    backgroundColor: COLORS.dark.textSoft,
-    height: 5,
-    width: 100,
-    borderRadius: 20,
-    zIndex: 999,
-  },
-
   // notification
   notification: {
     backgroundColor: 'whitesmoke',

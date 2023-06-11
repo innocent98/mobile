@@ -9,13 +9,14 @@ import NewsExtra from './NewsExtra';
 import {BorderlessButton, RectButton} from 'react-native-gesture-handler';
 import {useDispatch, useSelector} from 'react-redux';
 import {useEffect} from 'react';
-import {makeGet} from '../redux/apiCalls';
+import {makeGet, makeGetHome} from '../redux/apiCalls';
 import {useState} from 'react';
 import moment from 'moment';
 import 'moment/locale/fr';
 import {useNavigation} from '@react-navigation/native';
 import {baseURL} from '../redux/config';
 import {setData, setData2} from '../redux/data';
+import AlauneSkeleton from './skeleton/AlauneSkeleton';
 
 moment.locale('fr');
 
@@ -76,15 +77,18 @@ memo(News);
 
 const Alaune = () => {
   const isDark = useSelector(state => state.theme.isDark);
+  const isFetching = useSelector(state=> state.homeProcess.isFetching)
   const {data, data2} = useSelector(state => state.data);
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  
   const [message, setMessage] = useState({});
   const [message2, setMessage2] = useState([]);
+
   const renderItem = ({item}) => <News data={item} />;
 
   const fetchNews = () => {
-    makeGet(dispatch, '/home', setMessage);
+    makeGetHome(dispatch, '/home', setMessage);
   };
   const fetchNewsCasts = () => {
     makeGet(dispatch, '/newscasts', setMessage2);
@@ -117,58 +121,61 @@ const Alaune = () => {
         styles.tabScreen,
         isDark && {backgroundColor: COLORS.dark.background},
       ]}>
-      <FlatList
-        data={
-          data2?.data ? data2?.data?.slice(0, 4) : message2?.data?.slice(0, 4)
-        }
-        renderItem={renderItem}
-        keyExtractor={item => item.id}
-        showsVerticalScrollIndicator={false}
-        removeClippedSubviews
-        refreshing={false}
-        onRefresh={fetchNews}
-        ListHeaderComponent={() => (
-          <RectButton
-            onPress={() =>
-              navigation.navigate('NewsDetails', {
-                detUrl: `/newscasts/${data?.principalNewscats?.permalink}`,
-              })
-            }>
-            {data?.principalNewscats && (
-              <View style={styles.featured}>
-                <FastImage
-                  style={styles.featuredImg}
-                  source={{
-                    uri: baseURL + data?.principalNewscats?.fichier?.path,
-                    headers: {Authorization: 'someAuthToken'},
-                    priority: FastImage.priority.normal,
-                  }}
-                  resizeMode={FastImage.resizeMode.cover}
-                />
-                <View style={styles.featuredText}>
-                  <Text
-                    style={styles.bigText}
-                    numberOfLines={3}
-                    ellipsizeMode="tail">
-                    {data?.principalNewscats?.title}
-                  </Text>
-                  <BorderlessButton
-                    style={[styles.iconsBtn, {marginLeft: 15, marginTop: 5}]}>
-                    <Icon
-                      name="bookmark-border"
-                      size={22}
-                      color={COLORS.light.background}
-                    />
-                  </BorderlessButton>
+      {isFetching && <AlauneSkeleton />}
+      {!isFetching && (
+        <FlatList
+          data={
+            data2?.data ? data2?.data?.slice(0, 4) : message2?.data?.slice(0, 4)
+          }
+          renderItem={renderItem}
+          keyExtractor={item => item.id}
+          showsVerticalScrollIndicator={false}
+          removeClippedSubviews
+          refreshing={false}
+          onRefresh={fetchNews}
+          ListHeaderComponent={() => (
+            <RectButton
+              onPress={() =>
+                navigation.navigate('NewsDetails', {
+                  detUrl: `/newscasts/${data?.principalNewscats?.permalink}`,
+                })
+              }>
+              {data?.principalNewscats && (
+                <View style={styles.featured}>
+                  <FastImage
+                    style={styles.featuredImg}
+                    source={{
+                      uri: baseURL + data?.principalNewscats?.fichier?.path,
+                      headers: {Authorization: 'someAuthToken'},
+                      priority: FastImage.priority.normal,
+                    }}
+                    resizeMode={FastImage.resizeMode.cover}
+                  />
+                  <View style={styles.featuredText}>
+                    <Text
+                      style={styles.bigText}
+                      numberOfLines={3}
+                      ellipsizeMode="tail">
+                      {data?.principalNewscats?.title}
+                    </Text>
+                    <BorderlessButton
+                      style={[styles.iconsBtn, {marginLeft: 15, marginTop: 5}]}>
+                      <Icon
+                        name="bookmark-border"
+                        size={22}
+                        color={COLORS.light.background}
+                      />
+                    </BorderlessButton>
+                  </View>
                 </View>
-              </View>
-            )}
-          </RectButton>
-        )}
-        ListFooterComponent={() => (
-          <NewsExtra data={message} data2={message2} />
-        )}
-      />
+              )}
+            </RectButton>
+          )}
+          ListFooterComponent={() => (
+            <NewsExtra data={message} data2={message2} />
+          )}
+        />
+      )}
     </View>
   );
 };

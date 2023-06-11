@@ -9,8 +9,10 @@ import fontReducer from './fontRedux';
 import onBoardReducer from './onBoardRedux';
 import userReducer from './userRedux';
 import processReducer from './processRedux';
+import homeProcessReducer from './/homeProcessRedux';
 import topComponentReducer from './topComponentRedux';
 import dataReducer from './data'
+import isPDFOpenedReducer from './isPDFOpenedRedux'
 
 const persistConfig = {
   key: 'root',
@@ -26,6 +28,8 @@ const rootReducer = combineReducers({
   process: processReducer,
   slide: topComponentReducer,
   data: dataReducer,
+  isOpened: isPDFOpenedReducer,
+  homeProcess: homeProcessReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

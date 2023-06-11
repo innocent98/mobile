@@ -8,21 +8,24 @@ import {
   Text,
 } from 'react-native';
 import Pdf from 'react-native-pdf';
-import FocusedStatusBar from '../components/FocusedStatusBar';
 import {baseURL} from '../redux/config';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {COLORS, SHADOWS, SIZES} from '../constants/theme';
 import {useNavigation} from '@react-navigation/native';
-import {BorderlessButton, RectButton} from 'react-native-gesture-handler';
-import {useDispatch} from 'react-redux';
+import {BorderlessButton} from 'react-native-gesture-handler';
+import {useDispatch, useSelector} from 'react-redux';
 import {makeGet2} from '../redux/apiCalls';
+import {setFile} from '../redux/isPDFOpenedRedux';
 
 const ReadPDF = ({route}) => {
+  const {file} = useSelector(state => state.isOpened);
   const {detUrl, data} = route.params;
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
   const [message, setMessage] = useState({});
+  const [filePath, setFilePath] = useState('');
+  const [cacheUrl, setCacheUrl] = useState('');
 
   const fetchData = () => {
     makeGet2(dispatch, detUrl, setMessage);
@@ -32,9 +35,40 @@ const ReadPDF = ({route}) => {
     fetchData();
   }, []);
 
+  const pdfFile = {
+    id: data.id,
+    filePath,
+  };
+
+  const handleSetFile = () => {
+    dispatch(setFile(pdfFile));
+  };
+
+  useEffect(() => {
+    if (file?.length > 0) {
+      file?.forEach(item => {
+        if (item && data.id !== item?.id) {
+          handleSetFile();
+        }
+      });
+    } else if (filePath !== '') {
+      handleSetFile();
+    }
+  }, [filePath]);
+
   // uri:'http://samples.leanpub.com/thereactnativebook-sample.pdf'
+  useEffect(() => {
+    if (file?.length > 0) {
+      file?.forEach(item => {
+        if (data.id === item?.id) {
+          setCacheUrl(item?.filePath);
+        }
+      });
+    }
+  }, [filePath]);
+
   const source = {
-    uri: baseURL + message?.file_data?.path,
+    uri: file?.length > 0 ? cacheUrl : baseURL + message?.file_data?.path,
     cache: true,
   };
 
@@ -83,6 +117,7 @@ const ReadPDF = ({route}) => {
           enablePaging={true}
           onLoadComplete={(numberOfPages, filePath) => {
             // console.log(`Number of pages: ${numberOfPages}`);
+            setFilePath(filePath);
           }}
           onPageChanged={(page, numberOfPages) => {
             // console.log(`Current page: ${page}`);

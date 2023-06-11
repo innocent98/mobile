@@ -1,3 +1,4 @@
+import { homeProcessFailure, homeProcessStart, homeProcessSuccess } from './homeProcessRedux';
 import {processFailure, processStart, processSuccess} from './processRedux';
 import {userRequest} from './requestMethod';
 import {
@@ -38,17 +39,14 @@ export const userLogout = async (dispatch, navigation) => {
   }
 };
 
-export const makeGet = async (dispatch, url, setMessage, setMessage2) => {
+export const makeGet = async (dispatch, url, setMessage) => {
   dispatch(processStart());
   try {
     const res = await userRequest.get(url);
     setMessage(res.data.data);
-    // console.log(res.data.data);
-    setMessage2(res.data.data);
     dispatch(processSuccess());
   } catch (err) {
     dispatch(processFailure());
-    // console.log(err.response.data);
   }
 };
 
@@ -60,7 +58,17 @@ export const makeGet2 = async (dispatch, url, setMessage) => {
     dispatch(processSuccess());
   } catch (err) {
     dispatch(processFailure());
-    // console.log(err.response.data);
+  }
+};
+
+export const makeGetHome = async (dispatch, url, setMessage) => {
+  dispatch(homeProcessStart());
+  try {
+    const res = await userRequest.get(url);
+    setMessage(res.data.data);
+    dispatch(homeProcessSuccess());
+  } catch (err) {
+    dispatch(homeProcessFailure());
   }
 };
 
@@ -69,7 +77,6 @@ export const makeGetHeader = async (dispatch, url, headers, setMessage, setMessa
   try {
     const res = await userRequest.get(url, {headers});
     setMessage(res.data);
-    // console.log(res.data)
     setMessage2(true)
     setTimeout(() => {
       setMessage2(false);
@@ -77,7 +84,6 @@ export const makeGetHeader = async (dispatch, url, headers, setMessage, setMessa
     dispatch(processSuccess());
   } catch (err) {
     dispatch(processFailure());
-    // console.log(err);
   }
 };
 
@@ -92,7 +98,6 @@ export const makePost = async (dispatch, url, info, setMessage) => {
       setMessage('');
     }, 2000);
     dispatch(processSuccess());
-    // console.log(res);
   } catch (err) {
     // setMessage("Le compte utilisateur avec l'adresse e-mail existe déjà");
     // setMessage(err?.response?.data?.errors);
@@ -101,6 +106,5 @@ export const makePost = async (dispatch, url, info, setMessage) => {
     }, 2000);
     dispatch(processFailure());
     console.log(err.response.data.errors);
-    // console.log(err);
   }
 };
