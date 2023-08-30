@@ -251,7 +251,7 @@ const Tab1 = () => {
           ) : (
             <View>
               <FlatList
-                data={message}
+                data={reverse}
                 renderItem={({item, index}) => (
                   <NewsPaper data={item} index={index} message={reverse} />
                 )}
@@ -292,6 +292,8 @@ const Tab2 = () => {
     };
   }, [setMessage]);
 
+  const reverse = [...message].reverse();
+
   return (
     <SafeAreaView style={isDark ? styles.safeAreaDark : styles.safeArea}>
       {isFetching && (
@@ -314,7 +316,7 @@ const Tab2 = () => {
           ) : (
             <View>
               <FlatList
-                data={message}
+                data={reverse}
                 renderItem={({item, index}) => (
                   <NewsCasts data={item} index={index} message={message} />
                 )}
@@ -355,6 +357,8 @@ const Tab3 = () => {
     };
   }, [setMessage]);
 
+  const reverse = [...message].reverse();
+
   return (
     <SafeAreaView style={isDark ? styles.safeAreaDark : styles.safeArea}>
       {isFetching && (
@@ -377,7 +381,7 @@ const Tab3 = () => {
           ) : (
             <View>
               <FlatList
-                data={message}
+                data={reverse}
                 renderItem={({item, index}) => (
                   <Subscriptions data={item} index={index} message={message} />
                 )}

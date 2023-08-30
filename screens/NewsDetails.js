@@ -18,10 +18,13 @@ import {useWindowDimensions} from 'react-native';
 import {AbonnementDrop} from './Abonnement';
 import {userRequest} from '../redux/requestMethod';
 import NewsDetailsPage from '../components/NewsDetailsPage';
+import AlauneSkeleton from '../components/skeleton/AlauneSkeleton';
 
 const NewsDetails = ({route}) => {
   const user = useSelector(state => state.user.currentUser);
   const isDark = useSelector(state => state.theme.isDark);
+  const isFetching = useSelector(state => state.process.isFetching);
+
   const {width} = useWindowDimensions();
   const {userProfile} = useSelector(state => state.user);
   const scrollViewRef = useRef(null);
@@ -85,10 +88,12 @@ const NewsDetails = ({route}) => {
 
   // share news function
   const shareMessage = async () => {
-    const messageTitle = message?.map((item) => item.title)
+    const messageTitle = message?.map(item => item.title);
     try {
       await Share.share({
-        message: messageTitle && messageTitle[0] + '\n\n' + 'http://lanation.bj/client' + detUrl,
+        message:
+          messageTitle &&
+          messageTitle[0] + '\n\n' + 'http://lanation.bj/client' + detUrl,
         url: 'http://lanation.bj/client' + detUrl,
       })
         .then(result => console.log(result))
@@ -142,19 +147,23 @@ const NewsDetails = ({route}) => {
             />
           )}
 
-          <ScrollView style={styles.scrollView}>
-            {message?.map((message, index) => (
-              <NewsDetailsPage
-                message={message}
-                pricing={pricing}
-                scrollViewRef={scrollViewRef}
-                setAbonne={setAbonne}
-                setData={setData}
-                abonne={abonne}
-                key={index}
-              />
-            ))}
-          </ScrollView>
+          {isFetching && <AlauneSkeleton />}
+
+          {!isFetching && (
+            <ScrollView style={styles.scrollView}>
+              {message?.map((message, index) => (
+                <NewsDetailsPage
+                  message={message}
+                  pricing={pricing}
+                  scrollViewRef={scrollViewRef}
+                  setAbonne={setAbonne}
+                  setData={setData}
+                  abonne={abonne}
+                  key={index}
+                />
+              ))}
+            </ScrollView>
+          )}
         </View>
       )}
 

@@ -44,49 +44,50 @@ const App = () => {
   useEffect(() => {
     SplashScreen.hide();
   }, []);
+
   useEffect(() => {
     requestUserPermission();
     NotificationServices();
   }, []);
 
-  // handle send push notification
-  // Set up message payload
-  const payload = {
-    notification: {
-      title: 'New message',
-      body: 'You have a new message from John Doe',
-    },
-  };
+  // // handle send push notification
+  // // Set up message payload
+  // const payload = {
+  //   notification: {
+  //     title: 'New message',
+  //     body: 'You have a new message from John Doe',
+  //   },
+  // };
 
-  // Set up options for sending the message
-  const options = {
-    priority: 'high',
-    timeToLive: 60 * 60 * 24, // 24 hours
-  };
+  // // Set up options for sending the message
+  // const options = {
+  //   priority: 'high',
+  //   timeToLive: 60 * 60 * 24, // 24 hours
+  // };
 
-  // Set the target device registration token
-  const [registrationToken, setRegistrationToken] = useState('');
-  const fcm = async () => {
-    setRegistrationToken(await AsyncStorage.getItem('fcmToken'));
-  };
-  useEffect(() => {
-    fcm();
-  }, []);
+  // // Set the target device registration token
+  // const [registrationToken, setRegistrationToken] = useState('');
+  // const fcm = async () => {
+  //   setRegistrationToken(await AsyncStorage.getItem('fcmToken'));
+  // };
+  // useEffect(() => {
+  //   fcm();
+  // }, []);
 
-  // Set up the request headers
-  const headers = {
-    'Content-Type': 'application/json',
-    Authorization:
-      'key=AAAANSw3kVs:APA91bFOWZqPBvQgBU-IIFjiS4_dH7kzFoGFQ9_epV3xxsPrFJN4kdUyQl04Ae06idSbeFCOSbal8zQTGsO0ScbpEM3ezmgZrqOsHFUT7cqmepQpxQhUNqfU3aGcs-yMB579LpXjzbo2',
-  };
+  // // Set up the request headers
+  // const headers = {
+  //   'Content-Type': 'application/json',
+  //   Authorization:
+  //     'key=AAAANSw3kVs:APA91bFOWZqPBvQgBU-IIFjiS4_dH7kzFoGFQ9_epV3xxsPrFJN4kdUyQl04Ae06idSbeFCOSbal8zQTGsO0ScbpEM3ezmgZrqOsHFUT7cqmepQpxQhUNqfU3aGcs-yMB579LpXjzbo2',
+  // };
 
-  // Set up the request body
-  const body = {
-    notification: payload.notification,
-    to: registrationToken,
-    priority: options.priority,
-    time_to_live: options.timeToLive,
-  };
+  // // Set up the request body
+  // const body = {
+  //   notification: payload.notification,
+  //   to: registrationToken,
+  //   priority: options.priority,
+  //   time_to_live: options.timeToLive,
+  // };
 
   // // Send the message to the FCM API
   // axios

@@ -1,12 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {
-  StyleSheet,
-  Dimensions,
-  View,
-  SafeAreaView,
-  AppRegistry,
-  Text,
-} from 'react-native';
+import {StyleSheet, Dimensions, View, SafeAreaView, Text} from 'react-native';
 import Pdf from 'react-native-pdf';
 import {baseURL} from '../redux/config';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -89,6 +82,7 @@ const ReadPDF = ({route}) => {
               name={'arrow-back-ios'}
               size={26}
               style={{marginHorizontal: 5}}
+              color={COLORS.dark.backgroundSoft}
             />
           </BorderlessButton>
           <Text
@@ -104,6 +98,7 @@ const ReadPDF = ({route}) => {
               name={horizontal ? 'swap-vert' : 'swap-horiz'}
               size={30}
               style={{marginHorizontal: 5}}
+              color={COLORS.dark.backgroundSoft}
             />
           </BorderlessButton>
         </View>
@@ -128,7 +123,6 @@ const ReadPDF = ({route}) => {
           onPressLink={uri => {
             // console.log(`Link pressed: ${uri}`);
           }}
-          //   horizontal={true}
           style={styles.pdf}
         />
       </View>
@@ -137,8 +131,6 @@ const ReadPDF = ({route}) => {
 };
 
 export default ReadPDF;
-
-AppRegistry.registerComponent('ReadPDFname', () => ReadPDF);
 
 const styles = StyleSheet.create({
   container: {

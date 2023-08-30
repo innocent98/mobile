@@ -314,7 +314,7 @@ const Settings = () => {
                 }
                 onPress={() => {
                   Linking.openURL(
-                    'https://lanation.bj/client/pages/mentions-legales',
+                    'https://lanation.bj/pages/politiques-de-confidentialite',
                   );
                 }}>
                 <Icon
@@ -349,7 +349,7 @@ const Settings = () => {
                 style={styles.settingsItem}
                 rippleColor={
                   isDark ? COLORS.dark.textSoft : COLORS.dark.textSoft
-                } onPress={()=>{Linking.openURL('https://lanation.bj/client/pages/politiques-de-confidentialite')}} >
+                } onPress={()=>{Linking.openURL('https://lanation.bj/pages/politiques-de-confidentialite')}} >
                 <Icon
                   name="person-outline"
                   color={
