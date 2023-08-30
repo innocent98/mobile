@@ -8,7 +8,7 @@
 
 import React, {useEffect, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import SplashScreen from 'react-native-splash-screen';
+// import SplashScreen from 'react-native-splash-screen';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import {store, persistor} from './redux/store';
@@ -18,7 +18,6 @@ import {
   requestUserPermission,
 } from './constants/utils/PushNotifications';
 import ForegroundHandler from './constants/utils/ForegroundHandler';
-import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import DeviceInfo from 'react-native-device-info';
 
@@ -41,9 +40,9 @@ const App = () => {
     deviceName();
   }, []);
 
-  useEffect(() => {
-    SplashScreen.hide();
-  }, []);
+  // useEffect(() => {
+  //   SplashScreen.hide();
+  // }, []);
 
   useEffect(() => {
     requestUserPermission();
