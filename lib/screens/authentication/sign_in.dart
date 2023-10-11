@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zealworkers_token/constants/tab/tab.dart';
 import 'package:zealworkers_token/screens/authentication/forgot_password.dart';
 import 'package:zealworkers_token/screens/authentication/sign_up.dart';
 import 'package:zealworkers_token/widgets/button.dart';
@@ -129,7 +130,8 @@ class SignIn extends StatelessWidget {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => SignUp()));
+                                          builder: (context) =>
+                                              const HomeTab()));
                                 }
                               },
                               buttonColor: app_color.primary,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+// import 'package:zealworkers_token/constants/tab/tab.dart';
 import 'package:zealworkers_token/screens/authentication/get_started.dart';
-import 'package:zealworkers_token/screens/home/home.dart';
 import 'constants/colors.dart' as app_color;
 
 void main() {
@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: app_color.primary),
         useMaterial3: true,
       ),
-      home: const Home(),
+      home: const GetStarted(),
     );
   }
 }
