@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:zealworkers_token/models/user_data.dart';
 import 'package:zealworkers_token/widgets/divider.dart';
 import 'package:zealworkers_token/widgets/text.dart';
 import '../../../constants/colors.dart' as app_color;
 
 class InfoCard extends StatelessWidget {
-  const InfoCard({super.key});
+  final UserData data;
+  const InfoCard({super.key, required this.data});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,7 @@ class InfoCard extends StatelessWidget {
               Column(
                 children: [
                   TextWidget(
-                    text: '1200ZWT',
+                    text: '${data.totalEarned}ZWT',
                     textColor: app_color.secondary,
                     textAlign: TextAlign.center,
                     fontWeight: FontWeight.w600,
@@ -47,7 +48,7 @@ class InfoCard extends StatelessWidget {
               Column(
                 children: [
                   TextWidget(
-                    text: '0.03USDT',
+                    text: '${data.referralBonus}USDT',
                     textColor: app_color.secondary,
                     textAlign: TextAlign.center,
                     fontWeight: FontWeight.w600,

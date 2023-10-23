@@ -1,8 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:zealworkers_token/constants/utils/vars.dart';
+import 'package:zealworkers_token/providers/prefs_provider.dart';
+import 'package:zealworkers_token/providers/token_provider.dart';
 import 'package:zealworkers_token/screens/home/home.dart';
 import 'package:zealworkers_token/screens/settings/settings.dart';
 import 'package:zealworkers_token/screens/team/team.dart';
 import '../../constants/colors.dart' as app_color;
+
+class MainTab extends ConsumerWidget {
+  final String token;
+  const MainTab({super.key, required this.token});
+
+  @override
+  Widget build(BuildContext context, ref) {
+    Future.delayed(const Duration(seconds: 2), () {
+      // Delayed execution of ref.watch after 2 seconds
+      ref.watch(tokenProvider.notifier).state = token;
+      ref.watch(prefsProvider).setString(userTokenstr, token);
+    });
+
+    return const HomeTab();
+  }
+}
 
 class HomeTab extends StatefulWidget {
   const HomeTab({super.key});
@@ -28,34 +48,30 @@ class _HomeTabState extends State<HomeTab> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: app_color.white,
-      child: SafeArea(
-          child: Scaffold(
-        backgroundColor: app_color.white,
-        body: Center(
-          child: _widgetOptions.elementAt(_selectedTabIndex),
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.people),
-              label: 'Team',
-            ),
-            BottomNavigationBarItem(
-              icon: ImageIcon(AssetImage('assets/img/tab_coin.png')),
-              label: 'Mine',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.settings_outlined),
-              label: 'Settings',
-            ),
-          ],
-          currentIndex: _selectedTabIndex,
-          selectedItemColor: app_color.secondary,
-          onTap: onTabTapped,
-        ),
-      )),
+    return Scaffold(
+      backgroundColor: app_color.white,
+      body: Center(
+        child: _widgetOptions.elementAt(_selectedTabIndex),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.people),
+            label: 'Team',
+          ),
+          BottomNavigationBarItem(
+            icon: ImageIcon(AssetImage('assets/img/tab_coin.png')),
+            label: 'Mine',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings_outlined),
+            label: 'Settings',
+          ),
+        ],
+        currentIndex: _selectedTabIndex,
+        selectedItemColor: app_color.secondary,
+        onTap: onTabTapped,
+      ),
     );
   }
 }

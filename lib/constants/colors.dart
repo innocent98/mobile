@@ -10,3 +10,4 @@ const Color black = Color(0xFF0D0D2B);
 const Color green = Color(0xFF19A502);
 const Color transparent = Colors.transparent;
 const Color grey = Colors.grey;
+const Color red = Colors.redAccent;

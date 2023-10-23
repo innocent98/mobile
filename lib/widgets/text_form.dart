@@ -6,6 +6,8 @@ class TextForm extends StatefulWidget {
   final TextEditingController? controller;
   final Color labelColor;
   final bool? obscureText;
+  final bool isRequired;
+  final Function(String)? onChanged;
 
   const TextForm(
       {this.controller,
@@ -13,6 +15,8 @@ class TextForm extends StatefulWidget {
       required this.labelText,
       required this.labelColor,
       this.obscureText,
+      this.isRequired = true,
+      this.onChanged,
       super.key});
 
   @override
@@ -29,7 +33,7 @@ class _TextFormState extends State<TextForm> {
           EdgeInsets.fromLTRB(screenWidth * 0.09, 0, screenWidth * 0.09, 0),
       child: TextFormField(
         validator: (value) {
-          if (value == null || value.isEmpty) {
+          if (widget.isRequired && (value == null || value.isEmpty)) {
             return 'Input cannot be empty';
           }
           return null;
@@ -60,6 +64,7 @@ class _TextFormState extends State<TextForm> {
             contentPadding: const EdgeInsets.all(10)),
         cursorColor: widget.labelColor,
         controller: widget.controller,
+        onChanged: widget.onChanged,
       ),
     );
   }
