@@ -75,7 +75,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 10,
     flexDirection: 'row-reverse',
-    left: -200,
+    left: 0,
     top: 0,
     zIndex: 1,
   },

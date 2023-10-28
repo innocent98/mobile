@@ -8,7 +8,7 @@
 
 import React, {useEffect, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-// import SplashScreen from 'react-native-splash-screen';
+import SplashScreen from 'react-native-splash-screen';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import {store, persistor} from './redux/store';
@@ -20,14 +20,17 @@ import {
 import ForegroundHandler from './constants/utils/ForegroundHandler';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import DeviceInfo from 'react-native-device-info';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 const App = () => {
   const [buildId, setBuildId] = useState('');
 
   const brand = DeviceInfo.getBrand();
+
   DeviceInfo.getBuildId().then(buildId => {
     setBuildId(buildId);
   });
+
   const device_name = brand + '-' + buildId;
 
   useEffect(() => {
@@ -40,9 +43,9 @@ const App = () => {
     deviceName();
   }, []);
 
-  // useEffect(() => {
-  //   SplashScreen.hide();
-  // }, []);
+  useEffect(() => {
+    SplashScreen.hide();
+  }, []);
 
   useEffect(() => {
     requestUserPermission();
@@ -99,14 +102,16 @@ const App = () => {
   //   });
 
   return (
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <NavigationContainer>
-          <ForegroundHandler />
-          <MainApp />
-        </NavigationContainer>
-      </PersistGate>
-    </Provider>
+    <GestureHandlerRootView style={{flex: 1}}>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <NavigationContainer>
+            <ForegroundHandler />
+            <MainApp />
+          </NavigationContainer>
+        </PersistGate>
+      </Provider>
+    </GestureHandlerRootView>
   );
 };
 

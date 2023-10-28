@@ -12,8 +12,6 @@ import FocusedStatusBar from '../components/FocusedStatusBar';
 import {COLORS} from '../constants/theme';
 import {useSelector, useDispatch} from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {MotiView} from 'moti';
-import {Easing} from 'react-native-reanimated';
 import {BorderlessButton, RectButton} from 'react-native-gesture-handler';
 import {changeBoard} from '../redux/onBoardRedux';
 
@@ -66,15 +64,15 @@ const Welcome = () => {
                     color={COLORS.light.primary}
                   />
                 ) : (
-                  <MotiView
-                    from={{left: -50, opacity: 0.5}}
-                    animate={{left: 0, opacity: 1}}
-                    transition={{
-                      type: 'timing',
-                      duration: 500,
-                      easing: Easing.out(Easing.ease),
-                      delay: 0,
-                    }}
+                  <View
+                    // from={{left: -50, opacity: 0.5}}
+                    // animate={{left: 0, opacity: 1}}
+                    // transition={{
+                    //   type: 'timing',
+                    //   duration: 500,
+                    //   easing: Easing.out(Easing.ease),
+                    //   delay: 0,
+                    // }}
                     style={styles.ditesConOverlay}
                     accessibilityLabel="Commencer">
                     <View style={[styles.welcomeIconBtn, {marginRight: 0}]}>
@@ -88,7 +86,7 @@ const Welcome = () => {
                     <Text style={[styles.dites, {width: '80%'}]}>
                       Commencer
                     </Text>
-                  </MotiView>
+                  </View>
                 )}
               </>
             )}
