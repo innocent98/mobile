@@ -13,7 +13,7 @@ class AirdropService {
       'token': 'Bearer $accessToken',
     };
 
-    var uri = Uri.parse('$baseUrl/$airdropRoute');
+    var uri = Uri.parse('$liveBaseUrl/$airdropRoute');
 
     try {
       final response = await client.get(uri, headers: headers);

@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:zealworkers_token/constants/utils/vars.dart';
+import 'package:zealworkers_token/providers/prefs_provider.dart';
+import 'package:zealworkers_token/providers/token_provider.dart';
+import 'package:zealworkers_token/providers/user_data_provider.dart';
 import 'package:zealworkers_token/screens/wallet/wallet.dart';
 import 'package:zealworkers_token/widgets/text.dart';
 import '../../constants/colors.dart' as app_color;
 
-class MyDrawer extends StatelessWidget {
+class MyDrawer extends ConsumerWidget {
   const MyDrawer({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
+
+    final userData = ref.watch(userDataProvider);
 
     return Drawer(
       shape: null,
@@ -18,13 +25,14 @@ class MyDrawer extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: [
           DrawerHeader(
-            child: Row(
+              child: userData.when(data: (data) {
+            return Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(50),
-                  child: Image.network(
-                    'https://imgv3.fotor.com/images/cover-photo-image/a-beautiful-girl-with-gray-hair-and-lucxy-neckless-generated-by-Fotor-AI.jpg',
+                  child: Image.asset(
+                    'assets/img/logo.png',
                     fit: BoxFit.cover,
                     width: screenWidth * 0.15,
                   ),
@@ -34,13 +42,13 @@ class MyDrawer extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     TextWidget(
-                        text: 'Solomon Tosin',
+                        text: data!.fullName,
                         textColor: app_color.black,
                         textAlign: TextAlign.center,
                         fontWeight: FontWeight.w600,
                         fontSize: screenWidth * 0.045),
                     TextWidget(
-                        text: 'solomon@gmail.com',
+                        text: data.email,
                         textColor: app_color.black,
                         textAlign: TextAlign.center,
                         fontWeight: FontWeight.w400,
@@ -48,8 +56,12 @@ class MyDrawer extends StatelessWidget {
                   ],
                 ),
               ],
-            ),
-          ),
+            );
+          }, error: (err, s) {
+            return Container();
+          }, loading: () {
+            return Container();
+          })),
           ListTile(
             selectedTileColor: app_color.primary,
             selectedColor: app_color.white,
@@ -131,21 +143,21 @@ class MyDrawer extends StatelessWidget {
                 fontSize: screenWidth * 0.04),
             onTap: () {},
           ),
-          ListTile(
-            selectedTileColor: app_color.primary,
-            selectedColor: app_color.white,
-            leading: const Icon(
-              Icons.settings_outlined,
-              color: app_color.black,
-            ),
-            title: TextWidget(
-                text: 'Settings',
-                textColor: app_color.black,
-                textAlign: TextAlign.start,
-                fontWeight: FontWeight.w500,
-                fontSize: screenWidth * 0.04),
-            onTap: () {},
-          ),
+          // ListTile(
+          //   selectedTileColor: app_color.primary,
+          //   selectedColor: app_color.white,
+          //   leading: const Icon(
+          //     Icons.settings_outlined,
+          //     color: app_color.black,
+          //   ),
+          //   title: TextWidget(
+          //       text: 'Settings',
+          //       textColor: app_color.black,
+          //       textAlign: TextAlign.start,
+          //       fontWeight: FontWeight.w500,
+          //       fontSize: screenWidth * 0.04),
+          //   onTap: () {},
+          // ),
           ListTile(
             selectedTileColor: app_color.primary,
             selectedColor: app_color.white,
@@ -159,7 +171,10 @@ class MyDrawer extends StatelessWidget {
                 textAlign: TextAlign.start,
                 fontWeight: FontWeight.w500,
                 fontSize: screenWidth * 0.04),
-            onTap: () {},
+            onTap: () {
+              ref.watch(tokenProvider.notifier).state = '';
+              ref.watch(prefsProvider).setString(userTokenstr, '');
+            },
           ),
           SizedBox(height: screenHeight * 0.08),
           ListTile(

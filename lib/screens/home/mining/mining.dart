@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:zealworkers_token/models/user_data.dart';
+import 'package:zealworkers_token/providers/airdrop_provider.dart';
 import 'package:zealworkers_token/providers/user_data_provider.dart';
 import 'package:zealworkers_token/widgets/button.dart';
 import 'package:zealworkers_token/widgets/text.dart';
@@ -85,7 +86,6 @@ class _MiningState extends State<Mining> with SingleTickerProviderStateMixin {
             SizedBox(height: screenHeight * 0.02),
             Consumer(
               builder: (context, ref, child) {
-                final userData = ref.watch(mineDataProvider);
                 return Button(
                   buttonColor: app_color.primary,
                   buttonText: 'Start Mining',
@@ -93,7 +93,11 @@ class _MiningState extends State<Mining> with SingleTickerProviderStateMixin {
                   onPressed: widget.data.mining
                       ? null
                       : () {
-                          ref.read(mineDataProvider.notifier).state = userData;
+                          ref.read(mineDataProvider);
+                          Future.delayed(const Duration(seconds: 2), () {
+                            ref.invalidate(userDataProvider);
+                            ref.invalidate(airdropDataProvider);
+                          });
                         },
                 );
               },

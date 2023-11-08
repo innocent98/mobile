@@ -1,5 +1,9 @@
 import 'dart:convert';
 
+import 'package:flutter/src/widgets/container.dart';
+
+import 'package:zealworkers_token/screens/home/mining/mining.dart';
+
 UserData tagsFromJson(String str) => UserData.fromJson(json.decode(str));
 
 String tagsToJson(UserData data) => json.encode(data.toJson());
@@ -19,23 +23,24 @@ class UserData {
   double totalEarned;
   DateTime nextMine;
   String success;
+  String fullName;
 
-  UserData({
-    required this.team,
-    required this.referralBonus,
-    required this.id,
-    required this.email,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.v,
-    required this.isEmailVerified,
-    required this.miningExp,
-    required this.mining,
-    required this.earning,
-    required this.totalEarned,
-    required this.nextMine,
-    required this.success,
-  });
+  UserData(
+      {required this.team,
+      required this.referralBonus,
+      required this.id,
+      required this.email,
+      required this.createdAt,
+      required this.updatedAt,
+      required this.v,
+      required this.isEmailVerified,
+      required this.miningExp,
+      required this.mining,
+      required this.earning,
+      required this.totalEarned,
+      required this.nextMine,
+      required this.success,
+      required this.fullName});
 
   factory UserData.fromJson(Map<String, dynamic> json) {
     return UserData(
@@ -53,6 +58,7 @@ class UserData {
       totalEarned: (json["totalEarned"] as num?)?.toDouble() ?? 0.0,
       nextMine: DateTime.tryParse(json["nextMine"]) ?? DateTime(0),
       success: json["success"] ?? "",
+      fullName: json["fullName"] ?? "",
     );
   }
 
@@ -71,5 +77,11 @@ class UserData {
         "totalEarned": totalEarned,
         "nextMine": nextMine.toIso8601String(),
         "success": success,
+        "fullName": fullName,
       };
+
+  when(
+      {required Mining Function(dynamic data) data,
+      required Container Function(dynamic err, dynamic s) error,
+      required Container Function() loading}) {}
 }

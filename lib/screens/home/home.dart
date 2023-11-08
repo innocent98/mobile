@@ -15,7 +15,7 @@ class Home extends ConsumerWidget {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
 
-    final data = ref.watch(userDataProvider);
+    final userData = ref.watch(userDataProvider);
 
     return Scaffold(
         backgroundColor: app_color.primary_soft,
@@ -33,21 +33,22 @@ class Home extends ConsumerWidget {
           child: Stack(children: [
             Column(
               children: [
-                data.when(data: (data) {
+                userData.when(data: (data) {
                   return AirdropInfo(
-                    data: data!,
+                    team: data!.team.length,
+                    exp: data.miningExp,
                   );
                 }, error: (err, s) {
-                  return Text(err.toString());
+                  return Container();
                 }, loading: () {
                   return Container();
                 }),
-                data.when(data: (data) {
+                userData.when(data: (data) {
                   return Mining(
                     data: data!,
                   );
                 }, error: (err, s) {
-                  return Text(err.toString());
+                  return Container();
                 }, loading: () {
                   return Container();
                 })
@@ -56,12 +57,12 @@ class Home extends ConsumerWidget {
             Positioned(
                 top: screenHeight * 0.325,
                 left: screenWidth * 0.05,
-                child: data.when(data: (data) {
+                child: userData.when(data: (data) {
                   return InfoCard(
                     data: data!,
                   );
                 }, error: (err, s) {
-                  return Text(err.toString());
+                  return Container();
                 }, loading: () {
                   return Container();
                 }))

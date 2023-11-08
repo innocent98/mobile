@@ -18,7 +18,7 @@ class AuthService {
   Future<void> registerUser(
       String? email, String? password, String? referral, String? url) async {
     var client = http.Client();
-    var uri = Uri.parse('$baseUrl/$url');
+    var uri = Uri.parse('$liveBaseUrl/$url');
 
     try {
       onLoading(true);
@@ -34,6 +34,44 @@ class AuthService {
       if (response.statusCode == 200) {
         onSuccessMessage(responseBody['message'] ?? 'Successful');
         userToken(responseBody['accessToken']) ?? '';
+      } else {
+        onErrorMessage(responseBody['message'] ?? 'Unknown error');
+      }
+    } catch (e) {
+      onErrorMessage('$e');
+      throw Exception('$e');
+    } finally {
+      onLoading(false);
+      client.close();
+    }
+  }
+
+  Future<void> updateUser(String accessToken, String? currentPassword,
+      String? password, String? url) async {
+    var client = http.Client();
+
+    print(currentPassword);
+
+    Map<String, String> headers = {
+      'token': 'Bearer $accessToken',
+    };
+
+    var uri = Uri.parse('$liveBaseUrl/$url');
+
+    try {
+      onLoading(true);
+
+      final response = await client.put(uri,
+          body: {
+            'currentPassword': currentPassword,
+            'password': password,
+          },
+          headers: headers);
+
+      final responseBody = jsonDecode(response.body);
+
+      if (response.statusCode == 200) {
+        onSuccessMessage(responseBody['message'] ?? 'Successful');
       } else {
         onErrorMessage(responseBody['message'] ?? 'Unknown error');
       }

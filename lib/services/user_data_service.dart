@@ -13,7 +13,7 @@ class UserDataService {
       'token': 'Bearer $accessToken',
     };
 
-    var uri = Uri.parse('$baseUrl/$route');
+    var uri = Uri.parse('$liveBaseUrl/$route');
 
     try {
       final response = await client.get(uri, headers: headers);

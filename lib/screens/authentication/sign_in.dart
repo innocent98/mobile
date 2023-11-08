@@ -62,10 +62,8 @@ class _SignInState extends State<SignIn> {
           userToken = token;
         });
 
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => MainTab(token: userToken)));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => MainTab(token: userToken)));
       },
     );
 

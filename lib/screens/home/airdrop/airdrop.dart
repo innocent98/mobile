@@ -3,16 +3,16 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:zealworkers_token/models/user_data.dart';
 import 'package:zealworkers_token/providers/airdrop_provider.dart';
 import 'package:zealworkers_token/screens/home/airdrop/info.dart';
 import 'package:zealworkers_token/widgets/text.dart';
 import '../../../constants/colors.dart' as app_color;
 
 class AirdropInfo extends StatefulWidget {
-  final UserData data;
+  final num team;
+  final DateTime exp;
 
-  const AirdropInfo({super.key, required this.data});
+  const AirdropInfo({super.key, required this.team, required this.exp});
 
   @override
   State<AirdropInfo> createState() => _AirdropInfoState();
@@ -28,7 +28,7 @@ class _AirdropInfoState extends State<AirdropInfo> {
 
     // Calculate the initial countdown value in seconds
     final now = DateTime.now();
-    final miningExp = widget.data.miningExp;
+    final miningExp = widget.exp;
     final difference =
         miningExp.isAfter(now) ? miningExp.difference(now) : Duration.zero;
     _countdown = difference.inSeconds;
@@ -139,7 +139,8 @@ class _AirdropInfoState extends State<AirdropInfo> {
                     text2: 'Circulation',
                     sub_text2: formatCirculation(int.parse(data.circulation)),
                     text3: 'Total Mined',
-                    sub_text3: double.parse(data.totalMined.toStringAsFixed(6)).toString(),
+                    sub_text3: double.parse(data.totalMined.toStringAsFixed(6))
+                        .toString(),
                   ),
                   SizedBox(height: screenHeight * 0.03),
                   Info(
@@ -148,7 +149,7 @@ class _AirdropInfoState extends State<AirdropInfo> {
                     text2: 'Mining Time',
                     sub_text2: _formatTime(_countdown),
                     text3: 'My Team',
-                    sub_text3: '0/${widget.data.team.length}',
+                    sub_text3: '0/${widget.team}',
                   ),
                   SizedBox(height: screenHeight * 0.04),
                   Container(

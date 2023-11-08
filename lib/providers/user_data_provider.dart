@@ -9,7 +9,7 @@ final userDataProvider = FutureProvider<UserData?>((ref) async {
   return ref.watch(userProvider).fetchUserData(accessToken, userRoute);
 });
 
-final mineDataProvider = StateProvider<UserData?>((ref) async {
+final mineDataProvider = FutureProvider<UserData?>((ref) async {
   final accessToken = ref.read(tokenProvider);
   return ref.watch(userProvider).fetchUserData(accessToken, mineRoute);
-} as UserData? Function(StateProviderRef<UserData?> ref));
+});

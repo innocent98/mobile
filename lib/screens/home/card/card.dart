@@ -28,7 +28,7 @@ class InfoCard extends StatelessWidget {
               Column(
                 children: [
                   TextWidget(
-                    text: '${data.totalEarned}ZWT',
+                    text: '${double.parse(data.totalEarned.toStringAsFixed(6))}ZWT',
                     textColor: app_color.secondary,
                     textAlign: TextAlign.center,
                     fontWeight: FontWeight.w600,
