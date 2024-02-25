@@ -4,6 +4,7 @@ import 'package:zealworkers_token/constants/utils/vars.dart';
 import 'package:zealworkers_token/providers/prefs_provider.dart';
 import 'package:zealworkers_token/providers/token_provider.dart';
 import 'package:zealworkers_token/providers/user_data_provider.dart';
+import 'package:zealworkers_token/screens/authentication/get_started.dart';
 import 'package:zealworkers_token/screens/wallet/wallet.dart';
 import 'package:zealworkers_token/widgets/text.dart';
 import '../../constants/colors.dart' as app_color;
@@ -17,6 +18,19 @@ class MyDrawer extends ConsumerWidget {
     final double screenHeight = MediaQuery.of(context).size.height;
 
     final userData = ref.watch(userDataProvider);
+
+    Future<void> logout() async {
+      await Future.delayed(const Duration(seconds: 2), () {
+        // Clear user session data
+        ref.watch(tokenProvider.notifier).state = '';
+        ref.watch(prefsProvider).setString(userTokenstr, '');
+        ref.invalidate(tokenProvider);
+        ref.invalidate(userDataProvider);
+
+        Navigator.pop(context,
+            MaterialPageRoute(builder: (context) => const GetStarted()));
+      });
+    }
 
     return Drawer(
       shape: null,
@@ -41,18 +55,24 @@ class MyDrawer extends ConsumerWidget {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    TextWidget(
-                        text: data!.fullName,
-                        textColor: app_color.black,
-                        textAlign: TextAlign.center,
-                        fontWeight: FontWeight.w600,
-                        fontSize: screenWidth * 0.045),
-                    TextWidget(
-                        text: data.email,
-                        textColor: app_color.black,
-                        textAlign: TextAlign.center,
-                        fontWeight: FontWeight.w400,
-                        fontSize: screenWidth * 0.035)
+                    SizedBox(
+                      width: screenWidth * 0.48,
+                      child: TextWidget(
+                          text: data!.fullName!,
+                          textColor: app_color.black,
+                          textAlign: TextAlign.center,
+                          fontWeight: FontWeight.w600,
+                          fontSize: screenWidth * 0.045),
+                    ),
+                    SizedBox(
+                      width: screenWidth * 0.48,
+                      child: TextWidget(
+                          text: data.email!,
+                          textColor: app_color.black,
+                          textAlign: TextAlign.center,
+                          fontWeight: FontWeight.w400,
+                          fontSize: screenWidth * 0.035),
+                    )
                   ],
                 ),
               ],
@@ -171,10 +191,7 @@ class MyDrawer extends ConsumerWidget {
                 textAlign: TextAlign.start,
                 fontWeight: FontWeight.w500,
                 fontSize: screenWidth * 0.04),
-            onTap: () {
-              ref.watch(tokenProvider.notifier).state = '';
-              ref.watch(prefsProvider).setString(userTokenstr, '');
-            },
+            onTap: logout,
           ),
           SizedBox(height: screenHeight * 0.08),
           ListTile(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:zealworkers_token/models/user_data.dart';
 import 'package:zealworkers_token/widgets/divider.dart';
 import 'package:zealworkers_token/widgets/text.dart';
@@ -7,6 +8,10 @@ import '../../../constants/colors.dart' as app_color;
 class InfoCard extends StatelessWidget {
   final UserData data;
   const InfoCard({super.key, required this.data});
+
+  Future<void> copyToClipboard(String text) async {
+    await Clipboard.setData(ClipboardData(text: text));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +33,8 @@ class InfoCard extends StatelessWidget {
               Column(
                 children: [
                   TextWidget(
-                    text: '${double.parse(data.totalEarned.toStringAsFixed(6))}ZWT',
+                    text:
+                        '${double.parse(data.totalEarned!.toStringAsFixed(6))}ZWT',
                     textColor: app_color.secondary,
                     textAlign: TextAlign.center,
                     fontWeight: FontWeight.w600,
@@ -84,7 +90,7 @@ class InfoCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               TextWidget(
-                text: 'https://zealt13679890',
+                text: data.referralCode!,
                 textColor: app_color.secondary,
                 textAlign: TextAlign.center,
                 fontWeight: FontWeight.w500,
@@ -92,10 +98,21 @@ class InfoCard extends StatelessWidget {
                 fontFamily: 'Poppins',
               ),
               SizedBox(width: screenWidth * 0.02),
-              Icon(
-                Icons.copy_rounded,
-                size: screenWidth * 0.04,
-                color: app_color.grey,
+              InkWell(
+                onTap: () {
+                  copyToClipboard(data.referralCode!);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Referral code copied to clipboard'),
+                      duration: Duration(seconds: 3),
+                    ),
+                  );
+                },
+                child: Icon(
+                  Icons.copy_rounded,
+                  size: screenWidth * 0.04,
+                  color: app_color.grey,
+                ),
               )
             ],
           ),

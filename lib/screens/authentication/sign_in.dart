@@ -44,13 +44,13 @@ class _SignInState extends State<SignIn> {
         );
       },
       onSuccessMessage: (message) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(message),
-            duration: const Duration(seconds: 3),
-            backgroundColor: app_color.green,
-          ),
-        );
+        // ScaffoldMessenger.of(context).showSnackBar(
+        //   SnackBar(
+        //     content: Text(message),
+        //     duration: const Duration(seconds: 3),
+        //     backgroundColor: app_color.green,
+        //   ),
+        // );
       },
       onLoading: (isLoading) {
         setState(() {

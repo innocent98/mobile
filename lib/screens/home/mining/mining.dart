@@ -54,7 +54,7 @@ class _MiningState extends State<Mining> with SingleTickerProviderStateMixin {
         child: Column(
           children: [
             SizedBox(height: screenHeight * 0.09),
-            if (widget.data.mining)
+            if (widget.data.mining == true)
               AnimatedBuilder(
                 animation: _animation,
                 builder: (context, child) {
@@ -76,7 +76,7 @@ class _MiningState extends State<Mining> with SingleTickerProviderStateMixin {
             SizedBox(height: screenHeight * 0.02),
             TextWidget(
               text:
-                  'Zeal earning : ${double.parse(widget.data.earning.toStringAsFixed(6))}',
+                  'Zeal earning : ${double.parse(widget.data.earning!.toStringAsFixed(6))}',
               textColor: app_color.secondary,
               textAlign: TextAlign.center,
               fontWeight: FontWeight.w600,
@@ -90,7 +90,7 @@ class _MiningState extends State<Mining> with SingleTickerProviderStateMixin {
                   buttonColor: app_color.primary,
                   buttonText: 'Start Mining',
                   textColor: app_color.white,
-                  onPressed: widget.data.mining
+                  onPressed: widget.data.mining == true
                       ? null
                       : () {
                           ref.read(mineDataProvider);

@@ -30,13 +30,13 @@ class TeamItem extends StatelessWidget {
               Row(
                 children: [
                   TextWidget(
-                      text: 'Solomon@gmail.com',
+                      text: teamData.email!,
                       textColor: app_color.grey,
                       textAlign: TextAlign.start,
                       fontWeight: FontWeight.w500,
                       fontSize: screenWidth * 0.035),
                   TextWidget(
-                      text: '(0)',
+                      text: '(${teamData.team!.length.toString()})',
                       textColor: app_color.grey,
                       textAlign: TextAlign.start,
                       fontWeight: FontWeight.w500,
@@ -44,7 +44,7 @@ class TeamItem extends StatelessWidget {
                 ],
               ),
               TextWidget(
-                  text: 'Active',
+                  text: teamData.mining == true ? 'Active' : 'Inactive',
                   textColor: app_color.grey,
                   textAlign: TextAlign.start,
                   fontWeight: FontWeight.w500,
@@ -53,7 +53,7 @@ class TeamItem extends StatelessWidget {
           ),
           trailing: Icon(
             Icons.circle,
-            color: app_color.green,
+            color: teamData.mining == true ? app_color.green : app_color.grey,
             size: screenWidth * 0.035,
           ),
         ),

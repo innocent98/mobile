@@ -15,6 +15,20 @@ class Team extends ConsumerWidget {
 
     final userData = ref.watch(userDataProvider);
 
+    final teamList = userData.when(
+        data: (userData) {
+          List<Widget> teamDataList = userData!.team!.map((item) {
+            return TeamItem(teamData: item);
+          }).toList();
+          return Column(
+            children: teamDataList,
+          );
+        },
+        error: (err, s) => Text(err.toString()),
+        loading: () => const Center(
+              child: CircularProgressIndicator(),
+            ));
+
     return Scaffold(
       backgroundColor: app_color.soft,
       appBar: AppBar(
@@ -40,26 +54,7 @@ class Team extends ConsumerWidget {
                 fontWeight: FontWeight.w400,
                 fontSize: screenWidth * 0.032),
             SizedBox(height: screenHeight * 0.03),
-            FutureBuilder(
-                future: null,
-                builder: (BuildContext context, snapshot) {
-                  return SizedBox(
-                      height: screenHeight * 0.7,
-                      child: userData.when(data: (data) {
-                        return ListView.builder(
-                          padding: EdgeInsets.zero,
-                          shrinkWrap: true,
-                          itemCount: data!.team.length,
-                          itemBuilder: (context, index) {
-                            return TeamItem(teamData: data.team[index]);
-                          },
-                        );
-                      }, error: (err, s) {
-                        return Container();
-                      }, loading: () {
-                        return Container();
-                      }));
-                })
+            teamList
           ],
         ),
       ),

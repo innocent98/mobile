@@ -16,7 +16,7 @@ class AuthService {
       required this.userToken});
 
   Future<void> registerUser(
-      String? email, String? password, String? referral, String? url) async {
+      String? email, String? password, String? referralCode, String? url) async {
     var client = http.Client();
     var uri = Uri.parse('$liveBaseUrl/$url');
 
@@ -26,7 +26,7 @@ class AuthService {
       final response = await client.post(uri, body: {
         'email': email,
         'password': password,
-        'referral': referral,
+        'referralCode': referralCode,
       });
 
       final responseBody = jsonDecode(response.body);
@@ -49,8 +49,6 @@ class AuthService {
   Future<void> updateUser(String accessToken, String? currentPassword,
       String? password, String? url) async {
     var client = http.Client();
-
-    print(currentPassword);
 
     Map<String, String> headers = {
       'token': 'Bearer $accessToken',

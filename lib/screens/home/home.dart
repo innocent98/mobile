@@ -35,8 +35,8 @@ class Home extends ConsumerWidget {
               children: [
                 userData.when(data: (data) {
                   return AirdropInfo(
-                    team: data!.team.length,
-                    exp: data.miningExp,
+                    team: data!.team!.length,
+                    exp: data.miningExp!,
                   );
                 }, error: (err, s) {
                   return Container();

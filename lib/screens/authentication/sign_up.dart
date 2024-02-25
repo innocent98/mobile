@@ -23,7 +23,7 @@ class _SignUpState extends State<SignUp> {
 
   final TextEditingController confirmPassword = TextEditingController();
 
-  final TextEditingController referral = TextEditingController();
+  final TextEditingController referralCode = TextEditingController();
 
   final formKey = GlobalKey<FormState>();
 
@@ -81,11 +81,11 @@ class _SignUpState extends State<SignUp> {
                 final userData = UserAuthentication(
                   email: email.text,
                   password: password.text,
-                  referral: referral.text,
+                  referralCode: referralCode.text,
                 );
 
                 await userRegistrationService.registerUser(userData.email,
-                    userData.password, userData.referral, regRoute);
+                    userData.password, userData.referralCode, regRoute);
               }
             }
           };
@@ -149,7 +149,7 @@ class _SignUpState extends State<SignUp> {
                       height: screenHeight * 0.03,
                     ),
                     TextForm(
-                        controller: referral,
+                        controller: referralCode,
                         keyboardType: TextInputType.text,
                         labelText: 'Referral Code (Optional)',
                         labelColor: app_color.black,

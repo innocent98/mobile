@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:zealworkers_token/constants/utils/vars.dart';
 import 'package:zealworkers_token/providers/prefs_provider.dart';
 import 'package:zealworkers_token/providers/token_provider.dart';
+import 'package:zealworkers_token/providers/user_data_provider.dart';
 import 'package:zealworkers_token/screens/home/home.dart';
 import 'package:zealworkers_token/screens/settings/settings.dart';
 import 'package:zealworkers_token/screens/team/team.dart';
@@ -19,6 +20,8 @@ class MainTab extends ConsumerWidget {
       ref.watch(tokenProvider.notifier).state = token;
       ref.watch(prefsProvider).setString(userTokenstr, token);
     });
+
+    ref.invalidate(userDataProvider);
 
     return const HomeTab();
   }
