@@ -66,8 +66,13 @@ class ChangePassword extends ConsumerWidget {
                 password: password.text,
               );
 
-              await userRegistrationService.updateUser(userToken,
-                  userData.currentPassword, userData.password, updateUserRoute);
+              await userRegistrationService.updateUser(
+                  userToken,
+                  userData.currentPassword,
+                  userData.password,
+                  '',
+                  '',
+                  updateUserRoute);
             }
           };
 

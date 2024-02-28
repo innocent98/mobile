@@ -15,18 +15,18 @@ class Wallet extends ConsumerWidget {
 
     final userData = ref.watch(userDataProvider);
 
-    final data = userData.when(data: (data) {
-      return TextWidget(
-          text: '${data!.totalEarned!.toStringAsFixed(4)}ZWT',
-          textColor: app_color.grey,
-          textAlign: TextAlign.center,
-          fontWeight: FontWeight.w500,
-          fontSize: screenWidth * 0.04);
-    }, error: (err, s) {
-      return Container();
-    }, loading: () {
-      return Container();
-    });
+    // final data = userData.when(data: (data) {
+    //   return TextWidget(
+    //       text: '${data!.totalEarned!.toStringAsFixed(4)}ZWT',
+    //       textColor: app_color.grey,
+    //       textAlign: TextAlign.center,
+    //       fontWeight: FontWeight.w500,
+    //       fontSize: screenWidth * 0.04);
+    // }, error: (err, s) {
+    //   return Container();
+    // }, loading: () {
+    //   return Container();
+    // });
 
     return Scaffold(
       backgroundColor: app_color.white,

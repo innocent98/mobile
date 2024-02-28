@@ -5,6 +5,7 @@ import 'package:zealworkers_token/providers/prefs_provider.dart';
 import 'package:zealworkers_token/providers/token_provider.dart';
 import 'package:zealworkers_token/providers/user_data_provider.dart';
 import 'package:zealworkers_token/screens/authentication/get_started.dart';
+import 'package:zealworkers_token/screens/profile/profile.dart';
 import 'package:zealworkers_token/screens/wallet/wallet.dart';
 import 'package:zealworkers_token/widgets/text.dart';
 import '../../constants/colors.dart' as app_color;
@@ -95,7 +96,10 @@ class MyDrawer extends ConsumerWidget {
                 textAlign: TextAlign.start,
                 fontWeight: FontWeight.w500,
                 fontSize: screenWidth * 0.04),
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => Profile()));
+            },
           ),
           ListTile(
             selectedTileColor: app_color.primary,
@@ -111,7 +115,7 @@ class MyDrawer extends ConsumerWidget {
                 fontWeight: FontWeight.w500,
                 fontSize: screenWidth * 0.04),
             onTap: () {
-              Navigator.push(context,
+              Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) => const Wallet()));
             },
           ),

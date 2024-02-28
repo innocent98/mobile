@@ -3,16 +3,18 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:zealworkers_token/models/user_data.dart';
 import 'package:zealworkers_token/providers/airdrop_provider.dart';
-import 'package:zealworkers_token/screens/home/airdrop/info.dart';
 import 'package:zealworkers_token/widgets/text.dart';
 import '../../../constants/colors.dart' as app_color;
 
 class AirdropInfo extends StatefulWidget {
   final num team;
   final DateTime exp;
+  final UserData userD;
 
-  const AirdropInfo({super.key, required this.team, required this.exp});
+  const AirdropInfo(
+      {super.key, required this.team, required this.exp, required this.userD});
 
   @override
   State<AirdropInfo> createState() => _AirdropInfoState();
@@ -70,8 +72,8 @@ class _AirdropInfoState extends State<AirdropInfo> {
 
     return Container(
       width: screenWidth,
-      height: screenHeight * 0.41,
-      decoration: const BoxDecoration(color: app_color.secondary),
+      height: screenHeight * 0.39,
+      decoration: const BoxDecoration(color: app_color.soft),
       child: Padding(
         padding: EdgeInsets.all(screenWidth * 0.035),
         child: Consumer(
@@ -89,7 +91,7 @@ class _AirdropInfoState extends State<AirdropInfo> {
                 }
               }
 
-              String formatCirculation(int number) {
+              String formatCirculation(double number) {
                 if (number >= 1000000000) {
                   double result = number / 1000000000;
                   return '${result.toStringAsFixed(1)}b';
@@ -104,81 +106,165 @@ class _AirdropInfoState extends State<AirdropInfo> {
               return Column(
                 children: [
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      TextWidget(
-                        text: 'Free Airdrop',
-                        textColor: app_color.white,
-                        textAlign: TextAlign.center,
-                        fontWeight: FontWeight.w600,
-                        fontSize: screenWidth * 0.045,
-                        fontFamily: 'Poppins',
+                      Image.asset(
+                        'assets/img/avatar.png',
+                        width: screenWidth * 0.1,
+                        height: screenWidth * 0.1,
+                        fit: BoxFit.cover,
                       ),
-                      Container(
-                        padding: EdgeInsets.all(screenWidth * 0.02),
-                        decoration: BoxDecoration(
-                            border:
-                                Border.all(width: 1, color: app_color.white),
-                            borderRadius: BorderRadius.circular(8)),
-                        child: TextWidget(
-                          text: 'Whitepaper',
-                          textColor: app_color.white,
-                          textAlign: TextAlign.center,
-                          fontWeight: FontWeight.w500,
-                          fontSize: screenWidth * 0.035,
-                          fontFamily: 'Poppins',
-                        ),
+                      SizedBox(width: screenWidth * 0.02),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          TextWidget(
+                              text: 'Welcome',
+                              textColor: app_color.black,
+                              textAlign: TextAlign.left,
+                              fontWeight: FontWeight.w500,
+                              fontSize: screenWidth * 0.03),
+                          TextWidget(
+                              text: widget.userD.fullName != ''
+                                  ? widget.userD.fullName.toString()
+                                  : 'Update your profile',
+                              textColor: app_color.black,
+                              textAlign: TextAlign.left,
+                              fontWeight: FontWeight.w700,
+                              fontSize: screenWidth * 0.04)
+                        ],
                       )
                     ],
                   ),
-                  SizedBox(height: screenHeight * 0.025),
-                  Info(
-                    text1: 'Total Supply',
-                    sub_text1: formatTotalSupply(int.parse(data!.totalSupply)),
-                    text2: 'Circulation',
-                    sub_text2: formatCirculation(int.parse(data.circulation)),
-                    text3: 'Total Mined',
-                    sub_text3: double.parse(data.totalMined.toStringAsFixed(6))
-                        .toString(),
-                  ),
-                  SizedBox(height: screenHeight * 0.03),
-                  Info(
-                    text1: 'Mining Rate',
-                    sub_text1: '${data.miningRate}ZW/Hr',
-                    text2: 'Mining Time',
-                    sub_text2: _formatTime(_countdown),
-                    text3: 'My Team',
-                    sub_text3: '0/${widget.team}',
-                  ),
-                  SizedBox(height: screenHeight * 0.04),
+                  SizedBox(height: screenHeight * 0.01),
                   Container(
-                    width: screenWidth * 0.55,
                     decoration: BoxDecoration(
-                        border: Border.all(width: 1, color: app_color.white),
-                        borderRadius:
-                            BorderRadius.circular(screenWidth * 0.04)),
+                        gradient: const LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            app_color.gradient1,
+                            app_color.gradient2,
+                            app_color.gradient3
+                          ],
+                        ),
+                        borderRadius: BorderRadius.circular(12)),
                     child: Padding(
-                      padding: EdgeInsets.all(screenWidth * 0.01),
+                      padding: EdgeInsets.symmetric(
+                          vertical: screenWidth * 0.03,
+                          horizontal: screenWidth * 0.04),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const ImageIcon(
-                            AssetImage('assets/img/bullhorn.png'),
-                            color: app_color.white,
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              TextWidget(
+                                  text: 'Total Balance',
+                                  textColor: app_color.white,
+                                  textAlign: TextAlign.left,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: screenWidth * 0.04),
+                              SizedBox(height: screenHeight * 0.02),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Image.asset(
+                                    'assets/img/coin.png',
+                                    width: screenWidth * 0.04,
+                                  ),
+                                  SizedBox(width: screenWidth * 0.03),
+                                  TextWidget(
+                                      text: double.parse(widget
+                                              .userD.totalEarned!
+                                              .toStringAsFixed(6))
+                                          .toString(),
+                                      textColor: app_color.white,
+                                      textAlign: TextAlign.left,
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: screenWidth * 0.04),
+                                ],
+                              ),
+                              SizedBox(height: screenHeight * 0.03),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Image.asset(
+                                    'assets/img/th.png',
+                                    width: screenWidth * 0.04,
+                                  ),
+                                  SizedBox(width: screenWidth * 0.03),
+                                  TextWidget(
+                                      text: '${widget.userD.referralBonus}USDT',
+                                      textColor: app_color.white,
+                                      textAlign: TextAlign.left,
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: screenWidth * 0.03),
+                                ],
+                              ),
+                              SizedBox(height: screenHeight * 0.03),
+                              TextWidget(
+                                  text: 'Mining Power : ${data!.miningRate}/hr',
+                                  textColor: app_color.white,
+                                  textAlign: TextAlign.left,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: screenWidth * 0.03),
+                            ],
                           ),
-                          TextWidget(
-                            text: 'Anouncement',
-                            textColor: app_color.white,
-                            textAlign: TextAlign.center,
-                            fontWeight: FontWeight.w600,
-                            fontSize: screenWidth * 0.045,
-                            fontFamily: 'Poppins',
+                          Column(
+                            children: [
+                              Image.asset(
+                                'assets/img/eth.png',
+                                width: screenWidth * 0.345,
+                              ),
+                              TextWidget(
+                                  text: 'Team Power : 1.5/hr',
+                                  textColor: app_color.white,
+                                  textAlign: TextAlign.left,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: screenWidth * 0.03),
+                            ],
                           )
                         ],
                       ),
                     ),
+                  ),
+                  SizedBox(height: screenHeight * 0.015),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        padding:
+                            EdgeInsets.symmetric(vertical: screenWidth * 0.01),
+                        width: screenWidth * 0.45,
+                        decoration: BoxDecoration(
+                            color: app_color.pink,
+                            borderRadius: BorderRadius.circular(8)),
+                        child: TextWidget(
+                            text:
+                                'Total Supply \n ${formatTotalSupply(int.parse(data.totalSupply))}',
+                            textColor: app_color.grey,
+                            textAlign: TextAlign.center,
+                            fontWeight: FontWeight.w600,
+                            fontSize: screenWidth * 0.035),
+                      ),
+                      Container(
+                        padding:
+                            EdgeInsets.symmetric(vertical: screenWidth * 0.01),
+                        width: screenWidth * 0.45,
+                        decoration: BoxDecoration(
+                            color: app_color.green_soft,
+                            borderRadius: BorderRadius.circular(8)),
+                        child: TextWidget(
+                            text:
+                                'Total Mined \n ${formatCirculation(double.parse(data.totalMined.toStringAsFixed(6).toString()))}',
+                            textColor: app_color.grey,
+                            textAlign: TextAlign.center,
+                            fontWeight: FontWeight.w600,
+                            fontSize: screenWidth * 0.035),
+                      )
+                    ],
                   )
                 ],
               );

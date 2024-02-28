@@ -22,7 +22,7 @@ class TextWidget extends StatelessWidget {
     return Text(
       text,
       style: TextStyle(
-          fontFamily: fontFamily ?? 'Inter',
+          fontFamily: fontFamily ?? 'Poppins',
           color: textColor,
           fontWeight: fontWeight,
           fontSize: fontSize),

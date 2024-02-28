@@ -7,6 +7,7 @@ class TextForm extends StatefulWidget {
   final Color labelColor;
   final bool? obscureText;
   final bool isRequired;
+  final TextCapitalization? capitalize;
   final Function(String)? onChanged;
 
   const TextForm(
@@ -16,6 +17,7 @@ class TextForm extends StatefulWidget {
       required this.labelColor,
       this.obscureText,
       this.isRequired = true,
+      this.capitalize,
       this.onChanged,
       super.key});
 
@@ -30,7 +32,7 @@ class _TextFormState extends State<TextForm> {
 
     return Padding(
       padding:
-          EdgeInsets.fromLTRB(screenWidth * 0.09, 0, screenWidth * 0.09, 0),
+          EdgeInsets.fromLTRB(screenWidth * 0.04, 0, screenWidth * 0.04, 0),
       child: TextFormField(
         validator: (value) {
           if (widget.isRequired && (value == null || value.isEmpty)) {
@@ -38,6 +40,7 @@ class _TextFormState extends State<TextForm> {
           }
           return null;
         },
+        textCapitalization: widget.capitalize ?? TextCapitalization.none,
         obscureText: widget.obscureText ?? false,
         keyboardType: widget.keyboardType,
         style: TextStyle(

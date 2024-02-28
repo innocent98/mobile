@@ -15,8 +15,8 @@ class AuthService {
       required this.onLoading,
       required this.userToken});
 
-  Future<void> registerUser(
-      String? email, String? password, String? referralCode, String? url) async {
+  Future<void> registerUser(String? email, String? password,
+      String? referralCode, String? url) async {
     var client = http.Client();
     var uri = Uri.parse('$liveBaseUrl/$url');
 
@@ -47,7 +47,7 @@ class AuthService {
   }
 
   Future<void> updateUser(String accessToken, String? currentPassword,
-      String? password, String? url) async {
+      String? password, String? fullName, String? phoneNo, String? url) async {
     var client = http.Client();
 
     Map<String, String> headers = {
@@ -63,13 +63,19 @@ class AuthService {
           body: {
             'currentPassword': currentPassword,
             'password': password,
+            'fullName': fullName,
+            'phoneNo': phoneNo,
           },
           headers: headers);
 
       final responseBody = jsonDecode(response.body);
 
       if (response.statusCode == 200) {
-        onSuccessMessage(responseBody['message'] ?? 'Successful');
+        onSuccessMessage(responseBody['message'] is! String
+            ? 'Successful'
+            : responseBody['message']
+                ? responseBody['message']
+                : 'Successful');
       } else {
         onErrorMessage(responseBody['message'] ?? 'Unknown error');
       }

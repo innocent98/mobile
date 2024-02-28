@@ -1,8 +1,13 @@
-import 'package:flutter/widgets.dart';
+import 'dart:async';
+
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:zealworkers_token/models/user_data.dart';
 import 'package:zealworkers_token/providers/airdrop_provider.dart';
 import 'package:zealworkers_token/providers/user_data_provider.dart';
+import 'package:zealworkers_token/screens/home/mining/announcement.dart';
+import 'package:zealworkers_token/screens/home/mining/mining_countdown.dart';
+import 'package:zealworkers_token/screens/home/mining/referral.dart';
 import 'package:zealworkers_token/widgets/button.dart';
 import 'package:zealworkers_token/widgets/text.dart';
 import '../../../constants/colors.dart' as app_color;
@@ -36,7 +41,9 @@ class _MiningState extends State<Mining> with SingleTickerProviderStateMixin {
 
   @override
   void dispose() {
+    // clean up when no longer needed to prevent memory leaks
     _controller.dispose();
+
     super.dispose();
   }
 
@@ -47,13 +54,34 @@ class _MiningState extends State<Mining> with SingleTickerProviderStateMixin {
 
     return Container(
       width: screenWidth,
-      height: screenHeight * 0.4,
-      decoration: const BoxDecoration(color: app_color.primary_soft),
+      height: screenHeight * 0.55,
+      decoration: const BoxDecoration(color: app_color.soft),
       child: Padding(
-        padding: EdgeInsets.all(screenWidth * 0.035),
+        padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.035),
         child: Column(
           children: [
-            SizedBox(height: screenHeight * 0.09),
+            // referral section
+            Referral(data: widget.data),
+            // announcement section
+            SizedBox(height: screenHeight * 0.02),
+            const Announcement(),
+            // mining section
+            SizedBox(height: screenHeight * 0.02),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.alarm,
+                  color: app_color.black,
+                  size: screenWidth * 0.04,
+                ),
+                SizedBox(width: screenWidth * 0.02),
+                MiningCountdown(data: widget.data)
+              ],
+            ),
+            SizedBox(height: screenHeight * 0.02),
+
             if (widget.data.mining == true)
               AnimatedBuilder(
                 animation: _animation,
@@ -65,13 +93,13 @@ class _MiningState extends State<Mining> with SingleTickerProviderStateMixin {
                 },
                 child: Image.asset(
                   'assets/img/coin.png',
-                  height: screenHeight * 0.14,
+                  height: screenHeight * 0.1,
                 ),
               )
             else
               Image.asset(
                 'assets/img/coin.png',
-                height: screenHeight * 0.14,
+                height: screenHeight * 0.1,
               ),
             SizedBox(height: screenHeight * 0.02),
             TextWidget(
@@ -87,7 +115,7 @@ class _MiningState extends State<Mining> with SingleTickerProviderStateMixin {
             Consumer(
               builder: (context, ref, child) {
                 return Button(
-                  buttonColor: app_color.primary,
+                  buttonColor: app_color.secondary,
                   buttonText: 'Start Mining',
                   textColor: app_color.white,
                   onPressed: widget.data.mining == true

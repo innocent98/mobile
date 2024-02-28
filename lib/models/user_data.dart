@@ -24,6 +24,7 @@ class UserData {
   String? success;
   String? fullName;
   String? referralCode;
+  String? phoneNo;
 
   UserData({
     this.team,
@@ -42,6 +43,7 @@ class UserData {
     this.success,
     this.fullName,
     this.referralCode,
+    this.phoneNo,
   });
 
   factory UserData.fromJson(Map<String, dynamic> json) {
@@ -82,6 +84,7 @@ class UserData {
       fullName: json["fullName"] != null ? json["fullName"] as String : "",
       referralCode:
           json["referralCode"] != null ? json["referralCode"] as String : "",
+      phoneNo: json["phoneNo"] != null ? json["phoneNo"] as String : "",
     );
   }
 
@@ -105,6 +108,7 @@ class UserData {
       "success": success,
       "fullName": fullName,
       "referralCode": referralCode,
+      "phoneNo": phoneNo,
     };
   }
 

@@ -25,7 +25,7 @@ class Button extends StatelessWidget {
 
     return Padding(
       padding:
-          EdgeInsets.fromLTRB(screenWidth * 0.09, 0, screenWidth * 0.09, 0),
+          EdgeInsets.fromLTRB(screenWidth * 0.04, 0, screenWidth * 0.04, 0),
       child: Container(
         decoration: BoxDecoration(
             border: Border.all(
