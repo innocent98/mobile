@@ -15,15 +15,20 @@ class MainTab extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    Future.delayed(const Duration(seconds: 2), () {
-      // Delayed execution of ref.watch after 2 seconds
+    Future.delayed(const Duration(seconds: 1), () {
+      // Delayed execution of ref.watch after 1 seconds
       ref.watch(tokenProvider.notifier).state = token;
       ref.watch(prefsProvider).setString(userTokenstr, token);
     });
 
     ref.invalidate(userDataProvider);
 
-    return const HomeTab();
+    return Container(
+      color: app_color.white,
+      child: Center(
+        child: Image.asset('assets/img/logo.png'),
+      ),
+    );
   }
 }
 

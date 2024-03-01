@@ -6,7 +6,6 @@ import 'package:zealworkers_token/providers/token_provider.dart';
 import 'package:zealworkers_token/providers/user_data_provider.dart';
 import 'package:zealworkers_token/services/auth_service.dart';
 import 'package:zealworkers_token/widgets/button.dart';
-import 'package:zealworkers_token/widgets/drawer.dart';
 import 'package:zealworkers_token/widgets/text.dart';
 import 'package:zealworkers_token/widgets/text_form.dart';
 import '../../constants/colors.dart' as app_color;
@@ -78,40 +77,18 @@ class Profile extends ConsumerWidget {
       backgroundColor: app_color.white,
       appBar: AppBar(
         backgroundColor: app_color.white,
-        actions: [
-          Padding(
-            padding: EdgeInsets.only(right: screenWidth * 0.035),
-            child: const Icon(Icons.notifications_outlined),
-          )
-        ],
+        title: TextWidget(
+            text: 'My Profile',
+            textColor: app_color.black,
+            textAlign: TextAlign.center,
+            fontWeight: FontWeight.w600,
+            fontSize: screenWidth * 0.045),
+        centerTitle: true,
       ),
-      drawer: const MyDrawer(),
       body: Padding(
         padding: EdgeInsets.all(screenWidth * 0.035),
         child: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                InkWell(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Icon(
-                    Icons.arrow_back,
-                    color: app_color.black,
-                    size: screenWidth * 0.06,
-                  ),
-                ),
-                TextWidget(
-                    text: 'My Profile',
-                    textColor: app_color.black,
-                    textAlign: TextAlign.center,
-                    fontWeight: FontWeight.w700,
-                    fontSize: screenWidth * 0.04),
-                const Text(''),
-              ],
-            ),
             SizedBox(height: screenHeight * 0.1),
 
             // form
@@ -135,7 +112,7 @@ class Profile extends ConsumerWidget {
                     keyboardType: TextInputType.phone,
                     labelText: 'Phone Number',
                     labelColor: app_color.black,
-                    obscureText: true,
+                    obscureText: false,
                     isRequired: false,
                   ),
                   SizedBox(

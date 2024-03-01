@@ -77,6 +77,7 @@ class _MiningState extends State<Mining> with SingleTickerProviderStateMixin {
                   size: screenWidth * 0.04,
                 ),
                 SizedBox(width: screenWidth * 0.02),
+                // mining countdown
                 MiningCountdown(data: widget.data)
               ],
             ),
@@ -120,9 +121,9 @@ class _MiningState extends State<Mining> with SingleTickerProviderStateMixin {
                   textColor: app_color.white,
                   onPressed: widget.data.mining == true
                       ? null
-                      : () {
+                      : () async {
                           ref.read(mineDataProvider);
-                          Future.delayed(const Duration(seconds: 2), () {
+                          await Future.delayed(const Duration(seconds: 2), () {
                             ref.invalidate(userDataProvider);
                             ref.invalidate(airdropDataProvider);
                           });

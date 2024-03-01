@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:zealworkers_token/providers/user_data_provider.dart';
 import 'package:zealworkers_token/screens/home/airdrop/airdrop.dart';
 import 'package:zealworkers_token/screens/home/mining/mining.dart';
+import 'package:zealworkers_token/screens/notification/notification.dart';
 import 'package:zealworkers_token/widgets/drawer.dart';
 import '../../constants/colors.dart' as app_color;
 
@@ -22,7 +23,12 @@ class Home extends ConsumerWidget {
           actions: [
             Padding(
               padding: EdgeInsets.only(right: screenWidth * 0.035),
-              child: const Icon(Icons.notifications_outlined),
+              child: InkWell(
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const Notifications()));
+                  },
+                  child: const Icon(Icons.notifications_outlined)),
             )
           ],
         ),

@@ -15,6 +15,7 @@ class TeamItem extends StatelessWidget {
     return Column(
       children: [
         ListTile(
+          contentPadding: const EdgeInsets.all(0),
           leading: Container(
               padding: EdgeInsets.all(screenWidth * 0.01),
               decoration: BoxDecoration(

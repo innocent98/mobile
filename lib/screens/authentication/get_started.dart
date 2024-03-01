@@ -37,8 +37,8 @@ class GetStarted extends StatelessWidget {
               buttonColor: app_color.primary,
               buttonText: 'Create Account',
               onPressed: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => SignUp()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const SignUp()));
               },
               textColor: app_color.white,
               borderColor: null,
@@ -48,8 +48,8 @@ class GetStarted extends StatelessWidget {
             ),
             Button(
               onPressed: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => SignIn()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const SignIn()));
               },
               buttonColor: app_color.white,
               buttonText: 'Sign in',

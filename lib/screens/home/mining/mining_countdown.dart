@@ -17,7 +17,7 @@ class MiningCountdown extends StatefulWidget {
 class _MiningCountdownState extends State<MiningCountdown>
     with SingleTickerProviderStateMixin {
   late Timer _timer;
-  int _countdown = 0; // Initial countdown value in seconds
+  late int _countdown; // Initial countdown value in seconds
 
   @override
   void initState() {
@@ -28,6 +28,7 @@ class _MiningCountdownState extends State<MiningCountdown>
     final miningExp = widget.data.miningExp;
     final difference =
         miningExp!.isAfter(now) ? miningExp.difference(now) : Duration.zero;
+
     _countdown = difference.inSeconds;
 
     // Start the countdown timer

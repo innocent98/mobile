@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zealworkers_token/constants/tab/tab.dart';
 import 'package:zealworkers_token/providers/prefs_provider.dart';
@@ -24,15 +25,47 @@ class MyApp extends ConsumerWidget {
   Widget build(BuildContext context, ref) {
     final data = ref.watch(tokenProvider);
 
-    return MaterialApp(
+    /// The route configuration.
+    final GoRouter router = GoRouter(
+      routes: <RouteBase>[
+        GoRoute(
+          path: '/',
+          redirect: (BuildContext context, GoRouterState state) {
+            if (data == '') {
+              return '/start';
+            } else {
+              return '/home';
+            }
+          },
+          routes: <RouteBase>[
+            GoRoute(
+              path: 'start',
+              builder: (BuildContext context, GoRouterState state) {
+                return const GetStarted();
+              },
+            ),
+            GoRoute(
+              path: 'home',
+              builder: (BuildContext context, GoRouterState state) {
+                return const HomeTab();
+              },
+            ),
+          ],
+        ),
+      ],
+    );
+
+    return MaterialApp.router(
       title: 'Zeal Workers Token',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primaryColor: app_color.primary,
-        colorScheme: ColorScheme.fromSeed(seedColor: app_color.primary),
+        primaryColor: app_color.white,
+        colorScheme: ColorScheme.fromSeed(seedColor: app_color.white),
         useMaterial3: true,
       ),
-      home: data != '' ? const HomeTab() : const GetStarted(),
+      // home: data == '' ? const GetStarted() : MainTab(token: data),
+
+      routerConfig: router,
     );
   }
 }

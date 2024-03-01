@@ -25,7 +25,8 @@ class TextWidget extends StatelessWidget {
           fontFamily: fontFamily ?? 'Poppins',
           color: textColor,
           fontWeight: fontWeight,
-          fontSize: fontSize),
+          fontSize: fontSize,
+          overflow: TextOverflow.ellipsis),
       textAlign: textAlign,
     );
   }

@@ -56,17 +56,18 @@ class AuthService {
 
     var uri = Uri.parse('$liveBaseUrl/$url');
 
+    final Map<String, dynamic> requestBody = {
+      if (currentPassword != '') 'currentPassword': currentPassword,
+      if (password != '') 'password': password,
+      if (fullName != '') 'fullName': fullName,
+      if (phoneNo != '') 'phoneNo': phoneNo,
+    };
+
     try {
       onLoading(true);
 
-      final response = await client.put(uri,
-          body: {
-            'currentPassword': currentPassword,
-            'password': password,
-            'fullName': fullName,
-            'phoneNo': phoneNo,
-          },
-          headers: headers);
+      final response =
+          await client.put(uri, body: requestBody, headers: headers);
 
       final responseBody = jsonDecode(response.body);
 
