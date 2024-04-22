@@ -18,7 +18,6 @@ class UserDataService {
     try {
       final response = await client.get(uri, headers: headers);
 
-
       if (response.statusCode == 200) {
         final responseBody = jsonDecode(response.body);
         return UserData.fromJson(responseBody);

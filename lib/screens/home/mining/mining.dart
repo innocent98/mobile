@@ -6,10 +6,10 @@ import 'package:zealworkers_token/models/user_data.dart';
 import 'package:zealworkers_token/providers/airdrop_provider.dart';
 import 'package:zealworkers_token/providers/user_data_provider.dart';
 import 'package:zealworkers_token/screens/home/mining/announcement.dart';
+import 'package:zealworkers_token/screens/home/mining/earning.dart';
 import 'package:zealworkers_token/screens/home/mining/mining_countdown.dart';
 import 'package:zealworkers_token/screens/home/mining/referral.dart';
 import 'package:zealworkers_token/widgets/button.dart';
-import 'package:zealworkers_token/widgets/text.dart';
 import '../../../constants/colors.dart' as app_color;
 
 class Mining extends StatefulWidget {
@@ -103,14 +103,24 @@ class _MiningState extends State<Mining> with SingleTickerProviderStateMixin {
                 height: screenHeight * 0.1,
               ),
             SizedBox(height: screenHeight * 0.02),
-            TextWidget(
-              text:
-                  'Zeal earning : ${double.parse(widget.data.earning!.toStringAsFixed(6))}',
-              textColor: app_color.secondary,
-              textAlign: TextAlign.center,
-              fontWeight: FontWeight.w600,
-              fontSize: screenWidth * 0.035,
-              fontFamily: 'Poppins',
+            Consumer(
+              builder: (context, ref, child) {
+                return ref.watch(airdropDataProvider).when(data: (data) {
+                  double miningPower =
+                      widget.data.addMiningRate! + data!.miningRate;
+                  double earning = widget.data.earning!;
+                  bool? mining = widget.data.mining;
+
+                  return Earning(
+                      earning: earning,
+                      miningPower: miningPower,
+                      mining: mining);
+                }, error: (error, s) {
+                  return const Text('');
+                }, loading: () {
+                  return Container();
+                });
+              },
             ),
             SizedBox(height: screenHeight * 0.02),
             Consumer(

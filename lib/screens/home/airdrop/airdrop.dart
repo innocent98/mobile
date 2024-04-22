@@ -1,10 +1,9 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:zealworkers_token/models/user_data.dart';
 import 'package:zealworkers_token/providers/airdrop_provider.dart';
+import 'package:zealworkers_token/screens/home/airdrop/total_mined.dart';
 import 'package:zealworkers_token/widgets/text.dart';
 import '../../../constants/colors.dart' as app_color;
 
@@ -21,50 +20,6 @@ class AirdropInfo extends StatefulWidget {
 }
 
 class _AirdropInfoState extends State<AirdropInfo> {
-  late Timer _timer;
-  int _countdown = 0; // Initial countdown value in seconds
-
-  @override
-  void initState() {
-    super.initState();
-
-    // Calculate the initial countdown value in seconds
-    final now = DateTime.now();
-    final miningExp = widget.exp;
-    final difference =
-        miningExp.isAfter(now) ? miningExp.difference(now) : Duration.zero;
-    _countdown = difference.inSeconds;
-
-    // Start the countdown timer
-    _startTimer();
-  }
-
-  void _startTimer() {
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      setState(() {
-        if (_countdown > 0) {
-          _countdown--;
-        } else {
-          timer.cancel();
-        }
-      });
-    });
-  }
-
-  String _formatTime(int seconds) {
-    final hours = seconds ~/ 3600;
-    final minutes = (seconds ~/ 60) % 60;
-    final remainingSeconds = seconds % 60;
-    return '${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}:${remainingSeconds.toString().padLeft(2, '0')}';
-  }
-
-  @override
-  void dispose() {
-    // Cancel the timer to prevent memory leaks
-    _timer.cancel();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
@@ -79,6 +34,11 @@ class _AirdropInfoState extends State<AirdropInfo> {
         child: Consumer(
           builder: (context, ref, child) {
             return ref.watch(airdropDataProvider).when(data: (data) {
+              double miningPower =
+                  widget.userD.addMiningRate! + data!.miningRate;
+              double totalMined = widget.userD.totalEarned!;
+              bool? mining = widget.userD.mining;
+
               String formatTotalSupply(int number) {
                 if (number >= 1000000000) {
                   double result = number / 1000000000;
@@ -175,15 +135,10 @@ class _AirdropInfoState extends State<AirdropInfo> {
                                     width: screenWidth * 0.04,
                                   ),
                                   SizedBox(width: screenWidth * 0.03),
-                                  TextWidget(
-                                      text: double.parse(widget
-                                              .userD.totalEarned!
-                                              .toStringAsFixed(6))
-                                          .toString(),
-                                      textColor: app_color.white,
-                                      textAlign: TextAlign.left,
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: screenWidth * 0.04),
+                                  TotalMined(
+                                      totalMined: totalMined,
+                                      miningPower: miningPower,
+                                      mining: mining)
                                 ],
                               ),
                               SizedBox(height: screenHeight * 0.03),
@@ -205,7 +160,7 @@ class _AirdropInfoState extends State<AirdropInfo> {
                               ),
                               SizedBox(height: screenHeight * 0.03),
                               TextWidget(
-                                  text: 'Mining Power : ${data!.miningRate}/hr',
+                                  text: 'Mining Power : $miningPower/hr',
                                   textColor: app_color.white,
                                   textAlign: TextAlign.left,
                                   fontWeight: FontWeight.w500,
@@ -219,7 +174,8 @@ class _AirdropInfoState extends State<AirdropInfo> {
                                 width: screenWidth * 0.345,
                               ),
                               TextWidget(
-                                  text: 'Team Power : 1.5/hr',
+                                  text:
+                                      'Team Power : ${widget.userD.addMiningRate!.toStringAsFixed(1)}/hr',
                                   textColor: app_color.white,
                                   textAlign: TextAlign.left,
                                   fontWeight: FontWeight.w500,

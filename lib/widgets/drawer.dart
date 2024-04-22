@@ -190,10 +190,10 @@ class MyDrawer extends ConsumerWidget {
                 onTap: logout,
               ),
               SizedBox(height: screenHeight * 0.08),
-              ListTile(
-                  title: Row(
-                children: [Image.asset('assets/img/fbk.png')],
-              ))
+              // ListTile(
+              //     title: Row(
+              //   children: [Image.asset('assets/img/fbk.png')],
+              // ))
             ],
           );
         }, error: (err, s) {

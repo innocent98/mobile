@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:zealworkers_token/widgets/text.dart';
 import '../../../constants/colors.dart' as app_color;
 
@@ -9,6 +10,14 @@ class Announcement extends StatelessWidget {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
+
+    final Uri fb = Uri.parse(
+        'https://web.facebook.com/people/Zealworkers/61551154462616/?mibextid=LQQJ4d');
+    final Uri x = Uri.parse(
+        'https://twitter.com/zealworkers?t=s9uCnvEKI3hEZh59shW6Qw&s=09');
+    final Uri lk = Uri.parse('https://www.linkedin.com/company/zealworkers');
+    final Uri ig = Uri.parse('https://www.instagram.com/zealworkers/');
+    final Uri m = Uri.parse('https://medium.com/@zealworkers');
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -134,25 +143,56 @@ class Announcement extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Image.asset(
-                    'assets/img/fbb.png',
-                    fit: BoxFit.cover,
+                  InkWell(
+                    onTap: () async {
+                      _launchURL(fb);
+                    },
+                    child: Image.asset(
+                      'assets/img/fbb.png',
+                      fit: BoxFit.cover,
+                    ),
                   ),
-                  Image.asset(
-                    'assets/img/tww.png',
-                    fit: BoxFit.cover,
+                  InkWell(
+                    onTap: () {
+                      _launchURL(x);
+                    },
+                    child: Image.asset(
+                      'assets/img/tww.png',
+                      fit: BoxFit.cover,
+                    ),
                   ),
-                  Image.asset(
-                    'assets/img/tgg.png',
-                    fit: BoxFit.cover,
+                  InkWell(
+                    onTap: () {
+                      _launchURL(lk);
+                    },
+                    child: ColorFiltered(
+                      colorFilter: ColorFilter.mode(app_color.gradient3.withOpacity(1), BlendMode.srcATop),
+                      child: Image.asset(
+                        'assets/img/lk.png',
+                        fit: BoxFit.cover,
+                      ),
+                    ),
                   ),
-                  Image.asset(
-                    'assets/img/yt.png',
-                    fit: BoxFit.cover,
+                    InkWell(
+                    onTap: () {
+                      _launchURL(ig);
+                    },
+                    child: ColorFiltered(
+                       colorFilter: ColorFilter.mode(app_color.gradient3.withOpacity(1), BlendMode.srcATop),
+                      child: Image.asset(
+                        'assets/img/ig.png',
+                        fit: BoxFit.cover,
+                      ),
+                    ),
                   ),
-                  Image.asset(
-                    'assets/img/discord.png',
-                    fit: BoxFit.cover,
+                  InkWell(
+                    onTap: () {
+                      _launchURL(m);
+                    },
+                    child: Image.asset(
+                      'assets/img/discord.png',
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ],
               )
@@ -161,5 +201,13 @@ class Announcement extends StatelessWidget {
         )
       ],
     );
+  }
+}
+
+void _launchURL(Uri url) async {
+  if (await canLaunchUrl(url)) {
+    await launchUrl(url);
+  } else {
+    throw 'Could not launch $url';
   }
 }

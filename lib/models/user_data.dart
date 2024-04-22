@@ -25,6 +25,8 @@ class UserData {
   String? fullName;
   String? referralCode;
   String? phoneNo;
+  double? addMiningRate;
+  bool? notificationOn;
 
   UserData({
     this.team,
@@ -44,6 +46,8 @@ class UserData {
     this.fullName,
     this.referralCode,
     this.phoneNo,
+    this.addMiningRate,
+    this.notificationOn,
   });
 
   factory UserData.fromJson(Map<String, dynamic> json) {
@@ -85,6 +89,12 @@ class UserData {
       referralCode:
           json["referralCode"] != null ? json["referralCode"] as String : "",
       phoneNo: json["phoneNo"] != null ? json["phoneNo"] as String : "",
+      addMiningRate: json["addMiningRate"] != null
+          ? (json["addMiningRate"] as num?)?.toDouble() ?? 0.0
+          : 0.0,
+      notificationOn: json["notificationOn"] != null
+          ? json["notificationOn"] as bool
+          : false,
     );
   }
 
@@ -109,6 +119,8 @@ class UserData {
       "fullName": fullName,
       "referralCode": referralCode,
       "phoneNo": phoneNo,
+      "addMiningRate": addMiningRate,
+      "notificationOn": notificationOn,
     };
   }
 
