@@ -58,74 +58,65 @@ class _MiningState extends State<Mining> with SingleTickerProviderStateMixin {
       decoration: const BoxDecoration(color: app_color.soft),
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.035),
-        child: Column(
-          children: [
-            // referral section
-            Referral(data: widget.data),
-            // announcement section
-            SizedBox(height: screenHeight * 0.02),
-            const Announcement(),
-            // mining section
-            SizedBox(height: screenHeight * 0.02),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.alarm,
-                  color: app_color.black,
-                  size: screenWidth * 0.04,
-                ),
-                SizedBox(width: screenWidth * 0.02),
-                // mining countdown
-                MiningCountdown(data: widget.data)
-              ],
-            ),
-            SizedBox(height: screenHeight * 0.02),
+        child: Consumer(builder: (context, ref, child) {
+          return ref.watch(airdropDataProvider).when(
+            data: (data) {
+              double miningPower =
+                  widget.data.addMiningRate! + data!.miningRate;
+              double earning = widget.data.earning!;
+              bool? mining = widget.data.mining;
 
-            if (widget.data.mining == true)
-              AnimatedBuilder(
-                animation: _animation,
-                builder: (context, child) {
-                  return RotationTransition(
-                    turns: _animation,
-                    child: child,
-                  );
-                },
-                child: Image.asset(
-                  'assets/img/coin.png',
-                  height: screenHeight * 0.1,
+              return Column(children: [
+                // referral section
+                Referral(data: widget.data),
+                // announcement section
+                SizedBox(height: screenHeight * 0.02),
+                Announcement(user: widget.data),
+                // mining section
+                SizedBox(height: screenHeight * 0.02),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.alarm,
+                      color: app_color.black,
+                      size: screenWidth * 0.04,
+                    ),
+                    SizedBox(width: screenWidth * 0.02),
+                    // mining countdown
+                    MiningCountdown(data: widget.data)
+                  ],
                 ),
-              )
-            else
-              Image.asset(
-                'assets/img/coin.png',
-                height: screenHeight * 0.1,
-              ),
-            SizedBox(height: screenHeight * 0.02),
-            Consumer(
-              builder: (context, ref, child) {
-                return ref.watch(airdropDataProvider).when(data: (data) {
-                  double miningPower =
-                      widget.data.addMiningRate! + data!.miningRate;
-                  double earning = widget.data.earning!;
-                  bool? mining = widget.data.mining;
+                SizedBox(height: screenHeight * 0.02),
 
-                  return Earning(
-                      earning: earning,
-                      miningPower: miningPower,
-                      mining: mining);
-                }, error: (error, s) {
-                  return const Text('');
-                }, loading: () {
-                  return Container();
-                });
-              },
-            ),
-            SizedBox(height: screenHeight * 0.02),
-            Consumer(
-              builder: (context, ref, child) {
-                return Button(
+                if (widget.data.mining == true)
+                  AnimatedBuilder(
+                    animation: _animation,
+                    builder: (context, child) {
+                      return RotationTransition(
+                        turns: _animation,
+                        child: child,
+                      );
+                    },
+                    child: Image.asset(
+                      'assets/img/coin2.png',
+                      height: screenHeight * 0.1,
+                    ),
+                  )
+                else
+                  Image.asset(
+                    'assets/img/coin2.png',
+                    height: screenHeight * 0.1,
+                  ),
+                SizedBox(height: screenHeight * 0.02),
+                Earning(
+                  earning: earning,
+                  miningPower: miningPower,
+                  mining: mining,
+                ),
+                SizedBox(height: screenHeight * 0.02),
+                Button(
                   buttonColor: app_color.secondary,
                   buttonText: 'Start Mining',
                   textColor: app_color.white,
@@ -138,11 +129,17 @@ class _MiningState extends State<Mining> with SingleTickerProviderStateMixin {
                             ref.invalidate(airdropDataProvider);
                           });
                         },
-                );
-              },
-            )
-          ],
-        ),
+                )
+              ]);
+            },
+            error: (e, s) {
+              return Container();
+            },
+            loading: () {
+              return Container();
+            },
+          );
+        }),
       ),
     );
   }

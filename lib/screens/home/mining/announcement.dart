@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:zealworkers_token/models/user_data.dart';
 import 'package:zealworkers_token/widgets/text.dart';
 import '../../../constants/colors.dart' as app_color;
 
-class Announcement extends StatelessWidget {
-  const Announcement({super.key});
+class Announcement extends ConsumerWidget {
+  final UserData user;
+
+  const Announcement({super.key, required this.user});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
 
@@ -18,6 +22,15 @@ class Announcement extends StatelessWidget {
     final Uri lk = Uri.parse('https://www.linkedin.com/company/zealworkers');
     final Uri ig = Uri.parse('https://www.instagram.com/zealworkers/');
     final Uri m = Uri.parse('https://medium.com/@zealworkers');
+
+    final UserData users = user;
+
+    // Count the number of users that are mining
+    final int miningCount = user.team!.where((team) => team.mining!).length;
+
+    // Count the number of users that are not mining
+    final int notMiningCount =
+        users.team!.where((user) => !user.mining!).length;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -55,7 +68,7 @@ class Announcement extends StatelessWidget {
                         color: app_color.green_soft),
                     child: Center(
                       child: TextWidget(
-                        text: '0',
+                        text: miningCount.toString(),
                         textColor: app_color.green,
                         textAlign: TextAlign.center,
                         fontWeight: FontWeight.w500,
@@ -90,7 +103,7 @@ class Announcement extends StatelessWidget {
                         color: app_color.pink),
                     child: Center(
                       child: TextWidget(
-                        text: '0',
+                        text: notMiningCount.toString(),
                         textColor: app_color.red,
                         textAlign: TextAlign.center,
                         fontWeight: FontWeight.w500,
@@ -166,19 +179,23 @@ class Announcement extends StatelessWidget {
                       _launchURL(lk);
                     },
                     child: ColorFiltered(
-                      colorFilter: ColorFilter.mode(app_color.gradient3.withOpacity(1), BlendMode.srcATop),
+                      colorFilter: ColorFilter.mode(
+                          app_color.gradient3.withOpacity(1),
+                          BlendMode.srcATop),
                       child: Image.asset(
                         'assets/img/lk.png',
                         fit: BoxFit.cover,
                       ),
                     ),
                   ),
-                    InkWell(
+                  InkWell(
                     onTap: () {
                       _launchURL(ig);
                     },
                     child: ColorFiltered(
-                       colorFilter: ColorFilter.mode(app_color.gradient3.withOpacity(1), BlendMode.srcATop),
+                      colorFilter: ColorFilter.mode(
+                          app_color.gradient3.withOpacity(1),
+                          BlendMode.srcATop),
                       child: Image.asset(
                         'assets/img/ig.png',
                         fit: BoxFit.cover,

@@ -35,15 +35,27 @@ class _EarningState extends State<Earning> {
 
   @override
   void dispose() {
-    // Cancel the timer to prevent memory leaks
-    _timer.cancel();
+    _timer.cancel(); // Cancel the timer to prevent memory leaks
     super.dispose();
+  }
+
+  @override
+  void didUpdateWidget(Earning oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // Restart the timer when the 'mining' property changes
+    if (oldWidget.mining != widget.mining) {
+      _timer.cancel(); // Cancel the existing timer
+
+      totalEarnPerSec = widget.earning; // Reset the totalEarnPerSec value
+      _startTimer(); // Start a new timer
+    }
   }
 
   void _startTimer() {
     const Duration interval = Duration(seconds: 1);
+
     _timer = Timer.periodic(interval, (timer) {
-      // Update the mined value per second periodically
+      // Update the earn value per second periodically
       if (widget.mining == true) {
         final minePerSec = widget.miningPower / 3600;
         setState(() {

@@ -35,9 +35,20 @@ class _TotalMinedState extends State<TotalMined> {
 
   @override
   void dispose() {
-    // Cancel the timer to prevent memory leaks
-    _timer.cancel();
+    _timer.cancel(); // Cancel the timer to prevent memory leaks
     super.dispose();
+  }
+
+  @override
+  void didUpdateWidget(TotalMined oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // Restart the timer when the 'mining' property changes
+    if (oldWidget.mining != widget.mining) {
+      _timer.cancel(); // Cancel the existing timer
+
+      totalMinedPerSec = widget.totalMined; // Reset the totalEarnPerSec value
+      _startTimer(); // Start a new timer
+    }
   }
 
   void _startTimer() {

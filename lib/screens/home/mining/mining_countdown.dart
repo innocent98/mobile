@@ -35,6 +35,30 @@ class _MiningCountdownState extends State<MiningCountdown>
     _startTimer();
   }
 
+  @override
+  void dispose() {
+    _timer.cancel(); // Cancel the timer to prevent memory leaks
+    super.dispose();
+  }
+
+  @override
+  void didUpdateWidget(MiningCountdown oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // Restart the timer when the 'miningExp' property changes
+    if (oldWidget.data.miningExp != widget.data.miningExp) {
+      _timer.cancel(); // Cancel the existing timer
+
+      // Calculate the new countdown value
+      final now = DateTime.now();
+      final miningExp = widget.data.miningExp;
+      final difference =
+          miningExp!.isAfter(now) ? miningExp.difference(now) : Duration.zero;
+
+      _countdown = difference.inSeconds;
+      _startTimer(); // Start a new timer
+    }
+  }
+
   void _startTimer() {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
@@ -52,13 +76,6 @@ class _MiningCountdownState extends State<MiningCountdown>
     final minutes = (seconds ~/ 60) % 60;
     final remainingSeconds = seconds % 60;
     return '${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}:${remainingSeconds.toString().padLeft(2, '0')}';
-  }
-
-  @override
-  void dispose() {
-    // Cancel the timer to prevent memory leaks
-    _timer.cancel();
-    super.dispose();
   }
 
   @override
