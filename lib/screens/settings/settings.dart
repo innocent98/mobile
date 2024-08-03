@@ -102,48 +102,69 @@ class Settings extends ConsumerWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      InkWell(
-                        onTap: () {
-                          _launchURL(about);
-                        },
-                        child: TextWidget(
-                            text: 'About',
-                            textColor: app_color.black,
-                            textAlign: TextAlign.start,
-                            fontWeight: FontWeight.w600,
-                            fontSize: screenWidth * 0.042),
+                      Padding(
+                        padding:
+                            EdgeInsets.symmetric(vertical: screenHeight * 0.01),
+                        child: InkWell(
+                          onTap: () {
+                            _launchURL(about);
+                          },
+                          child: SizedBox(
+                            width: screenWidth * 0.9,
+                            child: TextWidget(
+                                text: 'About',
+                                textColor: app_color.black,
+                                textAlign: TextAlign.start,
+                                fontWeight: FontWeight.w600,
+                                fontSize: screenWidth * 0.042),
+                          ),
+                        ),
                       ),
-                      SizedBox(height: screenHeight * 0.02),
+                      // SizedBox(height: screenHeight * 0.02),
                       const Divider(
                         color: app_color.grey,
                       ),
-                      SizedBox(height: screenHeight * 0.02),
-                      InkWell(
-                        onTap: () {
-                          _launchURL(privacy);
-                        },
-                        child: TextWidget(
-                            text: 'Privacy Policy',
-                            textColor: app_color.black,
-                            textAlign: TextAlign.start,
-                            fontWeight: FontWeight.w600,
-                            fontSize: screenWidth * 0.042),
+                      // SizedBox(height: screenHeight * 0.02),
+                      Padding(
+                        padding:
+                            EdgeInsets.symmetric(vertical: screenHeight * 0.01),
+                        child: InkWell(
+                          onTap: () {
+                            _launchURL(privacy);
+                          },
+                          child: SizedBox(
+                            width: screenWidth * 0.9,
+                            child: TextWidget(
+                                text: 'Privacy Policy',
+                                textColor: app_color.black,
+                                textAlign: TextAlign.start,
+                                fontWeight: FontWeight.w600,
+                                fontSize: screenWidth * 0.042),
+                          ),
+                        ),
                       ),
-                      SizedBox(height: screenHeight * 0.02),
+                      // SizedBox(height: screenHeight * 0.02),
                       const Divider(
                         color: app_color.grey,
                       ),
-                      SizedBox(height: screenHeight * 0.02),
-                      InkWell(
-                        onTap: () {
-                          _launchURL(terms);
-                        },
-                        child: TextWidget(
-                            text: 'User Agreement',
-                            textColor: app_color.black,
-                            textAlign: TextAlign.start,
-                            fontWeight: FontWeight.w600,
-                            fontSize: screenWidth * 0.042),
+                      // SizedBox(height: screenHeight * 0.02),
+                      Padding(
+                        padding:
+                            EdgeInsets.symmetric(vertical: screenHeight * 0.01),
+                        child: InkWell(
+                          onTap: () {
+                            _launchURL(terms);
+                          },
+                          child: SizedBox(
+                            width: screenWidth * 0.9,
+                            child: TextWidget(
+                                text: 'User Agreement',
+                                textColor: app_color.black,
+                                textAlign: TextAlign.start,
+                                fontWeight: FontWeight.w600,
+                                fontSize: screenWidth * 0.042),
+                          ),
+                        ),
                       ),
                     ],
                   ),
@@ -151,7 +172,7 @@ class Settings extends ConsumerWidget {
               ],
             );
           }, error: (err, s) {
-            return Text('');
+            return const Text('');
           }, loading: () {
             return Container();
           })),
@@ -161,7 +182,7 @@ class Settings extends ConsumerWidget {
 
 void _launchURL(Uri url) async {
   if (await canLaunchUrl(url)) {
-    await launchUrl(url);
+    await launchUrl(url, mode: LaunchMode.externalApplication);
   } else {
     throw 'Could not launch $url';
   }

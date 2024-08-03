@@ -54,7 +54,7 @@ class _MiningState extends State<Mining> with SingleTickerProviderStateMixin {
 
     return Container(
       width: screenWidth,
-      height: screenHeight * 0.55,
+      // height: screenHeight * 0.55,
       decoration: const BoxDecoration(color: app_color.soft),
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.035),
@@ -129,7 +129,8 @@ class _MiningState extends State<Mining> with SingleTickerProviderStateMixin {
                             ref.invalidate(airdropDataProvider);
                           });
                         },
-                )
+                ),
+                SizedBox(height: screenHeight * 0.02),
               ]);
             },
             error: (e, s) {

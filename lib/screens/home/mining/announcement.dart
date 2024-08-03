@@ -156,7 +156,7 @@ class Announcement extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  InkWell(
+                  GestureDetector(
                     onTap: () async {
                       _launchURL(fb);
                     },
@@ -165,7 +165,7 @@ class Announcement extends ConsumerWidget {
                       fit: BoxFit.cover,
                     ),
                   ),
-                  InkWell(
+                  GestureDetector(
                     onTap: () {
                       _launchURL(x);
                     },
@@ -174,7 +174,7 @@ class Announcement extends ConsumerWidget {
                       fit: BoxFit.cover,
                     ),
                   ),
-                  InkWell(
+                  GestureDetector(
                     onTap: () {
                       _launchURL(lk);
                     },
@@ -188,7 +188,7 @@ class Announcement extends ConsumerWidget {
                       ),
                     ),
                   ),
-                  InkWell(
+                  GestureDetector(
                     onTap: () {
                       _launchURL(ig);
                     },
@@ -202,7 +202,7 @@ class Announcement extends ConsumerWidget {
                       ),
                     ),
                   ),
-                  InkWell(
+                  GestureDetector(
                     onTap: () {
                       _launchURL(m);
                     },

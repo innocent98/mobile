@@ -7,7 +7,7 @@ import 'package:zealworkers_token/screens/home/airdrop/total_mined.dart';
 import 'package:zealworkers_token/widgets/text.dart';
 import '../../../constants/colors.dart' as app_color;
 
-class AirdropInfo extends StatefulWidget {
+class AirdropInfo extends StatelessWidget {
   final num team;
   final DateTime exp;
   final UserData userD;
@@ -16,18 +16,13 @@ class AirdropInfo extends StatefulWidget {
       {super.key, required this.team, required this.exp, required this.userD});
 
   @override
-  State<AirdropInfo> createState() => _AirdropInfoState();
-}
-
-class _AirdropInfoState extends State<AirdropInfo> {
-  @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
 
     return Container(
       width: screenWidth,
-      height: screenHeight * 0.39,
+      // height: screenHeight * 0.39,
       decoration: const BoxDecoration(color: app_color.soft),
       child: Padding(
         padding: EdgeInsets.all(screenWidth * 0.035),
@@ -35,9 +30,9 @@ class _AirdropInfoState extends State<AirdropInfo> {
           builder: (context, ref, child) {
             return ref.watch(airdropDataProvider).when(data: (data) {
               double miningPower =
-                  widget.userD.addMiningRate! + data!.miningRate;
-              double totalMined = widget.userD.totalEarned!;
-              bool? mining = widget.userD.mining;
+                  userD.addMiningRate! + data!.miningRate;
+              double totalMined = userD.totalEarned!;
+              bool? mining = userD.mining;
 
               String formatTotalSupply(int number) {
                 if (number >= 1000000000) {
@@ -85,8 +80,8 @@ class _AirdropInfoState extends State<AirdropInfo> {
                               fontWeight: FontWeight.w500,
                               fontSize: screenWidth * 0.03),
                           TextWidget(
-                              text: widget.userD.fullName != ''
-                                  ? widget.userD.fullName.toString()
+                              text: userD.fullName != ''
+                                  ? userD.fullName.toString()
                                   : 'Update your profile',
                               textColor: app_color.black,
                               textAlign: TextAlign.left,
@@ -151,7 +146,7 @@ class _AirdropInfoState extends State<AirdropInfo> {
                                   ),
                                   SizedBox(width: screenWidth * 0.03),
                                   TextWidget(
-                                      text: '${widget.userD.referralBonus}USDT',
+                                      text: '${userD.referralBonus}USDT',
                                       textColor: app_color.white,
                                       textAlign: TextAlign.left,
                                       fontWeight: FontWeight.w400,
@@ -175,7 +170,7 @@ class _AirdropInfoState extends State<AirdropInfo> {
                               ),
                               TextWidget(
                                   text:
-                                      'Team Power : ${widget.userD.addMiningRate!.toStringAsFixed(1)}/hr',
+                                      'Team Power : ${userD.addMiningRate!.toStringAsFixed(1)}/hr',
                                   textColor: app_color.white,
                                   textAlign: TextAlign.left,
                                   fontWeight: FontWeight.w500,
@@ -214,7 +209,7 @@ class _AirdropInfoState extends State<AirdropInfo> {
                             borderRadius: BorderRadius.circular(8)),
                         child: TextWidget(
                             text:
-                                'Total Mined \n ${formatCirculation(double.parse(data.totalMined.toStringAsFixed(6).toString()))}',
+                                'Total Mined \n ${formatCirculation(double.parse(data.totalMined.toStringAsFixed(2).toString()))}',
                             textColor: app_color.grey,
                             textAlign: TextAlign.center,
                             fontWeight: FontWeight.w600,

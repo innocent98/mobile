@@ -38,25 +38,23 @@ class Home extends ConsumerWidget {
             Column(
               children: [
                 userData.when(data: (data) {
-                  return AirdropInfo(
-                    team: data!.team!.length,
-                    exp: data.miningExp!,
-                    userD: data,
+                  return Column(
+                    children: [
+                      AirdropInfo(
+                        team: data!.team!.length,
+                        exp: data.miningExp!,
+                        userD: data,
+                      ),
+                      Mining(
+                        data: data,
+                      )
+                    ],
                   );
                 }, error: (err, s) {
                   return Container();
                 }, loading: () {
                   return Container();
                 }),
-                userData.when(data: (data) {
-                  return Mining(
-                    data: data!,
-                  );
-                }, error: (err, s) {
-                  return Container();
-                }, loading: () {
-                  return Container();
-                })
               ],
             ),
             // Positioned(

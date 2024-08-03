@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:zealworkers_token/constants/utils/vars.dart';
 import 'package:zealworkers_token/providers/prefs_provider.dart';
 import 'package:zealworkers_token/providers/token_provider.dart';
@@ -19,6 +20,8 @@ class MyDrawer extends ConsumerWidget {
     final double screenHeight = MediaQuery.of(context).size.height;
 
     final userData = ref.watch(userDataProvider);
+
+    final Uri about = Uri.parse('https://zealworkers.com/about');
 
     Future<void> logout() async {
       // Clear user session data
@@ -86,8 +89,8 @@ class MyDrawer extends ConsumerWidget {
                     fontWeight: FontWeight.w500,
                     fontSize: screenWidth * 0.04),
                 onTap: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => Profile()));
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) => Profile()));
                 },
               ),
               ListTile(
@@ -157,7 +160,9 @@ class MyDrawer extends ConsumerWidget {
                     textAlign: TextAlign.start,
                     fontWeight: FontWeight.w500,
                     fontSize: screenWidth * 0.04),
-                onTap: () {},
+                onTap: () {
+                  _launchURL(about);
+                },
               ),
               // ListTile(
               //   selectedTileColor: app_color.primary,
@@ -201,5 +206,13 @@ class MyDrawer extends ConsumerWidget {
         }, loading: () {
           return Container();
         }));
+  }
+}
+
+void _launchURL(Uri url) async {
+  if (await canLaunchUrl(url)) {
+    await launchUrl(url);
+  } else {
+    throw 'Could not launch $url';
   }
 }
