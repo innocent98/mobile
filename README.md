@@ -11,6 +11,15 @@
 3. cd ios && pod install
 4. cd .. && npx react-native run-ios
 
-5. // put before target do
-6. pod 'GoogleUtilities', :modular_headers => true
-7. pod 'FirebaseCoreInternal', :modular_headers => true
+# Firebase configuration
+1.  # use_frameworks! :linkage => podfile_properties['ios.useFrameworks'].to_sym if podfile_properties['ios.useFrameworks'] // commented out
+2.  use_frameworks! :linkage => :static
+3.  use_frameworks! :linkage => ENV['USE_FRAMEWORKS'].to_sym if ENV['USE_FRAMEWORKS']
+4.  $RNFirebaseAsStaticFramewok = true
+
+# // put before target do
+1. pod 'GoogleUtilities', :modular_headers => true
+2. pod 'FirebaseCoreInternal', :modular_headers => true
+
+# AppDelegate.mm
+1. #import <Firebase.h>
