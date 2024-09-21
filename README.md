@@ -24,3 +24,4 @@
 
 # AppDelegate.mm
 1. #import <Firebase.h>
+2. #import <RNGoogleSignin/RNGoogleSignin.h> // google sign in
