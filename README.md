@@ -16,6 +16,7 @@
 2.  use_frameworks! :linkage => :static
 3.  use_frameworks! :linkage => ENV['USE_FRAMEWORKS'].to_sym if ENV['USE_FRAMEWORKS']
 4.  $RNFirebaseAsStaticFramewok = true
+5.  // use_expo_modules!
 
 # // put before target do
 1. pod 'GoogleUtilities', :modular_headers => true
