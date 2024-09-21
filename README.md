@@ -10,3 +10,7 @@
 2. npm install or yarn
 3. cd ios && pod install
 4. cd .. && npx react-native run-ios
+
+5. // put before target do
+6. pod 'GoogleUtilities', :modular_headers => true
+7. pod 'FirebaseCoreInternal', :modular_headers => true
